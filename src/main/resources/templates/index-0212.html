@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>tab切换</title>
+
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script type="text/javascript" src="/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/js/fitlog.js"></script>
+</head>
+<body>
+<div>
+
+    <!-- 导航 -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab" onclick="clickAll()">全部</a></li>
+        <li role="presentation"><a href="#daily" aria-controls="daily" role="tab" data-toggle="tab" onclick="clickDaily()">日</a></li>
+        <li role="presentation"><a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab" onclick="clickWeekly()">星期</a></li>
+        <li role="presentation"><a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab"onclick="clickMonthly()">月</a></li>
+    </ul>
+
+    <!-- 对应内容 -->
+   <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="all">
+            <div id="all1" style="width: 400px;height:400px;"></div>
+
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center h2"  id="allScores">NA</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" >累计(天)</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" >累计(组)</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" >总共(次)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="allDays" >NA</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" id="allGroups">NA</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="allTimes">NA</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" data-toggle="modal" data-target="#myModal" id="allDays1" >test</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" data-toggle="modal" data-target="#myModal" id="allGroups1">test</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" data-toggle="modal" data-target="#myModal" id="allTimes1">test</div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="daily">
+            <!--            <div style="overflow-x:auto;width: 414px;">-->
+            <!--                <div id="daily1" style="width: 414px;height:400px;"></div>-->
+            <!--            </div>-->
+
+            <div id="daily1" style="width: 400px;height:400px;"></div>
+
+            <b id="daily_date" ></b>
+            <h4 id="daily_score"><font color="#9a4141"></font></h4>
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center a" >累计(天)</div>
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center a" >累计(组)</div>
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center a" >总共(次)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="dailyDays" >NA</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" id="dailyGroups">NA</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="dailyTimes">NA</div>
+            </div>
+
+            <div id = "daily_logs" style="margin-bottom: 70px"></div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="weekly">
+        <!--            <div style="overflow-x:auto;width: 414px;">-->
+        <!--                <div id="daily1" style="width: 414px;height:400px;"></div>-->
+        <!--            </div>-->
+
+<!--            <div id="weekly1" style="width: 400px;height:400px;"></div>-->
+            <div id="weekly1" class="col-md12 col-lg-12 col-sm-12 col-xs-12" style="height:400px;"></div>
+
+            <h4 id="weekly_day_range" ></h4>
+
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center h2"  id="weeklyScores">NA</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" >累计(天)</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" >累计(组)</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" >总共(次)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="weeklyDays" >NA</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" id="weeklyGroups">NA</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="weeklyTimes">NA</div>
+            </div>
+
+            <div id = "weekly_logs" style="margin-bottom: 70px"></div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="monthly">
+            <div id="monthly1" class="col-md12 col-lg-12 col-sm-12 col-xs-12" style="height:400px;"></div>
+
+            <h4 id="yearmonth" ></h4>
+
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center h2"  id="monthlyScores">NA</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" >累计(天)</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" >累计(组)</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" >总共(次)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="monthlyDays" >NA</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" id="monthlyGroups">NA</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="monthlyTimes">NA</div>
+            </div>
+
+            <div id = "monthly_logs" style="margin-bottom: 70px"></div>
+        </div>
+    </div>
+
+
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        模态框（Modal）标题
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    按下 ESC 按钮退出。
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        提交更改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+<script type="text/javascript">
+    function clickAll() {
+        var data = [];
+        var allInfo = ajax_post("get/all");
+
+        for(var i = 0; i < allInfo.typeAndScore.length; i++) {
+            data.push({"value": allInfo.typeAndScore[i].scores, "name": allInfo.typeAndScore[i].type});
+        }
+        paintPie(document.getElementById('all1'), data)
+
+        document.getElementById('allScores').innerHTML = allInfo.allSummary.scores + "分";
+        document.getElementById('allDays').innerHTML = allInfo.allSummary.dates;
+        document.getElementById('allGroups').innerHTML = allInfo.allSummary.groups;
+        document.getElementById('allTimes').innerHTML = allInfo.allSummary.times;
+    }
+
+    clickAll();
+
+    /***********************************************************/
+    function clickDaily() {
+        var dailyScores = [];
+        var dates = [];
+        var shortDates = [];
+        var dailyLogs = ajax_post("get/daily");
+        for(var i = 0; i < dailyLogs.stats.length; i++) {
+            dailyScores.push(dailyLogs.stats[i].scores)
+            shortDates.push(dailyLogs.stats[i].fitDate.substr(5))
+            dates.push(dailyLogs.stats[i].fitDate)
+        }
+
+        paintBar(document.getElementById('daily1'), shortDates, dailyScores, function(xIndex) {
+            document.getElementById('daily_date').innerHTML = formatDate(dates[xIndex])
+            document.getElementById('daily_score').innerHTML = dailyScores[xIndex] + "分"
+
+            document.getElementById('dailyDays').innerHTML = dailyLogs.stats[xIndex].dates
+            document.getElementById('dailyGroups').innerHTML = dailyLogs.stats[xIndex].groups
+            document.getElementById('dailyTimes').innerHTML = dailyLogs.stats[xIndex].times
+
+            var d = dailyLogs.day_to_ori[dailyLogs.stats[xIndex].fitDate]
+            document.getElementById('daily_logs').innerHTML=assembleHtml4DailyLogDetails(d)
+        });
+    }
+
+    /***********************************************************/
+    function clickWeekly() {
+        console.log(window.screen.width + "px")
+        document.getElementById("weekly1").style.width = window.screen.width + "px"
+
+        var weeklyScores = [];
+        var weeklyLogs = ajax_post("get/weekly");
+
+        var shortDates = [];
+        for(var i = 0; i < weeklyLogs.stats.length; i++) {
+            weeklyScores.push(weeklyLogs.stats[i].scores);
+            shortDates.push(weeklyLogs.stats[i].weekStart.substr(5) + "-" + weeklyLogs.stats[i].weekEnd.substr(5));
+        }
+
+        paintBar(document.getElementById('weekly1'), shortDates, weeklyScores, function(xIndex) {
+            document.getElementById('weekly_day_range').innerHTML = shortDates[xIndex]
+            document.getElementById('weeklyScores').innerHTML = weeklyScores[xIndex] + "分"
+            document.getElementById('weeklyDays').innerHTML = weeklyLogs.stats[xIndex].dates
+            document.getElementById('weeklyGroups').innerHTML = weeklyLogs.stats[xIndex].groups
+            document.getElementById('weeklyTimes').innerHTML = weeklyLogs.stats[xIndex].times
+
+            var d = weeklyLogs.weekStart_to_ori[weeklyLogs.stats[xIndex].weekStart]
+            document.getElementById('weekly_logs').innerHTML=assembleHtml4DailyLogDetails(d)
+        });
+    }
+
+    /***********************************************************/
+    function clickMonthly() {
+        document.getElementById("monthly1").style.width = window.screen.width + "px"
+
+        var monthlyScores = [];
+        var monthlyLogs = ajax_post("get/monthly");
+
+        var shortDates = [];
+        for(var i = 0; i < monthlyLogs.stats.length; i++) {
+            monthlyScores.push(monthlyLogs.stats[i].scores);
+            shortDates.push(monthlyLogs.stats[i].yearMonth);
+        }
+
+        paintBar(document.getElementById('monthly1'), shortDates, monthlyScores, function(xIndex) {
+            document.getElementById('yearmonth').innerHTML = shortDates[xIndex]
+            document.getElementById('monthlyScores').innerHTML = monthlyScores[xIndex] + "分"
+            document.getElementById('monthlyDays').innerHTML = monthlyLogs.stats[xIndex].dates
+            document.getElementById('monthlyGroups').innerHTML = monthlyLogs.stats[xIndex].groups
+            document.getElementById('monthlyTimes').innerHTML = monthlyLogs.stats[xIndex].times
+
+            var d = monthlyLogs.yearMonth_to_ori[monthlyLogs.stats[xIndex].yearMonth]
+            document.getElementById('monthly_logs').innerHTML=assembleHtml4DailyLogDetails(d)
+        });
+    }
+</script>
+</body>
+</html>
