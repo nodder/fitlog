@@ -45,4 +45,13 @@ public class FitService {
     public List<FitDailyLog> queryStatsDailyLogs() {
         return dao.queryStatsDailyLogs();
     }
+
+    public void updateDailyLogs(String fitDate, List<FitDailyLog> logs) {
+        dao.deleteLogsByDate(fitDate);
+        logs.forEach(log -> dao.insertDailyLog(log));
+    }
+
+    public List<FitType> queryFitTypes() {
+        return dao.queryFitTypes();
+    }
 }

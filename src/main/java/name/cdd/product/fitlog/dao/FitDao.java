@@ -2,6 +2,8 @@ package name.cdd.product.fitlog.dao;
 
 import name.cdd.product.fitlog.pojo.FitDailyLog;
 import name.cdd.product.fitlog.pojo.FitType;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -66,7 +68,7 @@ public interface FitDao {
             "    sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores \n" +
             "        from fit_daily_log d \n" +
             "        left join fit_type t on d.subtype_id=t.id \n" +
-            "        group by week order by week, weekStart, weekEnd")
+            "        group by week, weekStart, weekEnd,  weekStart, weekEnd order by week, weekStart, weekEnd")
     List<FitDailyLog> queryStatsWeeklyLogs();
 
     //每月总组数、次数、分数、月数、月份
@@ -79,4 +81,22 @@ public interface FitDao {
             "        left join fit_type t on d.subtype_id=t.id \n" +
             "        group by yearMonth order by yearMonth")
     List<FitDailyLog> queryStatsMonthlyLogs();
+
+    @Select("select DATE_FORMAT(fit_date, '%Y-%m') as yearMonth, \n" +
+            "   count(distinct(fit_date)) as dates,\n" +
+            "    sum(d.groups) as groups, \n" +
+            "    sum(d.times) as times, \n" +
+            "    sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores \n" +
+            "        from fit_daily_log d \n" +
+            "        left join fit_type t on d.subtype_id=t.id \n" +
+            "        group by yearMonth order by yearMonth")
+
+    @Delete("delete from fit_daily_log where fit_date=#{fitDate}")
+    void deleteLogsByDate(String fitDate);
+
+    @Insert("insert into fit_daily_log (fit_date, subtype_id, groups, times) values(#{fitDate},#{subtypeId},#{groups},#{times})")
+    void insertDailyLog(FitDailyLog logs);
+
+    @Select("select * from fit_type")
+    List<FitType> queryFitTypes();
 }

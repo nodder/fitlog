@@ -9,25 +9,21 @@
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-<!--    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment-with-locales.js"></script>-->
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment-with-locales.js"></script>
 
     <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<!--    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">-->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">-->
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
-<!--    <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>-->
-<!--    <script type="text/javascript" src="/js/bootstrap-datetimepicker.zh-CN.js"></script>- -->
-<!--    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
+    <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-datetimepicker.zh-CN.js"></script>-
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="/js/echarts.min.js"></script>
     <script type="text/javascript" src="/js/fitlog.js"></script>
 
     <style>
         /*模态框从下往上弹出效果 https://blog.csdn.net/weixin_44267378/article/details/104017049*/
         #operModal {
-            top: auto;
-        }
-
-        #addFitLog {
             top: auto;
         }
 
@@ -53,7 +49,7 @@
     <div class="row">
         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" style="font-size: 30px" ></div>
         <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" style="font-size: 27px">囚徒健身Plus</div>
-        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" style="font-size: 30px; color:#06f;" data-toggle="modal" data-target="#myModal" onclick="queryRecently()">+</div>
+        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" style="font-size: 30px; color:#06f;" data-toggle="modal" data-target="#myModal" onclick="queryRecently()" >+</div>
     </div>
 
     <!-- 导航 -->
@@ -175,20 +171,28 @@
             <div class="modal-content" id="modal-content">
                 <div class="modal-header">
                     <div class="row">
-                        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
+                        <div class='col-md-2 col-lg-2 col-sm-2 col-xs-2'>
                         </div>
-                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a" onclick="previousDate()">《
+                        <div class='col-md-1 col-lg-1 col-sm-1 col-xs-1'> 《
+<!--                            <button type="button" class="btn btn-default">《</button>-->
                         </div>
-                        <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5 text-center a" id="selectDate">
+                        <div class='col-md-5 col-lg-5 col-sm-5 col-xs-5'>
+                            <div class="form-group">
+                                <div class='input-group date' id='datetimepicker1'>
+                                    <input type='text' class="form-control" id="date-text" oninput="dateChange(this.value)" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left a" onclick="nextDate()">》
+                        <div class='col-md-1 col-lg-1 col-sm-1 col-xs-1'>》
+<!--                            <button type="button" class="btn btn-default">》</button>-->
                         </div>
                         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a"
-                             style="font-size: 30px; color:#06f;" data-toggle="modal" data-target="#addFitLog" onclick="fillInfFigLogSelection()">+</div>
+                             style="font-size: 30px; color:#06f;" data-toggle="modal" data-target="#myModal" >+</div>
                     </div>
 
-                    <div id = "selected_day_log" style="margin-bottom: 20px"></div>
 
                 </div>
 
@@ -223,128 +227,48 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
-
-    <div class="modal fade" id="addFitLog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" id="addFitLog-content">
-                <div class="modal-header">
-                    <button class="btn btn-default col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a"
-                            style="font-weight:bold; border: none;" type="button" data-dismiss="modal">取消</button>
-                    <b class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-center" id = "selected_subTypes"></b>
-                    <button class="btn btn-default col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a"
-                            style="border: none;" type="button" data-dismiss="modal" onclick="onAddFitLog()" >完成</button>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="row" style="height: 100px">
-                        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                            <form action="">
-                                <select name="cars" id="types" onchange="onTypeChange(this.options[this.options.selectedIndex].text)">
-                                </select>
-                            </form>
-                        </div>
-                        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                            <form action="">
-                                <select name="cars" id="subTypes">
-                                </select>
-                            </form>
-                        </div>
-                        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                            <form action="">
-                                <select name="cars" id="groups">
-                                </select>
-                            </form>
-                        </div>
-                        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                            <form action="">
-                                <select name="cars" id="times">
-                                </select>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script type="text/javascript">
     // document.getElementById("modal-content").style.height = window.screen.height + "px"
-    var arrTimes = []
-    var arrGroups = []
-    var arrTypes = []
-    var subTypeMaps = {}
+    $(function () {
+        // $('#datetimepicker1').datetimepicker({
+        //     // format: 'YYYY-MM-DD',
+        //     // locale: moment.locale('zh-cn')
+        //
+        // })
+        //     .on('dp.change', function(e){
+        //     var date = e.date._i;
+        //     console.log(date);
+        //     dateChange(date)
+        // });
 
-    $(function() {
-        arrTimes = intArr(1, 500)
-        arrGroups = intArr(1, 100)
+        $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
 
-        var info = ajax_post("get/types")
-        arrTypes = info.types;
-        subTypeMaps = info.type_to_subtypes
+            // language: 'zh-CN',//显示中文
+            // format: 'yyyy-mm-dd',//显示格式
+            // minView: "month",//设置只显示到月份
+            // initialDate: new Date(),//初始化当前日期
+            // autoclose: true,//选中自动关闭
+            // todayBtn: true//显示今日按钮
+
+            // weekStart: 1,
+            // todayBtn:  1,
+            // autoclose: 1,
+            // todayHighlight: 1,
+            // startView: 2,
+            // forceParse: 0,
+            // showMeridian: 1
+        }).on('changeDate', function(e){
+            var time = new Date(e.date.getTime() + (e.date.getTimezoneOffset() * 60000))
+            console.log(time);
+        });
     });
 
+    var date_to_logs = []
 
-    function intArr(start, end) {
-        var arr = []
-        for(var i = start; i <= end; i++) {
-            arr.push(i)
-        }
-        return arr;
-    }
-
-
-    var recentLogs = {}
-
-    document.getElementById("selectDate").innerText = formatDate(new Date())
-
-    function previousDate() {
-        var newDate = dateDiff(document.getElementById("selectDate").innerText, -1)
-        fillInDateLog(newDate);
-    }
-
-    function nextDate() {
-        var newDate = dateDiff(document.getElementById("selectDate").innerText, +1)
-        fillInDateLog(newDate);
-    }
-
-    function fillInDateLog(newDate) {
-        document.getElementById("selectDate").innerText = newDate
-
-        //TODO 超过最近，需要从数据库获取
-        var logsByDate = []
-        for (var i = 0; i < recentLogs.ori.length; i++) {
-            if (formatDate(recentLogs.ori[i].fitDate) == newDate) {
-                logsByDate.push(recentLogs.ori[i])
-            }
-        }
-
-        document.getElementById('selected_day_log').innerHTML = assembleHtml4DailyLogDetails(logsByDate)
-
-
-    }
-
-    function onTypeChange(type) {
-        document.getElementById('subTypes').innerHTML = assembleOptions(subTypeMaps[type]);
-    }
-    function fillInfFigLogSelection(){
-        document.getElementById('types').innerHTML = assembleOptions(arrTypes);
-        document.getElementById('times').innerHTML = assembleOptions(arrTimes);
-        document.getElementById('groups').innerHTML = assembleOptions(arrGroups);
-
-        onTypeChange(arrTypes[0])//触发选中第一个 TODO
-    }
-
-    function assembleOptions(arr) {
-        var result = ""
-        for(var i = 0; i < arr.length; i++) {
-            result += "<option value=\"" + arr[i] + "\">" + arr[i] + "</option>\n"
-        }
-        return result;
-    }
-
-   /**********************************************/
     var selectedLogs;
     function editLog(e) {
         selectedLogs = clickLog(e)
@@ -353,19 +277,6 @@
 
     function onCopy() {
         console.log("onCopy selectedLogs:" + selectedLogs)
-    }
-
-    function onAddFitLog() {
-        var type =$("#types option:selected").val()
-        var subType =$("#subTypes option:selected").val()
-        var groups =$("#groups option:selected").val()
-        var times =$("#times option:selected").val()
-        var fitDate = unformatDate(document.getElementById('selectDate').innerText);
-
-        var dailyLog = {"type": type, "subType": subType, "groups": groups, "times": times, "fitDate": fitDate}
-
-        console.log("insert log: " + dailyLog)
-        // ajax_post("insert/log", dailyLog)//TODO
     }
 
     function onCopyAndReplace() {
@@ -468,22 +379,18 @@
     /***********************************************************/
 
     function queryRecently() {
+        // document.getElementById("recently").style.width = window.screen.width + "px"
+
         var recentlyInfo = ajax_post("get/recently");
-
-        recentLogs.ori = recentlyInfo.ori
-        if(recentlyInfo.ori.length > 0) {
-            recentLogs.start = recentlyInfo.ori[recentlyInfo.ori.length - 1].fitDate
-            recentLogs.end = recentlyInfo.ori[0].fitDate
-        }
-
+        date_to_logs = recentlyInfo.ori
         document.getElementById('recently').innerHTML=assembleHtml4DailyLogDetailsWithEdit(recentlyInfo.ori)
     }
 
-    function dateChange(e) {
+    function dateChange(e)
+    {
         var date = document.getElementById('date-text').innerText;
         console.log(date)
     }
-
 </script>
 </body>
 </html>

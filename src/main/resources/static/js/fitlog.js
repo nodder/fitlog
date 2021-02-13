@@ -1,6 +1,21 @@
+//2020-01-01
 function formatDate(date) {
     var y = new Date(date);
     return y.getFullYear() + "年" + (y.getMonth()+1) + "月" + y.getDate() + "日";
+}
+//2020年1月1日
+function unformatDate(formattedDate) {
+    var p = formattedDate.replace('年', "-").replace('月', "-").replace('日', "").split("-")
+    return p[0]+'-' + (p[1] < 10 ? "0" + p[1] : p[1]) + "-" + (p[2] < 10 ? "0" + p[2] : p[2])
+}
+//2020年1月1日
+function dateDiff(formattedDate, diff) {
+    var dateStr = unformatDate(formattedDate)
+    // alert(111 + dateStr)
+
+    var date = new Date(dateStr);
+    date.setDate(date.getDate() + diff)
+    return formatDate(date)
 }
 
 function formatDateWithWeekday(date) {
@@ -20,13 +35,15 @@ function getWeekDay(date){
     return week;
 }
 
-function ajax_post(url){
+function ajax_post(url, data){
+    if(!data) data = {}
+
     var result;
     $.ajax({
         type : "POST",
         url : url,
         async:false,
-        data : {},
+        data : data,
         success: function(result1) {
             result = result1;
         },
