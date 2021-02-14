@@ -314,7 +314,7 @@
     });
 
     function fillByCurrentDate() {
-        var newDate = dateDiff(document.getElementById("selectDate").innerText, 0)
+        var newDate = formatDate(new Date())
         fillInDateLog(newDate);
     }
 
@@ -501,25 +501,30 @@
         }
     }
 
+    function updateByRecentLogs() {
+        document.getElementById('recently').innerHTML = assembleHtml4DailyLogDetailsWithEdit(recentLogs.ori)
+
+        //补充最新用户操作数据
+        for (var i = recentLogs.ori.length - 1; i >= 0; i--) {
+            var fitLog = recentLogs.ori[i]
+            updateUserLastOper(fitLog);
+        }
+    }
+
     /***********************************************************/
     function queryRecently() {
         var recentlyInfo = ajax_post("get/recently");
 
         recentLogs.ori = recentlyInfo.ori
+
         if(recentlyInfo.ori.length > 0) {
             recentLogs.start = recentlyInfo.ori[recentlyInfo.ori.length - 1].fitDate
             recentLogs.end = recentlyInfo.ori[0].fitDate
         }
 
-        document.getElementById('recently').innerHTML=assembleHtml4DailyLogDetailsWithEdit(recentlyInfo.ori)
+        updateByRecentLogs();
+
         fillByCurrentDate()
-
-        //补充最新用户操作数据
-        for(var i =  recentLogs.ori.length - 1; i >= 0; i--) {
-            var fitLog = recentLogs.ori[i]
-            updateUserLastOper(fitLog);
-        }
-
         fillInFigLogSelection()
     }
 
@@ -544,8 +549,29 @@
 
     function onDeleteFitLog (){
         var id =$("#id").val()
-        console.log("onDeleteFitLog by id: " + id)
-        ajax_post("delete/single", {"id": id})
+        var fitDate = unformatDate(document.getElementById('selectDate').innerText);
+        var dailyLog = {"id": id, "fitDate": fitDate}
+
+        console.log("onDeleteFitLog by id: " + JSON.stringify(dailyLog))
+        var logsByDate = ajax_post("delete/single", dailyLog)
+
+        updateWhenRefreshOneDateLog(logsByDate, fitDate);
+    }
+
+    function updateWhenRefreshOneDateLog(logsByDate, fitDate) {
+        //更新今日运动
+        document.getElementById('selected_day_log').innerHTML = assembleHtml4DailyLogDetailsWithSingleEdit(logsByDate)
+        // updateUserLastOper(dailyLog);
+
+        //根据更新后的当天数据，重新组装recentLogs
+        var updatedRecentLogs = recentLogs.ori.filter(function (log) {
+            return log.fitDate != fitDate
+        });
+        updatedRecentLogs = logsByDate.concat(updatedRecentLogs)
+        recentLogs.ori = updatedRecentLogs
+
+        updateByRecentLogs();
+        // document.getElementById('recently').innerHTML=assembleHtml4DailyLogDetailsWithEdit(recentLogs.ori)
     }
 
     function onUpdateFitLog() {
@@ -558,8 +584,9 @@
 
         var dailyLog = {"id": id, "type": type, "subType": subType, "groups": groups, "times": times, "fitDate": fitDate}
         console.log("onUpdateFitLog: " + JSON.stringify(dailyLog))
-        ajax_post("update/single", dailyLog)
-        updateUserLastOper(dailyLog);
+        var logsByDate = ajax_post("update/single", dailyLog)
+
+        updateWhenRefreshOneDateLog(logsByDate, fitDate);
     }
 
     function onAddFitLog() {
@@ -571,8 +598,9 @@
 
         var dailyLog = {"type": type, "subType": subType, "groups": groups, "times": times, "fitDate": fitDate}
         console.log("onAddFitLog: " + JSON.stringify(dailyLog))
-        ajax_post("insert/single", dailyLog)
-        updateUserLastOper(dailyLog);
+        var logsByDate = ajax_post("insert/single", dailyLog)
+
+        updateWhenRefreshOneDateLog(logsByDate, fitDate);
     }
 
     var selectedLogs;
@@ -583,25 +611,31 @@
     }
 
     function onCopy() {
-        var date = unformatDate(document.getElementById('selectDate').innerText)
+        var fitDate = unformatDate(document.getElementById('selectDate').innerText)
+
+        var logsByDate = []
         for(var i = 0; i < selectedLogs.length; i++) {
-            selectedLogs[i].fitDate = date
+            selectedLogs[i].fitDate = fitDate
+            console.log("onCopy: " + JSON.stringify(selectedLogs[i]))
+            logsByDate = ajax_post("insert/single", selectedLogs[i])
         }
 
-        console.log("onCopy:" + JSON.stringify(selectedLogs))
-        ajax_post("insert/batch", selectedLogs)
+        updateWhenRefreshOneDateLog(logsByDate, fitDate);
+
+        // var data = {"fitDate": fitDate, "fitDailyLogs": selectedLogs}
+        // console.log("onCopy:" + JSON.stringify(data))
+        //
+        // var logsByDate = ajax_post("insert/batch", data)
+        // updateWhenRefreshOneDateLog(logsByDate, fitDate);
     }
 
     function onCopyAndReplace() {
-        var date = unformatDate(document.getElementById('selectDate').innerText)
-        for(var i = 0; i < selectedLogs.length; i++) {
-            selectedLogs[i].fitDate = date
-        }
+        var fitDate = unformatDate(document.getElementById('selectDate').innerText)
 
-        var data = {"fitDate": date, "fitDailyLogs": selectedLogs}
+        console.log("deleteByDate:" + fitDate)
+        ajax_post("delete/daily", {"fitDate": fitDate})
 
-        console.log("onCopyAndReplace:" + JSON.stringify(data))
-        ajax_post("update/daily", data)
+        onCopy()
     }
 
 </script>

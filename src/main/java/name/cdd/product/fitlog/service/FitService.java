@@ -26,12 +26,23 @@ public class FitService {
         return dao.queryScoresBySubType();
     }
 
+//    public List<FitDailyLog> queryOriginalDailyLogs() {
+//        return dao.queryOriginalDailyLogs();
+//    }
+//
+//    public List<FitDailyLog> queryRecentlyLogs() {
+//        return dao.queryRecentlyLogs();
+//    }
     public List<FitDailyLog> queryOriginalDailyLogs() {
-        return dao.queryOriginalDailyLogs();
+        return dao.queryDailyLogs(null,null);
     }
 
     public List<FitDailyLog> queryRecentlyLogs() {
-        return dao.queryRecentlyLogs();
+        return dao.queryDailyLogs(null, 2000);
+    }
+
+    public List<FitDailyLog> queryLogsByDate(String fitDate) {
+        return dao.queryDailyLogs(fitDate, null);
     }
 
     public List<FitDailyLog> queryStatsWeeklyLogs() {
@@ -47,11 +58,27 @@ public class FitService {
     }
 
     public void updateDailyLogs(String fitDate, List<FitDailyLog> logs) {
-        dao.deleteLogsByDate(fitDate);
-        logs.forEach(log -> dao.insertDailyLog(log));
+        dao.deleteByDate(fitDate);
+        logs.forEach(log -> dao.insert(log));
+    }
+
+    public void deleteByDate(String fitDate) {
+        dao.deleteByDate(fitDate);
     }
 
     public List<FitType> queryFitTypes() {
         return dao.queryFitTypes();
+    }
+
+    public void insert(FitDailyLog log) {
+        dao.insert(log);
+    }
+
+    public void updateById(FitDailyLog log) {
+        dao.updateById(log);
+    }
+
+    public void deleteById(int id) {
+        dao.deleteById(id);
     }
 }

@@ -4,6 +4,7 @@ package name.cdd.product.fitlog.controller;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import name.cdd.product.fitlog.config.Cache;
 import name.cdd.product.fitlog.pojo.FitDailyLog;
 import name.cdd.product.fitlog.pojo.FitType;
 import name.cdd.product.fitlog.service.FitService;
@@ -11,7 +12,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +20,9 @@ import java.util.Set;
 public class FitController {
     @Autowired
     private FitService fitServer;
+
+    @Autowired
+    private Cache cache;
 
     @GetMapping("/index")
     public String sayHello(){
@@ -114,32 +117,46 @@ public class FitController {
     }
 
     @PostMapping("/delete/single")
-    public void deleteSingleInfo(int id) {
-//        fitServer.deleteDailyLog(id);
+    public List<FitDailyLog> deleteSingleInfo(FitDailyLog log) {
+        fitServer.deleteById(log.getId());
+        return fitServer.queryLogsByDate(log.getFitDate().toString());
+    }
 
+    @PostMapping("/delete/daily")
+    public void deleteDailyInfo(@Param("fitDate") String fitDate) {
+        fitServer.deleteByDate(fitDate);
     }
 
     @PostMapping("/insert/single")
-    public void insertSingleInfo(FitDailyLog log) {
-
-
+    public List<FitDailyLog> insertSingleInfo(FitDailyLog log) {
+        fillSubtypeId(log);
+        fitServer.insert(log);
+        return fitServer.queryLogsByDate(log.getFitDate().toString());
     }
 
-    @PostMapping("/insert/batch")
-    public void insertSingleInfo(List<FitDailyLog> log) {
-
-
-    }
+//    @PostMapping("/insert/batch")
+//    public List<FitDailyLog> insertSingleInfo(@Param("fitDate") String fitDate, @Param("fitDailyLogs") List<FitDailyLog> logs) {
+//        logs.forEach(log -> insertSingleInfo(log));
+//        return fitServer.queryLogsByDate(fitDate);
+//    }
 
     @PostMapping("/update/single")
-    public void updateSingleInfo(FitDailyLog log) {
+    public List<FitDailyLog> updateSingleInfo(FitDailyLog log) {
+        fillSubtypeId(log);
+        fitServer.updateById(log);
 
+        return fitServer.queryLogsByDate(log.getFitDate().toString());
     }
 
-    @PostMapping("/update/daily")
-    public void updateDailyInfo(@Param("fitDate") String fitDate, @Param("fitDailyLogs") List<FitDailyLog> logs) {
-        fitServer.updateDailyLogs(fitDate, logs);
-    }
+//    @PostMapping("/update/daily")
+//    public List<FitDailyLog> updateDailyInfo(@Param("fitDate") String fitDate, @Param("fitDailyLogs[]") List<FitDailyLog> logs) {
+//    public List<FitDailyLog> updateDailyInfo(String json) {
+//        System.out.println("ok");
+//        return Lists.newArrayList();
+//        logs.forEach(log -> fillSubtypeId(log));
+//        fitServer.updateDailyLogs(fitDate, logs);
+//        return fitServer.queryLogsByDate(fitDate);
+//    }
 
     @PostMapping("/get/base")
     public Map<String, Object> queryBase() {
@@ -158,19 +175,10 @@ public class FitController {
 
         result.put("types", types);
         result.put("type_to_subtypes", type_to_subTypes);
-
-//        /////////////////////
-//        List<FitDailyLog> lastOpersByType = fitServer.queryLastOperByType();
-//        Map<String, FitDailyLog> lastOper_by_type = Maps.newHashMap();
-//        for(FitDailyLog log : lastOpersByType) {
-//            lastOper_by_type.put(log, )
-//        }
-//
-//        result.put("lastOper_by_type", type_to_subTypes);
-//
-//
-//        result.put("lastOper_by_subtype", type_to_subTypes);
-
         return result;
+    }
+
+    private void fillSubtypeId(FitDailyLog log) {
+        log.setSubtypeId(cache.getSubtypeId(log.getSubType()));
     }
 }

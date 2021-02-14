@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace对应接口全类名 -->
+<mapper namespace="name.cdd.product.fitlog.dao.FitDao">
+    <!-- id要与接口中方法名保持一致,入参要入接口方法中入参类型保持一致，返回值要与实体类对应
+    （一下这种方式要求表中的字段按驼峰命名规则转换后要与实体类中属性名称保持一致） -->
+<!--    每天原始数据-->
+    <select id="queryDailyLogs"  resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select d.id, d.fit_date as fitDate,
+            adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
+            adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
+            DATE_FORMAT(fit_date, '%Y-%m') as yearMonth,
+             t.type, t.subtype, d.groups, d.times,
+             cast(d.groups * d.times * t.weight as DECIMAL(10)) as scores,
+             d.subtype_id as subtypeId, t.weight
+                    from fit_daily_log d
+                    left join fit_type t on d.subtype_id=t.id
+                <if test='fitDate != null and fitDate != ""'>
+                    where fit_date = #{fitDate}
+                </if>
+                    order by d.fit_date
+                <if test='limitNum != null and limitNum != ""'>
+                    desc limit #{limitNum}
+                </if>
+    </select>
+
+<!--    全部-总计 天数 组数 次数 分数-->
+    <select id="queryFitSummary" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select count(distinct(d.fit_date)) as dates,sum(d.groups) as groups,
+        sum(d.times) as times, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+        from fit_daily_log d left join fit_type t on d.subtype_id=t.id
+    </select>
+
+<!--    全部-饼图-->
+    <select id="queryScoresByType" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select t.type, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type
+    </select>
+
+<!--    全部-子种类的组数和次数-->
+    <select id="queryScoresBySubType" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select t.type, t.subtype, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type, t.subtype
+    </select>
+
+<!--    每天总组数、次数、分数、天数-->
+    <select id="queryStatsDailyLogs" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select d.fit_date as fitDate,
+        count(distinct(fit_date)) as dates,
+        sum(d.groups) as groups,
+        sum(d.times) as times,
+        sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+                from fit_daily_log d
+                left join fit_type t on d.subtype_id=t.id
+                group by d.fit_date order by d.fit_date
+    </select>
+
+<!--    每周总组数、次数、分数、周数、周起止日期-->
+    <select id="queryStatsWeeklyLogs" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select DATE_FORMAT(adddate(fit_date,  1), '%Y%u') as week,
+            adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
+            adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
+            count(distinct(fit_date)) as dates,
+            sum(d.groups) as groups, sum(d.times) as times,
+            sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+                from fit_daily_log d
+                left join fit_type t on d.subtype_id=t.id
+                group by week, weekStart, weekEnd order by week, weekStart, weekEnd
+    </select>
+
+<!--    每月总组数、次数、分数、月数、月份-->
+    <select id="queryStatsMonthlyLogs"  resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select DATE_FORMAT(fit_date, '%Y-%m') as yearMonth,
+           count(distinct(fit_date)) as dates,
+            sum(d.groups) as groups,
+            sum(d.times) as times,
+            sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+                from fit_daily_log d
+                left join fit_type t on d.subtype_id=t.id
+                group by yearMonth order by yearMonth
+    </select>
+
+    <delete id="deleteByDate" parameterType="java.lang.String">
+        delete from fit_daily_log where fit_date=#{fitDate}
+    </delete>
+
+    <insert id="insert" parameterType="name.cdd.product.fitlog.pojo.FitDailyLog" >
+        insert into fit_daily_log (fit_date, subtype_id, groups, times) values(#{fitDate},#{subtypeId},#{groups},#{times})
+    </insert>
+
+    <select id="queryFitTypes" resultType="name.cdd.product.fitlog.pojo.FitType">
+        select * from fit_type
+    </select>
+
+    <update id="updateById" parameterType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        update fit_daily_log set subtype_id=#{subtypeId}, fit_date=#{fitDate}, groups=#{groups}, times=#{times} where id=#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from fit_daily_log where id=#{id}
+    </delete>
+
+</mapper>
