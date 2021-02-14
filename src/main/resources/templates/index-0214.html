@@ -206,7 +206,7 @@
     </div><!-- /.modal -->
 
 
-    <div class="modal fade" id="operModal" tabindex="-5" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="operModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" id="operModal-content">
                 <div class="modal-footer">
@@ -244,29 +244,29 @@
                 </div>
 
                 <div class="modal-footer">
-                    <div class="row" style="height: 120px; margin-right: 8px;">
+                    <div class="row" style="height: 150px">
                         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
                             <form action="">
-                                <select id="types" style="border: none;font-size: 13px;"
-                                        onchange="onTypeChange(this.options[this.options.selectedIndex].text)">
+                                <select name="cars" id="types" onchange="onTypeChange(this.options[this.options.selectedIndex].text)">
                                 </select>
                             </form>
                         </div>
                         <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
                             <form action="">
-                                <select id="subTypes" style="border: none;font-size: 13px;"
-                                        onchange="onSubTypeChange(this.options[this.options.selectedIndex].text)">
+                                <select name="cars" id="subTypes">
                                 </select>
                             </form>
                         </div>
                         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
                             <form action="">
-                                <select id="groups" style="border: none;font-size: 13px;"></select>
+                                <select name="cars" id="groups">
+                                </select>
                             </form>
                         </div>
                         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
                             <form action="">
-                                <select id="times" style="border: none;font-size: 13px;"></select>
+                                <select name="cars" id="times">
+                                </select>
                             </form>
                         </div>
 
@@ -286,12 +286,6 @@
     var subTypeMaps = {}
     var recentLogs = {}
 
-     //对于每个type，记住上一次用户选择子类型、组数和次数
-    //示例：{"引体向上": {"subType": "窄距引体向上", "groups": "5", "times": "77"}, "深蹲": {"subType": "单腿辅助深蹲", "groups": "4", "times": "44"}}
-    var lastOper_by_type = {}
-    //示例：{"单臂引体向上": {"groups": "12", "times": "102"}, "垂直引体": {"groups": "13", "times": "104"}}
-    var lastOper_by_subtype = {}
-
     $(function() {
         console.log("screen.width:" + window.screen.width + "px")
         document.getElementById("all1").style.width = window.screen.width + "px"
@@ -303,12 +297,12 @@
 
         /*填充编辑运动下拉框*/
         arrTimes = range(1, 500)
-        arrGroups = range(1, 200)
+        arrGroups = range(1, 100)
 
-        var info = ajax_post("get/base")
+        var info = ajax_post("get/types")
         arrTypes = info.types;
         subTypeMaps = info.type_to_subtypes
-        // fillInFigLogSelection()
+        fillInFigLogSelection()
 
         clickAll();
     });
@@ -328,25 +322,8 @@
         fillInDateLog(newDate);
     }
 
-    function onTypeChange(type, selectedSubType, selectedGroups, selectedTimes) {
+    function onTypeChange(type) {
         document.getElementById('subTypes').innerHTML = assembleOptions(subTypeMaps[type]);
-
-        if(!selectedSubType && lastOper_by_type[type]) selectedSubType = lastOper_by_type[type].subType
-        if(!selectedGroups && lastOper_by_type[type]) selectedGroups = lastOper_by_type[type].groups
-        if(!selectedTimes && lastOper_by_type[type]) selectedTimes = lastOper_by_type[type].times
-
-        if(selectedSubType) $("#subTypes").val(selectedSubType)
-        if(selectedGroups) $("#groups").val(selectedGroups)
-        if(selectedTimes) $("#times").val(selectedTimes)
-    }
-
-    function onSubTypeChange(subType) {
-        if(lastOper_by_subtype[subType]) {
-            var selectedGroups = lastOper_by_subtype[subType].groups
-            var selectedTimes = lastOper_by_subtype[subType].times
-            $("#groups").val(selectedGroups)
-            $("#times").val(selectedTimes)
-        }
     }
 
     function fillInDateLog(newDate) {
@@ -372,7 +349,10 @@
 
     function selectFigLogSelection(dailyLog) {
         $("#types").val(dailyLog.type)
-        onTypeChange(dailyLog.type, dailyLog.subType, dailyLog.groups, dailyLog.times)
+        onTypeChange(dailyLog.type)//TODO 调用val时不会自动调用onchange
+        $("#subTypes").val(dailyLog.subType)
+        $("#groups").val(dailyLog.groups)
+        $("#times").val(dailyLog.times)
         $("#id").val(dailyLog.id)
     }
 
@@ -491,16 +471,6 @@
         barCallback(monthlyLogs.stats.length - 1)
     }
 
-    function updateUserLastOper(fitLog) {
-        if (!lastOper_by_type[fitLog.type]) {
-            lastOper_by_type[fitLog.type] = fitLog
-        }
-
-        if (!lastOper_by_subtype[fitLog.subType]) {
-            lastOper_by_subtype[fitLog.subType] = fitLog
-        }
-    }
-
     /***********************************************************/
     function queryRecently() {
         var recentlyInfo = ajax_post("get/recently");
@@ -513,19 +483,10 @@
 
         document.getElementById('recently').innerHTML=assembleHtml4DailyLogDetailsWithEdit(recentlyInfo.ori)
         fillByCurrentDate()
-
-        //补充最新用户操作数据
-        for(var i =  recentLogs.ori.length - 1; i >= 0; i--) {
-            var fitLog = recentLogs.ori[i]
-            updateUserLastOper(fitLog);
-        }
-
-        fillInFigLogSelection()
     }
 
     /***********************************************************/
     function addSingleLog(e) {
-        $('#operModal').modal('hide')
         $('#deleteFitLogBtn').css("visibility","hidden")
         $('#updateFitLogBtn').hide()
         $('#addFitLogBtn').show()
@@ -534,7 +495,6 @@
     function editSingleLog(e) {
         var selectedLog = clickSingleLog(e)
         selectFigLogSelection(selectedLog)
-        $('#operModal').modal('hide')
         $('#addFitLog').modal('show')
 
         $('#deleteFitLogBtn').css("visibility","visible")
@@ -545,7 +505,7 @@
     function onDeleteFitLog (){
         var id =$("#id").val()
         console.log("onDeleteFitLog by id: " + id)
-        ajax_post("delete/single", {"id": id})
+        ajax_post("delete/daily", {"id": id})
     }
 
     function onUpdateFitLog() {
@@ -559,7 +519,6 @@
         var dailyLog = {"id": id, "type": type, "subType": subType, "groups": groups, "times": times, "fitDate": fitDate}
         console.log("onUpdateFitLog: " + JSON.stringify(dailyLog))
         ajax_post("update/single", dailyLog)
-        updateUserLastOper(dailyLog);
     }
 
     function onAddFitLog() {
@@ -572,36 +531,15 @@
         var dailyLog = {"type": type, "subType": subType, "groups": groups, "times": times, "fitDate": fitDate}
         console.log("onAddFitLog: " + JSON.stringify(dailyLog))
         ajax_post("insert/single", dailyLog)
-        updateUserLastOper(dailyLog);
     }
 
     var selectedLogs;
-    function editLog(e) {
-        selectedLogs = clickLog(e)
-        $('#addFitLog').modal('hide')
-        $('#operModal').modal('show')
+    function onCopy() {//TODO
+        console.log("onCopy selectedLogs:" + JSON.stringify(selectedLogs))
     }
 
-    function onCopy() {
-        var date = unformatDate(document.getElementById('selectDate').innerText)
-        for(var i = 0; i < selectedLogs.length; i++) {
-            selectedLogs[i].fitDate = date
-        }
-
-        console.log("onCopy:" + JSON.stringify(selectedLogs))
-        ajax_post("insert/batch", selectedLogs)
-    }
-
-    function onCopyAndReplace() {
-        var date = unformatDate(document.getElementById('selectDate').innerText)
-        for(var i = 0; i < selectedLogs.length; i++) {
-            selectedLogs[i].fitDate = date
-        }
-
-        var data = {"fitDate": date, "fitDailyLogs": selectedLogs}
-
-        console.log("onCopyAndReplace:" + JSON.stringify(data))
-        ajax_post("update/daily", data)
+    function onCopyAndReplace() {//TODO
+        console.log("onCopy onCopyAndReplace:" + JSON.stringify(selectedLogs))
     }
 
 </script>

@@ -4,6 +4,7 @@ package name.cdd.product.fitlog.pojo;
 import java.sql.Date;
 
 public class FitDailyLog {
+    private int id;
     private Date fitDate;
 
     private String type;
@@ -19,6 +20,14 @@ public class FitDailyLog {
     private String weekEnd;
     private String week;//周数 如202001为2020年第一周
     private String yearMonth;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Date getFitDate() {
         return fitDate;
@@ -127,7 +136,8 @@ public class FitDailyLog {
     @Override
     public String toString() {
         return "FitDailyLog{" +
-                "fitDate=" + fitDate +
+                "id=" + id +
+                ", fitDate=" + fitDate +
                 ", type='" + type + '\'' +
                 ", subType='" + subType + '\'' +
                 ", subtypeId=" + subtypeId +
@@ -139,7 +149,7 @@ public class FitDailyLog {
                 ", weekStart='" + weekStart + '\'' +
                 ", weekEnd='" + weekEnd + '\'' +
                 ", week='" + week + '\'' +
-                ", yearMonth=" + yearMonth +
+                ", yearMonth='" + yearMonth + '\'' +
                 '}';
     }
 }

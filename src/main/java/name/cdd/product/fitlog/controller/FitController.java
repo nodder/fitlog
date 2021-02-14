@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 import name.cdd.product.fitlog.pojo.FitDailyLog;
 import name.cdd.product.fitlog.pojo.FitType;
 import name.cdd.product.fitlog.service.FitService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -112,17 +113,39 @@ public class FitController {
         return result;
     }
 
+    @PostMapping("/delete/single")
+    public void deleteSingleInfo(int id) {
+//        fitServer.deleteDailyLog(id);
+
+    }
+
+    @PostMapping("/insert/single")
+    public void insertSingleInfo(FitDailyLog log) {
+
+
+    }
+
+    @PostMapping("/insert/batch")
+    public void insertSingleInfo(List<FitDailyLog> log) {
+
+
+    }
+
+    @PostMapping("/update/single")
+    public void updateSingleInfo(FitDailyLog log) {
+
+    }
+
     @PostMapping("/update/daily")
-    public void updateDailyInfo(String fitDate, List<FitDailyLog> logs) {
+    public void updateDailyInfo(@Param("fitDate") String fitDate, @Param("fitDailyLogs") List<FitDailyLog> logs) {
         fitServer.updateDailyLogs(fitDate, logs);
     }
 
-    @PostMapping("/get/types")
-    public Map<String, Object> queryFitTypes() {
+    @PostMapping("/get/base")
+    public Map<String, Object> queryBase() {
         Map<String, Object> result = Maps.newHashMap();
-
+       /////////////////////
         List<FitType> allTypes = fitServer.queryFitTypes();
-
         Set<String> types = Sets.newHashSet();
         Map<String, List<String>> type_to_subTypes =  Maps.newHashMap();
         for(FitType t : allTypes){
@@ -135,6 +158,18 @@ public class FitController {
 
         result.put("types", types);
         result.put("type_to_subtypes", type_to_subTypes);
+
+//        /////////////////////
+//        List<FitDailyLog> lastOpersByType = fitServer.queryLastOperByType();
+//        Map<String, FitDailyLog> lastOper_by_type = Maps.newHashMap();
+//        for(FitDailyLog log : lastOpersByType) {
+//            lastOper_by_type.put(log, )
+//        }
+//
+//        result.put("lastOper_by_type", type_to_subTypes);
+//
+//
+//        result.put("lastOper_by_subtype", type_to_subTypes);
 
         return result;
     }

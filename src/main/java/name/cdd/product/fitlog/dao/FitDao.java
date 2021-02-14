@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface FitDao {
     //每天原始数据
-    @Select("select d.fit_date as fitDate,\n" +
+    @Select("select d.id, d.fit_date as fitDate,\n" +
             "adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,\n" +
             "adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,\n" +
             "DATE_FORMAT(fit_date, '%Y-%m') as yearMonth, \n" +
@@ -24,7 +24,7 @@ public interface FitDao {
             "        order by d.fit_date")
     List<FitDailyLog> queryOriginalDailyLogs();
 
-    @Select("select d.fit_date as fitDate,\n" +
+    @Select("select d.id, d.fit_date as fitDate,\n" +
             "adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,\n" +
             "adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,\n" +
             "DATE_FORMAT(fit_date, '%Y-%m') as yearMonth, \n" +

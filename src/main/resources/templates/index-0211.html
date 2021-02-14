@@ -347,29 +347,6 @@
         });
     }
 
-    function clickLog(e) {
-        for(var i = 0; i < e.parentElement.parentElement.children.length; i++) {
-            e.parentElement.parentElement.children[i].style.backgroundColor=""
-        }
-        e.parentElement.style.backgroundColor="gray"
-
-        var fitDate = e.parentElement.children[0].innerText;
-        var fitDailyLogs = [];
-
-        for(var i = 1; i < e.parentElement.children.length; i++) {
-            fitDailyLogs.push({ "fitDate": fitDate,
-                                "subType":  e.parentElement.children[i].children[1].innerHTML,
-                                "groups":  e.parentElement.children[i].children[2].innerHTML,
-                                "times":  e.parentElement.children[i].children[3].innerHTML})
-        }
-
-        console.log(fitDate)
-        console.log(fitDailyLogs)
-
-        // console.log(e.children[1].innerText)
-        // console.log(e.children[2].innerText)
-        // console.log(e.children[3].innerText)
-    }
 </script>
 </body>
 </html>
