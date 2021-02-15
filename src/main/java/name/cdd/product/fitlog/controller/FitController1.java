@@ -6,14 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class FitController1 {
-//    @RequestMapping("/index")
-//    public String sayHello(){
-//        return "index";
-//    }
+    @RequestMapping("/index")
+    public String sayHello(){
+        throw new RuntimeException("test only when sayHello");
+    }
 
     @RequestMapping("/testEcharts")
     public String test(){
-        return "test";
+        throw new RuntimeException("test only when test");
+//        return "test";
     }
 
     @RequestMapping("/tabDemo")

@@ -2,11 +2,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>囚徒健身Plus</title>
 
     <script type="text/javascript" src="/js/jquery.min.js"></script>
+<!--    <script type="text/javascript" src="/js/jquery.js"></script>-->
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap-select.min.js"></script>
 
@@ -25,6 +26,10 @@
             top: auto;
         }
 
+        .m-top-s {
+            margin-top: 4px;
+        }
+
         .m-left10 {
             margin-left: 10px;
         }
@@ -32,13 +37,27 @@
             margin-right: 25px;
         }
 
+        .top-line {
+            border-top: 1px solid rgb(241 241 241);
+        }
+
+        .bottom-line {
+            border-bottom: 1px solid rgb(241 241 241);
+        }
+
         .selected-color {
             color: #e6e5e5
         }
 
-        .light-font {
+        .light-gray {
             font-size: 12px;
             color: gray;
+        }
+
+        .light-blue {
+            font-size: 12px;
+            color: #2747e4;
+            /*color: #0e9813;*/
         }
 
         .modal.fade .modal-dialog {
@@ -72,7 +91,7 @@
         <li role="presentation" class="m-right25"><a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab"onclick="clickMonthly()">月</a></li>
     </ul>
 
-   <div class="tab-content">
+   <div class="tab-content" style="margin-bottom: 8px;">
         <div role="tabpanel" class="tab-pane active" id="all">
             <div id="all1" style="height:400px;"></div>
 
@@ -82,30 +101,83 @@
             </div>
 
             <div class="row">
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-font" >累计(天)</div>
-                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center light-font" >累计(组)</div>
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-font" >总共(次)</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-gray" >累计(天)</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center light-gray" >累计(组)</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-gray" >总共(次)</div>
             </div>
             <div class="row">
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="allDays" >NA</div>
                 <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" id="allGroups">NA</div>
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="allTimes">NA</div>
             </div>
+
+            <div class="row" id="allTypeDetails">
+                    <!--        滑动效果介绍：https://www.runoob.com/try/try.php?filename=trybs4_collapsible-->
+<!--                    <div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right"-->
+<!--                                 style="margin-left: 5px; border: none; background-color: white; outline-color: #f1d6bb;border-bottom: 1px solid rgb(241 241 241);"-->
+<!--                                 data-toggle="collapse" data-target="#row1">...<span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">引体向上</span></button></div>-->
+
+<!--                    <div class="collapse" id = "row1" style="margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;border-bottom: 1px solid rgb(241 241 241);padding-bottom: 2px;">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>-->
+<!--                            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" >上斜俯卧撑</div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>-->
+<!--                            <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计10组，公共222次</div>-->
+<!--                        </div>-->
+
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>-->
+<!--                            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" >xx俯卧撑</div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>-->
+<!--                            <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计99组，公共222次</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+<!--                    &lt;!&ndash;        滑动效果介绍：https://www.runoob.com/try/try.php?filename=trybs4_collapsible&ndash;&gt;-->
+<!--                    <div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right"-->
+<!--                                 style="margin-left: 5px; border: none; background-color: white; outline-color: #f1d6bb;border-bottom: 1px solid rgb(241 241 241);"-->
+<!--                                 data-toggle="collapse" data-target="#row1">...<span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">引体向上</span></button></div>-->
+
+<!--                    <div class="collapse" id = "row2" style="margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;border-bottom: 1px solid rgb(241 241 241);padding-bottom: 2px;">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>-->
+<!--                            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" >上斜俯卧撑</div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>-->
+<!--                            <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计10组，公共222次</div>-->
+<!--                        </div>-->
+
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>-->
+<!--                            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" >xx俯卧撑</div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>-->
+<!--                            <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计99组，公共222次</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+            </div>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="daily">
             <div id="daily1" style="height:400px;"></div>
 
-            <div class="m-left10 light-font" id="daily_date"></div>
+            <div class="m-left10 light-gray" id="daily_date"></div>
 
             <div class="row">
                 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center h2"  id="daily_score">NA</div>
             </div>
 
             <div class="row">
-                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center light-font" >累计(天)</div>
-                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center light-font" >累计(组)</div>
-                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center light-font" >总共(次)</div>
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center light-gray" >累计(天)</div>
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center light-gray" >累计(组)</div>
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center light-gray" >总共(次)</div>
             </div>
             <div class="row">
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="dailyDays" >NA</div>
@@ -113,22 +185,23 @@
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="dailyTimes">NA</div>
             </div>
 
+            <div class="row" id="dailyTypeDetails"></div>
             <div id = "daily_logs" style="margin-bottom: 70px"></div>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="weekly">
             <div id="weekly1" class="col-md12 col-lg-12 col-sm-12 col-xs-12" style="height:400px;"></div>
 
-            <div class="m-left10 light-font" id="weekly_day_range"></div>
+            <div class="m-left10 light-gray" id="weekly_day_range"></div>
 
             <div class="row">
                 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center h2"  id="weeklyScores">NA</div>
             </div>
 
             <div class="row">
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-font" >累计(天)</div>
-                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center light-font" >累计(组)</div>
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-font" >总共(次)</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-gray" >累计(天)</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center light-gray" >累计(组)</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-gray" >总共(次)</div>
             </div>
             <div class="row">
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="weeklyDays" >NA</div>
@@ -136,22 +209,23 @@
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="weeklyTimes">NA</div>
             </div>
 
+            <div class="row top-line m-top-s" id="weeklyTypeDetails" ></div>
             <div id = "weekly_logs" style="margin-bottom: 70px"></div>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="monthly">
             <div id="monthly1" class="col-md12 col-lg-12 col-sm-12 col-xs-12" style="height:400px;"></div>
 
-            <div class="m-left10 light-font" id="yearmonth"></div>
+            <div class="m-left10 light-gray" id="yearmonth"></div>
 
             <div class="row">
                 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center h2"  id="monthlyScores">NA</div>
             </div>
 
             <div class="row">
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-font" >累计(天)</div>
-                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center light-font" >累计(组)</div>
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-font" >总共(次)</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-gray" >累计(天)</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center light-gray" >累计(组)</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-gray" >总共(次)</div>
             </div>
             <div class="row">
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="monthlyDays" >NA</div>
@@ -159,6 +233,7 @@
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="monthlyTimes">NA</div>
             </div>
 
+            <div class="row top-line" id="monthlyTypeDetails"></div>
             <div id = "monthly_logs" style="margin-bottom: 70px"></div>
         </div>
     </div>
@@ -167,22 +242,27 @@
 
     <!-- 模态框（Modal） -->
 <!--    style="overflow: auto"解决遮罩问题 https://www.jb51.net/article/119206.htm-->
-      <div class="modal fade col-md-12 col-lg-12 col-sm-12 col-xs-12" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow: auto">
+      <div class="modal fade col-md-12 col-lg-12 col-sm-12 col-xs-12" id="myModal" tabindex="-1" role="dialog"
+               aria-labelledby="myModalLabel" aria-hidden="true" style="overflow: auto; padding-left: 0px; padding-right: 0px">
         <div class="modal-dialog">
             <div class="modal-content" id="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="padding: 0px 0px 2px 4px;">
                     <div class="row">
                         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
                         </div>
-                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a" onclick="fillByPreviousDate()">《
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a" style="padding-right:0px;font-size: 20px"
+                             onclick="fillByPreviousDate()"><<
                         </div>
-                        <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5 text-center a" id="selectDate">
+                        <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5 text-center a" style="font-size: 16px;margin-top: 4px;" id="selectDate">
                         </div>
 
-                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left a" onclick="fillByNextDate()">》
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left a" style="padding-left:0px;font-size: 20px"
+                             onclick="fillByNextDate()">>>
                         </div>
-                        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a"
-                             style="font-size: 30px; color:#06f;" data-toggle="modal" data-target="#addFitLog" onclick="addSingleLog()">+</div>
+                        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a" style="font-size: 30px; color:#06f;margin-top: -9px;"
+                             data-toggle="modal" data-target="#addFitLog" onclick="addSingleLog()">+</div>
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-center a" style="font-size: 12px; margin-top: 4px;padding-left: 0px"
+                             data-toggle="modal" data-dismiss="modal" >X</div>
                     </div>
 
                     <div style="margin-bottom: 10px"><b>运动记录</b></div>
@@ -194,7 +274,7 @@
                 <div style="margin-bottom: 10px"><b>最近记录</b>
                 </div>
 
-                <div id = "recently" style="margin-bottom: 70px"></div>
+                <div id = "recently" style="margin-bottom: 15px"></div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
@@ -329,8 +409,8 @@
     }
 
     function onTypeChange(type, selectedSubType, selectedGroups, selectedTimes) {
-        document.getElementById('subTypes').innerHTML = assembleOptions(subTypeMaps[type]);
 
+        document.getElementById('subTypes').innerHTML = assembleOptions(subTypeMaps[type]);
         if(!selectedSubType && lastOper_by_type[type]) selectedSubType = lastOper_by_type[type].subType
         if(!selectedGroups && lastOper_by_type[type]) selectedGroups = lastOper_by_type[type].groups
         if(!selectedTimes && lastOper_by_type[type]) selectedTimes = lastOper_by_type[type].times
@@ -398,10 +478,54 @@
         document.getElementById('allDays').innerHTML = allInfo.allSummary.dates;
         document.getElementById('allGroups').innerHTML = allInfo.allSummary.groups;
         document.getElementById('allTimes').innerHTML = allInfo.allSummary.times;
+
+        var statsBySubtype = allInfo.statsBySubtype;
+        document.getElementById('allTypeDetails').innerHTML = assmebleHtml4TypeDetails(statsBySubtype);
+    }
+
+    function assmebleHtml4TypeDetails(allTypeDetails) {
+        var innerHtml = ""
+        for (var i = 0; i < arrTypes.length; i++) {
+            var tempHtmpHead = ""
+            var isWorkout = false;
+
+            var tempHtmpContent = "<div class=\"bottom-line collapse\" id = \"" + arrTypes[i] + "\" style=\"margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;\">\n"
+            for(var j = 0; j < subTypeMaps[arrTypes[i]].length; j++) {
+                var subType = subTypeMaps[arrTypes[i]][j];
+                var filteredLogs = allTypeDetails.filter(function (log) {
+                    return log.subType == subType;
+                });
+
+                var logOfSubType = filteredLogs.length > 0 ? filteredLogs[0] : {"groups": 0, "times": 0}
+                var fontCss = filteredLogs.length > 0 ? "light-blue" : "light-gray";
+                isWorkout = filteredLogs.length > 0 ? true : isWorkout;
+
+                tempHtmpContent += "<div class=\"row\">\n" +
+                    "        <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1\"></div>\n" +
+                    "        <div class=\"col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a\" style=\"font-size: 12px;\">" + subType + "</div>\n" +
+                    "    </div>"
+
+                tempHtmpContent += "<div class=\"row\">\n" +
+                    "        <div class=\"col-md-2 col-lg-2 col-sm-2 col-xs-2\"></div>\n" +
+                    "        <div class=\"col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left " + fontCss + "\">累计" + logOfSubType.groups + "组，总共" + logOfSubType.times + "次</div>\n" +
+                    "    </div>"
+            }
+            tempHtmpContent += "</div>"
+
+            var fontCss = isWorkout ? "light-blue" : "";
+            tempHtmpHead = "<div><button type=\"button\" class=\"btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " + fontCss + "\"\n" +
+                "             style=\"margin-left: 5px; background-color: white; outline-color: #f1d6bb; font-size: 14px;\"\n" +
+                "             data-toggle=\"collapse\" data-target=\"#" + arrTypes[i] + "\">...<span class=\"col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left\">" + arrTypes[i] + "</span>\n" +
+                "</button></div>"
+
+            var tempHtmp = tempHtmpHead + tempHtmpContent
+            innerHtml += tempHtmp;
+        }
+        return innerHtml;
     }
 
     function fen() {
-        return "<span class=\"light-font\">分</span>"
+        return "<span class=\"light-gray\">分</span>"
     }
 
     /***********************************************************/
@@ -426,6 +550,9 @@
 
             var d = dailyLogs.day_to_ori[dailyLogs.stats[xIndex].fitDate]
             document.getElementById('daily_logs').innerHTML = assembleHtml4DailyLogDetails(d)
+
+            var statsBySubtype = dailyLogs.day_to_statsBySubtype[dailyLogs.stats[xIndex].fitDate];
+            document.getElementById('dailyTypeDetails').innerHTML = assmebleHtml4TypeDetails(statsBySubtype);
         }
 
 
@@ -456,6 +583,9 @@
 
             var d = weeklyLogs.weekStart_to_ori[weeklyLogs.stats[xIndex].weekStart]
             document.getElementById('weekly_logs').innerHTML=assembleHtml4DailyLogDetails(d)
+
+            var statsBySubtype = weeklyLogs.weekStart_to_statsBySubtype[weeklyLogs.stats[xIndex].weekStart];
+            document.getElementById('weeklyTypeDetails').innerHTML = assmebleHtml4TypeDetails(statsBySubtype);
         }
 
         paintBar(document.getElementById('weekly1'), shortDates, weeklyScores,
@@ -484,6 +614,9 @@
 
             var d = monthlyLogs.yearMonth_to_ori[monthlyLogs.stats[xIndex].yearMonth]
             document.getElementById('monthly_logs').innerHTML = assembleHtml4DailyLogDetails(d)
+
+            var statsBySubtype = monthlyLogs.yearMonth_to_statsBySubtype[monthlyLogs.stats[xIndex].yearMonth];
+            document.getElementById('monthlyTypeDetails').innerHTML = assmebleHtml4TypeDetails(statsBySubtype);
         }
 
         paintBar(document.getElementById('monthly1'), shortDates, monthlyScores,

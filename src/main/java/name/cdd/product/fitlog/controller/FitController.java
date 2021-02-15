@@ -33,12 +33,12 @@ public class FitController {
     public Map<String, Object> queryAllInfo() {
         FitDailyLog summary = fitServer.queryFitSummary();
         List<FitDailyLog> typeAndScore = fitServer.queryScoresByType();
-        List<FitDailyLog> subTypeAndScore = fitServer.queryScoresByType();
+        List<FitDailyLog> statsBySubtype = fitServer.queryFitSummaryBySubtype();
 
         Map<String, Object> map = Maps.newHashMap();
         map.put("allSummary", summary);
         map.put("typeAndScore", typeAndScore);
-        map.put("subTypeAndScore", subTypeAndScore);
+        map.put("statsBySubtype", statsBySubtype);
 
         return map;
     }
@@ -58,8 +58,18 @@ public class FitController {
             day_to_ori.get(log.getFitDate().toString()).add(log);
         }
 
-        result.put("day_to_ori", day_to_ori);
+        List<FitDailyLog> statsBySubtype = fitServer.queryStatsDailyLogsBySubtype();
+        Map<String, List<FitDailyLog>> day_to_statsBySubtype = Maps.newHashMap();
+        for (FitDailyLog log : statsBySubtype) {
+            if(!day_to_statsBySubtype.containsKey(log.getFitDate().toString())) {
+                day_to_statsBySubtype.put(log.getFitDate().toString(), Lists.newArrayList());
+            }
+            day_to_statsBySubtype.get(log.getFitDate().toString()).add(log);
+        }
+
         result.put("stats", stats);
+        result.put("day_to_ori", day_to_ori);
+        result.put("day_to_statsBySubtype", day_to_statsBySubtype);
 
         return result;
     }
@@ -79,8 +89,18 @@ public class FitController {
             weekStart_to_ori.get(log.getWeekStart()).add(log);
         }
 
+        List<FitDailyLog> statsBySubtype = fitServer.queryStatsWeeklyLogsBySubtype();
+        Map<String, List<FitDailyLog>> weekStart_to_statsBySubtype =  Maps.newHashMap();
+        for (FitDailyLog log : statsBySubtype) {
+            if(!weekStart_to_statsBySubtype.containsKey(log.getWeekStart())) {
+                weekStart_to_statsBySubtype.put(log.getWeekStart(), Lists.newArrayList());
+            }
+            weekStart_to_statsBySubtype.get(log.getWeekStart()).add(log);
+        }
+
         result.put("stats", stats);
         result.put("weekStart_to_ori", weekStart_to_ori);
+        result.put("weekStart_to_statsBySubtype", weekStart_to_statsBySubtype);
 
         return result;
     }
@@ -92,7 +112,7 @@ public class FitController {
         List<FitDailyLog> stats = fitServer.queryStatsMonthlyLogs();
 
         List<FitDailyLog> ori = fitServer.queryOriginalDailyLogs();
-        Map<String, List<FitDailyLog>> yearMonth_to_ori =  Maps.newHashMap();
+        Map<String, List<FitDailyLog>> yearMonth_to_ori = Maps.newHashMap();
         for (FitDailyLog log : ori) {
             if(!yearMonth_to_ori.containsKey(log.getYearMonth())) {
                 yearMonth_to_ori.put(log.getYearMonth(), Lists.newArrayList());
@@ -100,8 +120,18 @@ public class FitController {
             yearMonth_to_ori.get(log.getYearMonth()).add(log);
         }
 
+        List<FitDailyLog> statsBySubtype = fitServer.queryStatsMonthlyLogsBySutype();
+        Map<String, List<FitDailyLog>> yearMonth_to_statsBySubtype = Maps.newHashMap();
+        for (FitDailyLog log : statsBySubtype) {
+            if(!yearMonth_to_statsBySubtype.containsKey(log.getYearMonth())) {
+                yearMonth_to_statsBySubtype.put(log.getYearMonth(), Lists.newArrayList());
+            }
+            yearMonth_to_statsBySubtype.get(log.getYearMonth()).add(log);
+        }
+
         result.put("stats", stats);
         result.put("yearMonth_to_ori", yearMonth_to_ori);
+        result.put("yearMonth_to_statsBySubtype", yearMonth_to_statsBySubtype);
 
         return result;
     }

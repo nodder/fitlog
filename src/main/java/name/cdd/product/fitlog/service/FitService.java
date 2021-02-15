@@ -22,17 +22,6 @@ public class FitService {
         return dao.queryScoresByType();
     }
 
-    public List<FitDailyLog> queryScoresBySubType() {
-        return dao.queryScoresBySubType();
-    }
-
-//    public List<FitDailyLog> queryOriginalDailyLogs() {
-//        return dao.queryOriginalDailyLogs();
-//    }
-//
-//    public List<FitDailyLog> queryRecentlyLogs() {
-//        return dao.queryRecentlyLogs();
-//    }
     public List<FitDailyLog> queryOriginalDailyLogs() {
         return dao.queryDailyLogs(null,null);
     }
@@ -81,4 +70,17 @@ public class FitService {
     public void deleteById(int id) {
         dao.deleteById(id);
     }
+
+    public List<FitDailyLog> queryFitSummaryBySubtype()  {
+        return dao.queryFitSummaryBySubtype();
+    };
+    public List<FitDailyLog> queryStatsDailyLogsBySubtype()  {
+        return dao.queryStatsDailyLogsBySubtype();
+    };
+    public List<FitDailyLog> queryStatsWeeklyLogsBySubtype()  {
+        return dao.queryStatsWeeklyLogsBySubtype();
+    };
+    public List<FitDailyLog> queryStatsMonthlyLogsBySutype()  {
+        return dao.queryStatsMonthlyLogsBySutype();
+    };
 }

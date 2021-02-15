@@ -61,10 +61,6 @@ public interface FitDao {
 //    @Select("select t.type, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type")
     List<FitDailyLog> queryScoresByType();
 
-    //全部-子种类的组数和次数
-//    @Select("select t.type, t.subtype, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type, t.subtype")
-    List<FitDailyLog> queryScoresBySubType();
-
     //每天总组数、次数、分数、天数
 //    @Select("select d.fit_date as fitDate, \n" +
 //            "count(distinct(fit_date)) as dates,\n" +
@@ -122,4 +118,10 @@ public interface FitDao {
 
 //    @Delete("delete from fit_daily_log where id=#{id}")
     void deleteById(int id);
+
+
+    List<FitDailyLog> queryFitSummaryBySubtype();
+    List<FitDailyLog> queryStatsDailyLogsBySubtype();
+    List<FitDailyLog> queryStatsWeeklyLogsBySubtype();
+    List<FitDailyLog> queryStatsMonthlyLogsBySutype();
 }

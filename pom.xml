@@ -9,18 +9,28 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>name.cdd.product</groupId>
-    <artifactId>fit-log</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>fitlog</artifactId>
+    <version>1.0.0</version>
     <name>fit-log</name>
     <description>fit-log project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
+        <spring.version>2.4.2</spring.version>
+        <aspectj.version>1.9.6</aspectj.version>
     </properties>
     <dependencies>
        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
+           <version>${spring.version}</version>
+           <!-- 去掉springboot logback配置 -->
+           <exclusions>
+               <exclusion>
+                   <groupId>org.springframework.boot</groupId>
+                   <artifactId>spring-boot-starter-logging</artifactId>
+               </exclusion>
+           </exclusions>
+       </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -29,11 +39,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
@@ -63,19 +75,27 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-<!--            <version>${aspectj.version}</version>-->
+            <version>${aspectj.version}</version>
         </dependency>
         <!--使用AspectJ方式注解需要相应的包-->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
 <!--            <version>${aspectj.version}</version>-->
+        </dependency>
+
+        <!-- 引入log4j2依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <version>${spring.version}</version>
         </dependency>
     </dependencies>
 
@@ -84,8 +104,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.version}</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4.3</version>
+            </plugin>
+
         </plugins>
     </build>
+
 
 </project>

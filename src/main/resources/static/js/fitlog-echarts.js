@@ -2,16 +2,17 @@ function paintBar(element, xData, seriesData, callback){
     var myChart = echarts.init(element);
 
     option = {
-        title: {
-            text: '运动量',
-            subtext: 'subtext'
+        
+        grid: {
+            left: '11%'
         },
         xAxis: {
             data: xData,
             axisLabel: {
                 textStyle: {
                     color: 'gray'
-                }
+                },
+                rotate:30
             },
             axisTick: {
                 show: false
@@ -30,7 +31,7 @@ function paintBar(element, xData, seriesData, callback){
             },
             axisLabel: {
                 textStyle: {
-                    color: '#999'
+                    color: '#999',
                 }
             }
         },

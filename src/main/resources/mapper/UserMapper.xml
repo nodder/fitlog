@@ -32,14 +32,18 @@
         from fit_daily_log d left join fit_type t on d.subtype_id=t.id
     </select>
 
+    <!--    全部  子种类的组数和次数-->
+    <select id="queryFitSummaryBySubtype" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select t.type, t.subtype, sum(d.groups) as groups, sum(d.times) as times,
+            sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+            from fit_daily_log d
+            left join fit_type t on d.subtype_id=t.id
+            group by t.subtype
+    </select>
+
 <!--    全部-饼图-->
     <select id="queryScoresByType" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
         select t.type, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type
-    </select>
-
-<!--    全部-子种类的组数和次数-->
-    <select id="queryScoresBySubType" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
-        select t.type, t.subtype, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type, t.subtype
     </select>
 
 <!--    每天总组数、次数、分数、天数-->
@@ -54,9 +58,20 @@
                 group by d.fit_date order by d.fit_date
     </select>
 
-<!--    每周总组数、次数、分数、周数、周起止日期-->
+<!--    每天每子种类 组数、次数-->
+    <select id="queryStatsDailyLogsBySubtype" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select d.fit_date, t.type, t.subtype,
+            sum(d.groups) as groups,
+            sum(d.times) as times,
+            sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+            from fit_daily_log d
+            left join fit_type t on d.subtype_id=t.id
+            group by d.fit_date, t.subtype
+    </select>
+
+<!--    每周总组数、次数、分数、周数、天数、周起止日期-->
     <select id="queryStatsWeeklyLogs" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
-        select DATE_FORMAT(adddate(fit_date,  1), '%Y%u') as week,
+       select DATE_FORMAT(adddate(fit_date,  1), '%Y%u') as week,
             adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
             adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
             count(distinct(fit_date)) as dates,
@@ -64,8 +79,24 @@
             sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
-                group by week, weekStart, weekEnd order by week, weekStart, weekEnd
+                group by week order by week
     </select>
+
+<!--    每周每子种类 组数、次数-->
+    <select id="queryStatsWeeklyLogsBySubtype" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+       select DATE_FORMAT(adddate(fit_date,  1), '%Y%u') as week,
+            adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
+            adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
+            t.type, t.subtype,
+            sum(d.groups) as groups,
+            sum(d.times) as times,
+            sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+                from fit_daily_log d
+                left join fit_type t on d.subtype_id=t.id
+                group by t.subtype, week
+                order by week
+    </select>
+
 
 <!--    每月总组数、次数、分数、月数、月份-->
     <select id="queryStatsMonthlyLogs"  resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
@@ -77,6 +108,19 @@
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
                 group by yearMonth order by yearMonth
+    </select>
+
+    <!--    每月总组数、次数、分数、月数、月份-->
+    <select id="queryStatsMonthlyLogsBySutype"  resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select DATE_FORMAT(fit_date, '%Y-%m') as yearMonth,
+                t.type, t.subtype,
+                sum(d.groups) as groups,
+                sum(d.times) as times,
+                sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+                from fit_daily_log d
+                left join fit_type t on d.subtype_id=t.id
+                group by t.subtype, yearMonth
+                order by yearMonth
     </select>
 
     <delete id="deleteByDate" parameterType="java.lang.String">
