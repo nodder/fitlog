@@ -19,6 +19,66 @@
 
 
     <style>
+        /*模态框从下往上弹出效果 https://blog.csdn.net/weixin_44267378/article/details/104017049*/
+        #operModal {
+            top: auto;
+        }
+
+        #addFitLog {
+            top: auto;
+        }
+
+        .m-top-s {
+            margin-top: 4px;
+        }
+
+        .m-left10 {
+            margin-left: 10px;
+        }
+        .m-right25 {
+            margin-right: 25px;
+        }
+
+        .top-line {
+            border-top: 1px solid rgb(241 241 241);
+        }bottom-line
+
+         .bottom-line {
+             border-bottom: 1px solid rgb(241 241 241);
+         }
+
+        .selected-color {
+            color: #e6e5e5
+        }
+
+        .mid-font-size {
+            font-size: 16px;
+        }
+
+        .light-gray {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .light-blue {
+            font-size: 14px;
+            color: #2747e4;
+            /*color: #0e9813;*/
+        }
+
+        .modal.fade .modal-dialog {
+            transform: translate3d(0, 10vh, 0);
+            margin: 0;
+        }
+        .modal.in .modal-dialog {
+            transform: translate3d(0, 0, 0);
+            margin: 0;
+        }
+        .modal-content {
+            border-radius: inherit;
+            border: none;
+        }
+
         /*.btn:hover {*/
         /*    background-color: "";*/
         /*}*/
@@ -52,6 +112,21 @@
 </head>
 <body>
 <div>
+    <div>
+        <button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line light-blue"
+                style="background-color: white; outline-color: #f1d6bb; font-size: 14px;" data-toggle="collapse"
+                data-target="#倒立撑" aria-expanded="true">...
+            <span class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left" style="padding-left: 0px;">
+                <img src="../static/pic/ok.ico" width="20" height="20">
+            </span>
+            <span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left" style="padding-left: 0;">倒立撑</span>
+        </button>
+    </div>
+
+    <div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line light-blue" style="margin-left: 5px; background-color: white; outline-color: #f1d6bb; font-size: 14px;" data-toggle="collapse" data-target="#倒立撑" aria-expanded="true">...<span class="col-md-9 col-lg-9 col-sm-9 col-xs-8 text-left">倒立撑</span>
+    </button></div>
+
+
     <div class="container" style="margin-bottom: 20px;">
         <h2>简单的折叠</h2>
         <p>点击按钮内容会再显示与隐藏之间切换。</p>
@@ -63,61 +138,404 @@
         </div>
     </div>
 
-    <div class="row" id="allTypeDetails">
-
-        <div>
-            <div><button type="button" class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right btn btn2"
-                         style="margin-left: 5px; border: none;"
-                         data-toggle="collapse" data-target="#中文">...<span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">引体向上</span></button></div>
-        </div>
-
-<!--        https://www.runoob.com/try/try.php?filename=trybs4_collapsible-->
-        <div class="row collapse" id = "中文">
-            <div class="row">
-                <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-center a" onclick=""></div>
-                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left a" onclick="" > 上斜俯卧撑</div>
-                <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a" style="color: #2747e4;" onclick="" >11</div>
-                <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-right a" style="color: #2747e4;" onclick=""> 612</div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-center a" onclick=""></div>
-                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left a" onclick="" > 蜘蛛俯卧撑</div>
-                <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a" style="color: #2747e4;" onclick="" >11</div>
-                <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-right a" style="color: #2747e4;" onclick=""> 66</div>
-            </div>
-        </div>
-
-        <div>
-            <div><button type="button" class="btn btn2 col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right"
-                         style="margin-left: 5px; border: none;  background-color: white;"
-                         data-toggle="collapse" data-target="#row2">...<span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">俯卧撑</span></button></div>
-        </div>
-
-        <!--        https://www.runoob.com/try/try.php?filename=trybs4_collapsible-->
-        <div class="row collapse" id = "row2">
-            <div class="row">
-                <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-center a" onclick=""></div>
-                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left a" onclick="" > 上斜俯卧撑</div>
-                <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a" style="color: #2747e4;" onclick="" >999</div>
-                <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-right a" style="color: #2747e4;" onclick=""> 612</div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-center a" onclick=""></div>
-                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left a" onclick="" > 蜘蛛俯卧撑</div>
-                <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a" style="color: #2747e4;" onclick="" >11</div>
-                <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-right a" style="color: #2747e4;" onclick=""> 66</div>
-            </div>
-        </div>
-
-<!--        <div>-->
-<!--            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left" ></div>-->
-<!--            <div class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left" >引体向上</div>-->
-<!--            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-right" >></div>-->
-<!--        </div>-->
-
-    </div>
+    <div class="row" id="allTypeDetails"><div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line light-blue" style="background-color: white; outline-color: #f1d6bb; font-size: 18px;" data-toggle="collapse" data-target="#倒立撑">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left">
+                <img src="/pic/倒立撑.png" width="30" height="30">
+         </div>
+        <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left">倒立撑</div>
+        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-right light-blue" >9999/111111</div>
+    </button></div><div class="bottom-line collapse" id="倒立撑" style="margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;">
+        <div class="row">
+            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">靠墙顶立</div>
+        </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">乌鸦式</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">靠墙倒立</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-blue">累计52组，总共75次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">半倒立撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-blue">累计14组，总共20次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">标准倒立撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">窄距倒立撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">偏重倒立撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">单臂半倒立撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">杠杆倒立撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">单臂倒立撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div></div><div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line light-blue" style="background-color: white; outline-color: #f1d6bb; font-size: 18px;" data-toggle="collapse" data-target="#桥">...
+        <span class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left">
+                <img src="/pic/桥.png" width="30" height="30">
+            </span>
+        <span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">桥</span>
+    </button></div><div class="bottom-line collapse" id="桥" style="margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;">
+        <div class="row">
+            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">短桥</div>
+        </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-blue">累计8组，总共50次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">直桥</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-blue">累计268组，总共2337次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">高低桥</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">顶桥</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">半桥</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">标准桥</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">下行桥</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">上行桥</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">合桥</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">铁板桥</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div></div><div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " style="background-color: white; outline-color: #f1d6bb; font-size: 18px;" data-toggle="collapse" data-target="#举腿">...
+        <span class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left">
+                <img src="/pic/举腿.png" width="30" height="30">
+            </span>
+        <span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">举腿</span>
+    </button></div><div class="bottom-line collapse" id="举腿" style="margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;">
+        <div class="row">
+            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">坐姿屈膝</div>
+        </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">平卧抬膝</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">平卧屈举腿</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">平卧蛙举腿</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">平卧直举腿</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">悬臂屈膝</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">悬臂屈举腿</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">悬垂蛙举腿</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">悬垂半举腿</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">悬垂直举腿</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div></div><div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " style="background-color: white; outline-color: #f1d6bb; font-size: 18px;" data-toggle="collapse" data-target="#引体向上">...
+        <span class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left">
+                <img src="/pic/引体向上.png" width="30" height="30">
+            </span>
+        <span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">引体向上</span>
+    </button></div><div class="bottom-line collapse" id="引体向上" style="margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;">
+        <div class="row">
+            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">垂直引体</div>
+        </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">水平引体向上</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">折刀引体向上</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">半引体向上</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">标准引体向上</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">窄距引体向上</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">偏重引体向上</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">单臂半引体向上</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">单臂辅助引体向上</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">单臂引体向上</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div></div><div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line light-blue" style="background-color: white; outline-color: #f1d6bb; font-size: 18px;" data-toggle="collapse" data-target="#深蹲">...
+        <span class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left">
+                <img src="/pic/深蹲.png" width="30" height="30">
+            </span>
+        <span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">深蹲</span>
+    </button></div><div class="bottom-line collapse" id="深蹲" style="margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;">
+        <div class="row">
+            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">肩倒立深蹲</div>
+        </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">折刀深蹲</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-blue">累计8组，总共11次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">支撑深蹲</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">半深蹲</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">标准深蹲</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">窄距深蹲</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">偏重深蹲</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">单腿半深蹲</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">单腿辅助深蹲</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">单腿深蹲</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div></div><div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line light-blue" style="background-color: white; outline-color: #f1d6bb; font-size: 18px;" data-toggle="collapse" data-target="#俯卧撑">...
+        <span class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left">
+                <img src="/pic/俯卧撑.png" width="30" height="30">
+            </span>
+        <span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">俯卧撑</span>
+    </button></div><div class="bottom-line collapse" id="俯卧撑" style="margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;">
+        <div class="row">
+            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">墙壁俯卧撑</div>
+        </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">上斜俯卧撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">膝盖俯卧撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">半俯卧撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">标准俯卧撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">窄距俯卧撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">偏重俯卧撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-blue">累计14组，总共10次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">单臂半俯卧撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">杠杆俯卧撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div><div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" style="font-size: 15px; padding-left: 9%;">单臂俯卧撑</div>
+    </div><div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计0组，总共0次</div>
+    </div></div></div>
 </div>
 
 <script type="text/javascript">

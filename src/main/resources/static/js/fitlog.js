@@ -54,8 +54,8 @@ function ajax_post(url, data) {
             result = result1;
         },
         error: function (e) {
-            console.log(e.status);
-            console.log(e.responseText);
+            alert("error post url:" + url + "; status: " + e.status + "; responseText: " + e.responseText)
+            console.log("error post url:" + url + "; status: " + e.status + "; responseText: " + e.responseText);
         }
     });
 
@@ -73,7 +73,7 @@ function assembleHtml(dailyLogs, clickFunc) {
 
         if (lastProcessFitDate != dailyLogs[i].fitDate) {
             tempHtmp += "<div class=\"bottom-line\" style=\"margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;\">"
-            tempHtmp += "<b>" + dailyLogs[i].fitDate + "</b>\n";
+            tempHtmp += "<div class='light-gray' name=dailyLogs[i].fitDate>" + showDateWithWeekday(dailyLogs[i].fitDate) + "</div>\n";
         }
         tempHtmp += "            <div class=\"row\">\n" +
         "                <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1 text-center a\" onclick=\" " + clickFunc + "\"></div>\n" +

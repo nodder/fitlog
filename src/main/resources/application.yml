@@ -1,0 +1,25 @@
+debug: false
+
+fitlog:
+    version: '@project.version@'
+logging:
+    config: classpath:log4j2.xml
+mybatis:
+    configuration:
+        map-underscore-to-camel-case: true
+    mapper-locations: 'classpath:/mapper/**/*.xml '
+    type-aliases-package: name.cdd.product.fitlog.pojo
+server:
+    port: 8082
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        name: fitlog
+        password: pass@word1
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://192.168.8.1:3306/fitlog?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        username: root
+    mvc:
+        view:
+            prefix: /
+            suffix: .html

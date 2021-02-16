@@ -12,7 +12,7 @@
     <script type="text/javascript" src="/js/bootstrap-select.min.js"></script>
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <script type="text/javascript" src="/js/echarts-5.0.2/echarts.min.js"></script>
+    <script type="text/javascript" src="/js/echarts.min.js"></script>
     <script type="text/javascript" src="/js/fitlog.js"></script>
     <script type="text/javascript" src="/js/fitlog-echarts.js"></script>
 
@@ -39,7 +39,7 @@
 
         .top-line {
             border-top: 1px solid rgb(241 241 241);
-        }bottom-line
+        }
 
         .bottom-line {
             border-bottom: 1px solid rgb(241 241 241);
@@ -49,17 +49,13 @@
             color: #e6e5e5
         }
 
-        .mid-font-size {
-            font-size: 16px;
-        }
-
         .light-gray {
-            font-size: 14px;
+            font-size: 12px;
             color: gray;
         }
 
         .light-blue {
-            font-size: 14px;
+            font-size: 12px;
             color: #2747e4;
             /*color: #0e9813;*/
         }
@@ -76,15 +72,19 @@
             border-radius: inherit;
             border: none;
         }
+
+        .padding-right0 {
+            padding-right: 0px;
+        }
     </style>
 </head>
 <body>
 <div>
     <!-- 标题 -->
     <div class="row">
-        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a"></div>
-        <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-center a" style="font-size: 24px">囚徒健身Plus<span class="light-gray" id="version"></span></div>
-        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a" style="font-size: 32px; color:#06f;" data-toggle="modal" data-target="#myModal" onclick="queryRecently()">+</div>
+        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" style="font-size: 30px" ></div>
+        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" style="font-size: 24px">囚徒健身Plus</div>
+        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" style="font-size: 32px; color:#06f;" data-toggle="modal" data-target="#myModal" onclick="queryRecently()">+</div>
     </div>
 
     <!-- Tab-->
@@ -97,7 +97,7 @@
 
    <div class="tab-content" style="margin-bottom: 8px;">
         <div role="tabpanel" class="tab-pane active" id="all">
-            <div id="all1" style="height:360px;"></div>
+            <div id="all1" style="height:320px;"></div>
 
             <div class="row">
                 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center h2"  id="allScores">NA</div>
@@ -184,9 +184,9 @@
                 <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center light-gray" >总共(次)</div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center mid-font-size" id="dailyDays" >NA</div>
-                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center mid-font-size" id="dailyGroups">NA</div>
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center mid-font-size`" id="dailyTimes">NA</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="dailyDays" >NA</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" id="dailyGroups">NA</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="dailyTimes">NA</div>
             </div>
 
             <div class="row" id="dailyTypeDetails"></div>
@@ -208,9 +208,9 @@
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-gray" >总共(次)</div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center mid-font-size" id="weeklyDays" >NA</div>
-                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center mid-font-size" id="weeklyGroups">NA</div>
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center mid-font-size" id="weeklyTimes">NA</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="weeklyDays" >NA</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" id="weeklyGroups">NA</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="weeklyTimes">NA</div>
             </div>
 
             <div class="row top-line m-top-s" id="weeklyTypeDetails" ></div>
@@ -232,9 +232,9 @@
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center light-gray" >总共(次)</div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center mid-font-size" id="monthlyDays" >NA</div>
-                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center mid-font-size" id="monthlyGroups">NA</div>
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center mid-font-size" id="monthlyTimes">NA</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="monthlyDays" >NA</div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" id="monthlyGroups">NA</div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="monthlyTimes">NA</div>
             </div>
 
             <div class="row top-line" id="monthlyTypeDetails"></div>
@@ -246,40 +246,37 @@
 
     <!-- 模态框（Modal） -->
 <!--    style="overflow: auto"解决遮罩问题 https://www.jb51.net/article/119206.htm-->
-      <div class="modal fade col-md-12 col-lg-12 col-sm-12 col-xs-12" id="myModal" tabindex="-1" role="dialog"
-               aria-labelledby="myModalLabel" aria-hidden="true" style="overflow: auto; padding-left: 0px;padding-right: 1px;">
+      <div class="modal fade col-md-12 col-lg-12 col-sm-12 col-xs-12 padding-right0" id="myModal" tabindex="-1" role="dialog"
+               aria-labelledby="myModalLabel" aria-hidden="true" style="overflow: auto; padding-left: 0px; padding-right: 0px">
         <div class="modal-dialog">
             <div class="modal-content" id="modal-content">
-                <div class="modal-header" style="padding: 10px 0px 2px 4px;">
-                    <div class="row" style="margin-bottom: 15px">
+                <div class="modal-header" style="padding: 0px 0px 2px 4px;">
+                    <div class="row">
                         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
                         </div>
-                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a" style="padding-right:0px;font-size: 20px; color: #2747e4;"
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a" style="padding-right:0px;font-size: 20px"
                              onclick="fillByPreviousDate()"><<
                         </div>
-                        <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5 text-center a" style="font-size: 16px;margin-top: 4px; color: #2747e4;" id="selectDate">
+                        <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5 text-center a" style="font-size: 16px;margin-top: 4px;" id="selectDate">
                         </div>
 
-                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left a" style="padding-left:0px;font-size: 20px; color: #2747e4;"
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left a" style="padding-left:0px;font-size: 20px"
                              onclick="fillByNextDate()">>>
                         </div>
-                        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a" style="font-size: 30px; color:#2747e4;margin-top: -8px;"
+                        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a" style="font-size: 30px; color:#06f;margin-top: -6px;"
                              data-toggle="modal" data-target="#addFitLog" onclick="addSingleLog()">+</div>
-                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-center a" style="font-size: 18px; margin-top: 3px;padding-left: 0px; font-color: #06f; text-align: left;"
-                             data-toggle="modal" data-dismiss="modal" onclick = "closeMyModal()">X</div>
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-center a" style="font-size: 18px; margin-top: 4px;padding-left: 0px; font-color: #808080"
+                             data-toggle="modal" data-dismiss="modal" >X</div>
                     </div>
 
-                    <div class="row" style="margin-bottom: 10px; padding-right: 9px;">
-                        <div class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left mid-font-size" >运动记录</div>
-                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right mid-font-size">组</div>
-                        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-right mid-font-size">次</div>
-                    </div>
-
+                    <div style="margin-bottom: 10px"><b>运动记录</b></div>
 
                     <div id = "selected_day_log" style="margin-bottom: 20px"></div>
+
                 </div>
 
-                <div class="mid-font-size" style="margin-bottom: 10px; margin-top: 5px;">最近记录</div>
+                <div style="margin-bottom: 10px"><b>最近记录</b>
+                </div>
 
                 <div id = "recently" style="margin-bottom: 15px"></div>
 
@@ -397,8 +394,6 @@
         subTypeMaps = info.type_to_subtypes
         // fillInFigLogSelection()
 
-        document.getElementById("version").innerText = " v" + info.version
-
         clickAll();
     });
 
@@ -414,10 +409,7 @@
 
     function fillByNextDate() {
         var newDate = dateDiff(document.getElementById("selectDate").innerText, +1)
-        if(new Date(unformatDate(newDate)) <= new Date()) {//是否小于今日
-            fillInDateLog(newDate);
-        }
-
+        fillInDateLog(newDate);
     }
 
     function onTypeChange(type, selectedSubType, selectedGroups, selectedTimes) {
@@ -495,47 +487,6 @@
         document.getElementById('allTypeDetails').innerHTML = assmebleHtml4TypeDetails(statsBySubtype);
     }
 
-    // function assmebleHtml4TypeDetails(allTypeDetails) {
-    //     var innerHtml = ""
-    //     for (var i = 0; i < arrTypes.length; i++) {
-    //         var tempHtmpHead = ""
-    //         var isWorkout = false;
-    //
-    //         var tempHtmpContent = "<div class=\"bottom-line collapse\" id = \"" + arrTypes[i] + "\" style=\"margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;\">\n"
-    //         for(var j = 0; j < subTypeMaps[arrTypes[i]].length; j++) {
-    //             var subType = subTypeMaps[arrTypes[i]][j];
-    //             var filteredLogs = allTypeDetails.filter(function (log) {
-    //                 return log.subType == subType;
-    //             });
-    //
-    //             var logOfSubType = filteredLogs.length > 0 ? filteredLogs[0] : {"groups": 0, "times": 0}
-    //             var fontCss = filteredLogs.length > 0 ? "light-blue" : "light-gray";
-    //             isWorkout = filteredLogs.length > 0 ? true : isWorkout;
-    //
-    //             tempHtmpContent += "<div class=\"row\">\n" +
-    //                 "        <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1\"></div>\n" +
-    //                 "        <div class=\"col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a\" style=\"font-size: 12px;\">" + subType + "</div>\n" +
-    //                 "    </div>"
-    //
-    //             tempHtmpContent += "<div class=\"row\">\n" +
-    //                 "        <div class=\"col-md-2 col-lg-2 col-sm-2 col-xs-2\"></div>\n" +
-    //                 "        <div class=\"col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left " + fontCss + "\">累计" + logOfSubType.groups + "组，总共" + logOfSubType.times + "次</div>\n" +
-    //                 "    </div>"
-    //         }
-    //         tempHtmpContent += "</div>"
-    //
-    //         var fontCss = isWorkout ? "light-blue" : "";
-    //         tempHtmpHead = "<div><button type=\"button\" class=\"btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " + fontCss + "\"\n" +
-    //             "             style=\"margin-left: 5px; background-color: white; outline-color: #f1d6bb; font-size: 14px;\"\n" +
-    //             "             data-toggle=\"collapse\" data-target=\"#" + arrTypes[i] + "\">...<span class=\"col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left\">" + arrTypes[i] + "</span>\n" +
-    //             "</button></div>"
-    //
-    //         var tempHtmp = tempHtmpHead + tempHtmpContent
-    //         innerHtml += tempHtmp;
-    //     }
-    //     return innerHtml;
-    // }
-
     function assmebleHtml4TypeDetails(allTypeDetails) {
         var innerHtml = ""
         for (var i = 0; i < arrTypes.length; i++) {
@@ -555,7 +506,7 @@
 
                 tempHtmpContent += "<div class=\"row\">\n" +
                     "        <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1\"></div>\n" +
-                    "        <div class=\"col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a\" style=\"font-size: 15px; padding-left: 9%;\">" + subType + "</div>\n" +
+                    "        <div class=\"col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a\" style=\"font-size: 12px;\">" + subType + "</div>\n" +
                     "    </div>"
 
                 tempHtmpContent += "<div class=\"row\">\n" +
@@ -566,20 +517,10 @@
             tempHtmpContent += "</div>"
 
             var fontCss = isWorkout ? "light-blue" : "";
-
             tempHtmpHead = "<div><button type=\"button\" class=\"btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " + fontCss + "\"\n" +
-                "                style=\"background-color: white; outline-color: #f1d6bb; font-size: 18px;\"\n" +
-                "                data-toggle=\"collapse\" data-target=\"#" + arrTypes[i] + "\">...\n" +
-                "            <span class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left\">\n" +
-                "                <img src=\"/pic/" + arrTypes[i] + ".png\" width=\"30\" height=\"30\">\n" +
-                "            </span>\n" +
-                "            <span class=\"col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left\">" + arrTypes[i] + "</span>\n" +
-                "        </button></div>"
-
-            // tempHtmpHead = "<div><button type=\"button\" class=\"btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " + fontCss + "\"\n" +
-            //     "             style=\"margin-left: 5px; background-color: white; outline-color: #f1d6bb; font-size: 14px;\"\n" +
-            //     "             data-toggle=\"collapse\" data-target=\"#" + arrTypes[i] + "\">...<span class=\"col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left\">" + arrTypes[i] + "</span>\n" +
-            //     "</button></div>"
+                "             style=\"margin-left: 5px; background-color: white; outline-color: #f1d6bb; font-size: 14px;\"\n" +
+                "             data-toggle=\"collapse\" data-target=\"#" + arrTypes[i] + "\">...<span class=\"col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left\">" + arrTypes[i] + "</span>\n" +
+                "</button></div>"
 
             var tempHtmp = tempHtmpHead + tempHtmpContent
             innerHtml += tempHtmp;
@@ -725,11 +666,6 @@
     }
 
     /***********************************************************/
-    function closeMyModal() {
-        $('#operModal').modal('hide')
-        $('#addFitLog').modal('hide')
-    }
-
     function addSingleLog(e) {
         $('#operModal').modal('hide')
         $('#deleteFitLogBtn').css("visibility","hidden")

@@ -11,7 +11,7 @@
             adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
             adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
             DATE_FORMAT(fit_date, '%Y-%m') as yearMonth,
-             t.type, t.subtype, d.groups, d.times,
+             t.type, t.subtype, d.groups, d.times as times,
              cast(d.groups * d.times * t.weight as DECIMAL(10)) as scores,
              d.subtype_id as subtypeId, t.weight
                     from fit_daily_log d
@@ -28,13 +28,13 @@
 <!--    全部-总计 天数 组数 次数 分数-->
     <select id="queryFitSummary" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
         select count(distinct(d.fit_date)) as dates,sum(d.groups) as groups,
-        sum(d.times) as times, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+        sum(d.groups * d.times) as times, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
         from fit_daily_log d left join fit_type t on d.subtype_id=t.id
     </select>
 
     <!--    全部  子种类的组数和次数-->
     <select id="queryFitSummaryBySubtype" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
-        select t.type, t.subtype, sum(d.groups) as groups, sum(d.times) as times,
+        select t.type, t.subtype, sum(d.groups) as groups, sum(d.groups * d.times) as times,
             sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
             from fit_daily_log d
             left join fit_type t on d.subtype_id=t.id
@@ -43,7 +43,7 @@
 
 <!--    全部-饼图-->
     <select id="queryScoresByType" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
-        select t.type, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type
+        select t.type, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type order by scores desc
     </select>
 
 <!--    每天总组数、次数、分数、天数-->
@@ -51,7 +51,7 @@
         select d.fit_date as fitDate,
         count(distinct(fit_date)) as dates,
         sum(d.groups) as groups,
-        sum(d.times) as times,
+        sum(d.groups * d.times) as times,
         sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
@@ -62,7 +62,7 @@
     <select id="queryStatsDailyLogsBySubtype" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
         select d.fit_date, t.type, t.subtype,
             sum(d.groups) as groups,
-            sum(d.times) as times,
+            sum(d.groups * d.times) as times,
             sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
             from fit_daily_log d
             left join fit_type t on d.subtype_id=t.id
@@ -75,7 +75,7 @@
             adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
             adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
             count(distinct(fit_date)) as dates,
-            sum(d.groups) as groups, sum(d.times) as times,
+            sum(d.groups) as groups, sum(d.groups * d.times) as times,
             sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
@@ -89,7 +89,7 @@
             adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
             t.type, t.subtype,
             sum(d.groups) as groups,
-            sum(d.times) as times,
+            sum(d.groups * d.times) as times,
             sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
@@ -103,7 +103,7 @@
         select DATE_FORMAT(fit_date, '%Y-%m') as yearMonth,
            count(distinct(fit_date)) as dates,
             sum(d.groups) as groups,
-            sum(d.times) as times,
+            sum(d.groups * d.times) as times,
             sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
@@ -115,7 +115,7 @@
         select DATE_FORMAT(fit_date, '%Y-%m') as yearMonth,
                 t.type, t.subtype,
                 sum(d.groups) as groups,
-                sum(d.times) as times,
+                sum(d.groups * d.times) as times,
                 sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id

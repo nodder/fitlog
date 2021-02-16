@@ -1,0 +1,277 @@
+--创建数据库（mysql)
+drop table fit_type;
+CREATE TABLE fit_type (
+   id INT NOT NULL,
+   subtype VARCHAR(64) NOT NULL,
+   type VARCHAR(64) NOT NULL,
+   weight INT NOT NULL,
+   PRIMARY KEY (`id`)
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+describe fit_type;
+
+drop table fit_daily_log;
+CREATE TABLE fit_daily_log (
+   id int primary key auto_increment，
+   fit_date DATE NOT NULL,
+   subtype_id INT NOT NULL,
+   groups INT NOT NULL,
+   times INT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+describe fit_daily_log;
+
+--插入模拟数据
+insert into fit_type (id, type, subtype, weight) values(1, '桥', '短桥', 1);
+insert into fit_type (id, type, subtype, weight) values(2, '桥', '直桥', 2);
+insert into fit_type (id, type, subtype, weight) values(3, '桥', '高低桥', 3);
+insert into fit_type (id, type, subtype, weight) values(4, '桥', '顶桥', 4);
+insert into fit_type (id, type, subtype, weight) values(5, '桥', '半桥', 5);
+insert into fit_type (id, type, subtype, weight) values(6, '桥', '标准桥', 6);
+insert into fit_type (id, type, subtype, weight) values(7, '桥', '下行桥', 7);
+insert into fit_type (id, type, subtype, weight) values(8, '桥', '上行桥', 8);
+insert into fit_type (id, type, subtype, weight) values(9, '桥', '合桥', 9);
+insert into fit_type (id, type, subtype, weight) values(10, '桥', '铁板桥', 10);
+
+
+insert into fit_type (id, type, subtype, weight) values(11, '倒立撑', '靠墙顶立', 1);
+insert into fit_type (id, type, subtype, weight) values(12, '倒立撑', '乌鸦式', 2);
+insert into fit_type (id, type, subtype, weight) values(13, '倒立撑', '靠墙倒立', 3);
+insert into fit_type (id, type, subtype, weight) values(14, '倒立撑', '半倒立撑', 4);
+insert into fit_type (id, type, subtype, weight) values(15, '倒立撑', '标准倒立撑', 5);
+insert into fit_type (id, type, subtype, weight) values(16, '倒立撑', '窄距倒立撑', 6);
+insert into fit_type (id, type, subtype, weight) values(17, '倒立撑', '偏重倒立撑', 7);
+insert into fit_type (id, type, subtype, weight) values(18, '倒立撑', '单臂半倒立撑', 8);
+insert into fit_type (id, type, subtype, weight) values(19, '倒立撑', '杠杆倒立撑', 9);
+insert into fit_type (id, type, subtype, weight) values(20, '倒立撑', '单臂倒立撑', 10);
+
+insert into fit_type (id, type, subtype, weight) values(21, '举腿', '坐姿屈膝', 1);
+insert into fit_type (id, type, subtype, weight) values(22, '举腿', '平卧抬膝', 2);
+insert into fit_type (id, type, subtype, weight) values(23, '举腿', '平卧屈举腿', 3);
+insert into fit_type (id, type, subtype, weight) values(24, '举腿', '平卧蛙举腿', 4);
+insert into fit_type (id, type, subtype, weight) values(25, '举腿', '平卧直举腿', 5);
+insert into fit_type (id, type, subtype, weight) values(26, '举腿', '悬臂屈膝', 6);
+insert into fit_type (id, type, subtype, weight) values(27, '举腿', '悬臂屈举腿', 7);
+insert into fit_type (id, type, subtype, weight) values(28, '举腿', '悬垂蛙举腿', 8);
+insert into fit_type (id, type, subtype, weight) values(29, '举腿', '悬垂半举腿', 9);
+insert into fit_type (id, type, subtype, weight) values(30, '举腿', '悬垂直举腿', 10);
+
+insert into fit_type (id, type, subtype, weight) values(31, '引体向上', '垂直引体', 1);
+insert into fit_type (id, type, subtype, weight) values(32, '引体向上', '水平引体向上', 2);
+insert into fit_type (id, type, subtype, weight) values(33, '引体向上', '折刀引体向上', 3);
+insert into fit_type (id, type, subtype, weight) values(34, '引体向上', '半引体向上', 4);
+insert into fit_type (id, type, subtype, weight) values(35, '引体向上', '标准引体向上', 5);
+insert into fit_type (id, type, subtype, weight) values(36, '引体向上', '窄距引体向上', 6);
+insert into fit_type (id, type, subtype, weight) values(37, '引体向上', '偏重引体向上', 7);
+insert into fit_type (id, type, subtype, weight) values(38, '引体向上', '单臂半引体向上', 8);
+insert into fit_type (id, type, subtype, weight) values(39, '引体向上', '单臂辅助引体向上', 9);
+insert into fit_type (id, type, subtype, weight) values(40, '引体向上', '单臂引体向上', 10);
+
+insert into fit_type (id, type, subtype, weight) values(41, '深蹲', '肩倒立深蹲', 1);
+insert into fit_type (id, type, subtype, weight) values(42, '深蹲', '折刀深蹲', 2);
+insert into fit_type (id, type, subtype, weight) values(43, '深蹲', '支撑深蹲', 3);
+insert into fit_type (id, type, subtype, weight) values(44, '深蹲', '半深蹲', 4);
+insert into fit_type (id, type, subtype, weight) values(45, '深蹲', '标准深蹲', 5);
+insert into fit_type (id, type, subtype, weight) values(46, '深蹲', '窄距深蹲', 6);
+insert into fit_type (id, type, subtype, weight) values(47, '深蹲', '偏重深蹲', 7);
+insert into fit_type (id, type, subtype, weight) values(48, '深蹲', '单腿半深蹲', 8);
+insert into fit_type (id, type, subtype, weight) values(49, '深蹲', '单腿辅助深蹲', 9);
+insert into fit_type (id, type, subtype, weight) values(50, '深蹲', '单腿深蹲', 10);
+
+insert into fit_type (id, type, subtype, weight) values(51, '俯卧撑', '墙壁俯卧撑', 1);
+insert into fit_type (id, type, subtype, weight) values(52, '俯卧撑', '上斜俯卧撑', 2);
+insert into fit_type (id, type, subtype, weight) values(53, '俯卧撑', '膝盖俯卧撑', 3);
+insert into fit_type (id, type, subtype, weight) values(54, '俯卧撑', '半俯卧撑', 4);
+insert into fit_type (id, type, subtype, weight) values(55, '俯卧撑', '标准俯卧撑', 5);
+insert into fit_type (id, type, subtype, weight) values(56, '俯卧撑', '窄距俯卧撑', 6);
+insert into fit_type (id, type, subtype, weight) values(57, '俯卧撑', '偏重俯卧撑', 7);
+insert into fit_type (id, type, subtype, weight) values(58, '俯卧撑', '单臂半俯卧撑', 8);
+insert into fit_type (id, type, subtype, weight) values(59, '俯卧撑', '杠杆俯卧撑', 9);
+insert into fit_type (id, type, subtype, weight) values(60, '俯卧撑', '单臂俯卧撑', 10);
+
+------------
+
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2021-02-07', 1, 1, 25);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2021-02-08', 1, 3, 25);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2021-02-08', 1, 4, 25);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2021-02-08', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2021-02-08', 13, 3, 10);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2021-02-08', 13, 7, 10);
+
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-01', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-02', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-03', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-04', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-05', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-06', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-07', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-08', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-09', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-10', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-11', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-12', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-01-13', 2, 4, 50);
+
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-01', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-02', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-03', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-04', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-05', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-06', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-07', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-08', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-09', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-10', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-11', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-12', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-02-13', 2, 4, 50);
+
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-01', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-02', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-03', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-04', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-05', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-06', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-07', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-08', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-09', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-10', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-11', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-12', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-13', 2, 4, 50);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-13', 2, 4, 5);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-14', 2, 4, 10);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-14', 2, 4, 10);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2020-03-14', 13, 7, 10);
+
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2021-02-12', 2, 6, 60);
+insert into fit_daily_log (fit_date, subtype_id, groups, times) values('2021-02-14', 2, 5, 60);
+
+
+
+------------sql语句以代码中为准
+---全部  总计 天数 组数 次数 分数
+select count(distinct(d.fit_date)) as dates,sum(d.groups) as groups, sum(d.times) as times, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id
+
+
+---全部 每种类的组数和次数  饼图 
+select t.type, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type order by scores desc
+   
+---!!全部  子种类的组数和次数  queryFitSummaryBySubtype
+select t.type, t.subtype, sum(d.groups) as groups, sum(d.times) as times, 
+    sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores 
+    from fit_daily_log d 
+    left join fit_type t on d.subtype_id=t.id 
+    group by t.subtype
+    
+
+--每天原始数据
+select d.id, d.fit_date as fitDate,
+adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
+adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
+DATE_FORMAT(fit_date, '%Y-%m') as yearMonth, 
+ t.type, t.subtype, d.groups, d.times, 
+ cast(d.groups * d.times * t.weight as DECIMAL(10)) as scores, 
+ d.subtype_id as subtypeId, t.weight 
+        from fit_daily_log d
+        left join fit_type t on d.subtype_id=t.id 
+        order by d.fit_date
+
+
+--每天总组数、次数、分数、天数
+select d.fit_date as fitDate, 
+count(distinct(fit_date)) as dates,
+sum(d.groups) as groups, 
+sum(d.times) as times, 
+sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores 
+        from fit_daily_log d
+        left join fit_type t on d.subtype_id=t.id 
+        group by d.fit_date order by d.fit_date
+
+--!!!每天每子种类 组数、次数  queryStatsDailyLogsBySubtype
+        
+ select d.fit_date, t.type, t.subtype, 
+        sum(d.groups) as groups, 
+        sum(d.times) as times,
+        sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores 
+        from fit_daily_log d 
+        left join fit_type t on d.subtype_id=t.id 
+        group by d.fit_date, t.subtype
+        
+
+--每周开始、结束、周数（仅测试）
+select fit_date, 
+        adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
+        adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
+        DATE_FORMAT(adddate(fit_date,  1), '%Y%u') week  from fit_daily_log
+
+--~~~每周总组数、次数、分数、周数、天数、周起止日期
+select DATE_FORMAT(adddate(fit_date,  1), '%Y%u') as week, 
+    adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
+    adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
+    count(distinct(fit_date)) as dates,
+    sum(d.groups) as groups, sum(d.times) as times, 
+    sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores 
+        from fit_daily_log d 
+        left join fit_type t on d.subtype_id=t.id 
+        group by week order by week
+        
+--!!!!每周每子种类 组数、次数  queryStatsWeeklyLogsBySubtype
+select DATE_FORMAT(adddate(fit_date,  1), '%Y%u') as week, 
+        adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
+        adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
+        t.type, t.subtype, 
+        sum(d.groups) as groups,
+        sum(d.times) as times,
+        sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores 
+        from fit_daily_log d 
+        left join fit_type t on d.subtype_id=t.id 
+        group by t.subtype, week
+        order by week
+        
+--每月总组数、次数、分数、天数、月份
+select DATE_FORMAT(fit_date, '%Y-%m') as yearMonth, 
+   count(distinct(fit_date)) as dates,
+    sum(d.groups) as groups, 
+    sum(d.times) as times, 
+    sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores 
+        from fit_daily_log d 
+        left join fit_type t on d.subtype_id=t.id 
+        group by yearMonth order by yearMonth
+        
+--!!!!每月每子种类 组数、次数  queryStatsMonthlyLogsBySutype
+select DATE_FORMAT(fit_date, '%Y-%m') as yearMonth, 
+        t.type, t.subtype, 
+        sum(d.groups) as groups,
+        sum(d.times) as times,
+        sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores 
+        from fit_daily_log d 
+        left join fit_type t on d.subtype_id=t.id 
+        group by t.subtype, yearMonth
+        order by yearMonth
+        
+
+--(未使用)指定某类型，查找最后一次用户插入（不包含更新，因为用id判断）操作时的组数、数量、子类型
+select t.type, t.subtype, d.groups, d.times
+        from fit_daily_log d
+        left join fit_type t on d.subtype_id=t.id 
+        where d.id in (
+                select max(d.id) as id
+                from fit_daily_log d
+                left join fit_type t on d.subtype_id=t.id 
+                group by t.type)
+                
+--(未使用)指定某子类型，查找最后一次用户插入（不包含更新，因为用id判断）操作时的组数、数量、类型
+select t.type, t.subtype, d.groups, d.times
+        from fit_daily_log d
+        left join fit_type t on d.subtype_id=t.id 
+        where d.id in (
+        select max(d.id) as id
+                from fit_daily_log d
+                left join fit_type t on d.subtype_id=t.id 
+                group by t.subtype )
+                
+启动脚本：     
+cd /volume2/我的云盘/"2.6 软件 -- 我的脚本工具"/fitlog
+nohup java -jar fitlog-1.0.0.jar >/dev/null 2>&1 &

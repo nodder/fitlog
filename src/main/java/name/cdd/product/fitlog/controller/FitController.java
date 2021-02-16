@@ -10,11 +10,16 @@ import name.cdd.product.fitlog.pojo.FitType;
 import name.cdd.product.fitlog.service.FitService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 @RestController
 public class FitController {
@@ -23,6 +28,9 @@ public class FitController {
 
     @Autowired
     private Cache cache;
+
+    @Value("${fitlog.version}")
+    String version;
 
     @GetMapping("/index")
     public String sayHello(){
@@ -205,6 +213,7 @@ public class FitController {
 
         result.put("types", types);
         result.put("type_to_subtypes", type_to_subTypes);
+        result.put("version", version);
         return result;
     }
 

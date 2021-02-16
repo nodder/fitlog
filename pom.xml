@@ -60,12 +60,6 @@
             <version>25.1-jre</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.apache.derby</groupId>-->
-<!--            <artifactId>derby</artifactId>-->
-<!--            <version>10.13.1.1</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
@@ -89,6 +83,13 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
 <!--            <version>${aspectj.version}</version>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.20</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- 引入log4j2依赖 -->
