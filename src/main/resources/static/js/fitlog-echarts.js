@@ -95,10 +95,10 @@ function paintPie(element, data1){
     var myChart = echarts.init(element);
 
     option = {
-        tooltip: {//提示
-            trigger: 'item',
-            formatter: "{a}：<br/>{b} : {c} ({d}%)"
-        },
+        // tooltip: {//提示
+        //     trigger: 'item',
+        //     formatter: "{a}：<br/>{b} : {c} ({d}%)"
+        // },
         legend: {//图例
             bottom: '5%',
             left: '5%',
@@ -141,8 +141,8 @@ function paintPie(element, data1){
                 emphasis: {//鼠标悬停
                     label: {
                         show: true,
-                        fontSize: '20',
-                        fontWeight: 'bold'
+                        fontSize: '20'
+                        // fontWeight: 'bold'
                     }
                 },
 

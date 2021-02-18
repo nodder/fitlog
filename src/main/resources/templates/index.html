@@ -115,58 +115,10 @@
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 text-center a" id="allTimes">NA</div>
             </div>
 
-            <div class="row" id="allTypeDetails">
-                    <!--        滑动效果介绍：https://www.runoob.com/try/try.php?filename=trybs4_collapsible-->
-<!--                    <div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right"-->
-<!--                                 style="margin-left: 5px; border: none; background-color: white; outline-color: #f1d6bb;border-bottom: 1px solid rgb(241 241 241);"-->
-<!--                                 data-toggle="collapse" data-target="#row1">...<span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">引体向上</span></button></div>-->
+            <div class="row" id="allTypeDetails"></div>
 
-<!--                    <div class="collapse" id = "row1" style="margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;border-bottom: 1px solid rgb(241 241 241);padding-bottom: 2px;">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>-->
-<!--                            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" >上斜俯卧撑</div>-->
-<!--                        </div>-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>-->
-<!--                            <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计10组，公共222次</div>-->
-<!--                        </div>-->
+            <div class="row" id="allAchievements" style="margin-left: 6px;margin-top: 10px;"></div>
 
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>-->
-<!--                            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" >xx俯卧撑</div>-->
-<!--                        </div>-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>-->
-<!--                            <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计99组，公共222次</div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-
-<!--                    &lt;!&ndash;        滑动效果介绍：https://www.runoob.com/try/try.php?filename=trybs4_collapsible&ndash;&gt;-->
-<!--                    <div><button type="button" class="btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right"-->
-<!--                                 style="margin-left: 5px; border: none; background-color: white; outline-color: #f1d6bb;border-bottom: 1px solid rgb(241 241 241);"-->
-<!--                                 data-toggle="collapse" data-target="#row1">...<span class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left">引体向上</span></button></div>-->
-
-<!--                    <div class="collapse" id = "row2" style="margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;border-bottom: 1px solid rgb(241 241 241);padding-bottom: 2px;">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>-->
-<!--                            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" >上斜俯卧撑</div>-->
-<!--                        </div>-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>-->
-<!--                            <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计10组，公共222次</div>-->
-<!--                        </div>-->
-
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>-->
-<!--                            <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a" >xx俯卧撑</div>-->
-<!--                        </div>-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>-->
-<!--                            <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left light-gray">累计99组，公共222次</div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-            </div>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="daily">
@@ -190,7 +142,7 @@
             </div>
 
             <div class="row" id="dailyTypeDetails"></div>
-            <div id = "daily_logs" style="margin-bottom: 70px"></div>
+            <div id = "daily_logs" style="margin-bottom: 70px; margin-top: 20px"></div>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="weekly">
@@ -214,7 +166,7 @@
             </div>
 
             <div class="row top-line m-top-s" id="weeklyTypeDetails" ></div>
-            <div id = "weekly_logs" style="margin-bottom: 70px"></div>
+            <div id = "weekly_logs" style="margin-bottom: 70px; margin-top: 20px"></div>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="monthly">
@@ -238,7 +190,7 @@
             </div>
 
             <div class="row top-line" id="monthlyTypeDetails"></div>
-            <div id = "monthly_logs" style="margin-bottom: 70px"></div>
+            <div id = "monthly_logs" style="margin-bottom: 70px; margin-top: 20px"></div>
         </div>
     </div>
 
@@ -372,6 +324,12 @@
     var arrTypes = []
     var subTypeMaps = {}
     var recentLogs = {}
+    var gradientColorArr = gradientColors('#f00', '#eb1', 26).concat(gradientColors('#eb1', '#01f', 25))
+        .concat(gradientColors('#01f', '#388', 10)).concat(gradientColors('#388', '#1f1', 40))
+
+        // gradientColors('#c11', '#04f', 31).concat(gradientColors('#04f', '#388', 30))
+        //           .concat(gradientColors('#eb1', '#4c4', 40)).concat(gradientColors('#388', '#4c4', 40))
+
 
      //对于每个type，记住上一次用户选择子类型、组数和次数
     //示例：{"引体向上": {"subType": "窄距引体向上", "groups": "5", "times": "77"}, "深蹲": {"subType": "单腿辅助深蹲", "groups": "4", "times": "44"}}
@@ -491,52 +449,11 @@
         document.getElementById('allGroups').innerHTML = allInfo.allSummary.groups;
         document.getElementById('allTimes').innerHTML = allInfo.allSummary.times;
 
-        var statsBySubtype = allInfo.statsBySubtype;
-        document.getElementById('allTypeDetails').innerHTML = assmebleHtml4TypeDetails(statsBySubtype);
+        document.getElementById('allTypeDetails').innerHTML = assmebleHtml4TypeDetails(allInfo.statsBySubtype, allInfo.typeAndProgress);
+        document.getElementById('allAchievements').innerHTML = assmebleHtml4Achievements(allInfo.achievements);
     }
 
-    // function assmebleHtml4TypeDetails(allTypeDetails) {
-    //     var innerHtml = ""
-    //     for (var i = 0; i < arrTypes.length; i++) {
-    //         var tempHtmpHead = ""
-    //         var isWorkout = false;
-    //
-    //         var tempHtmpContent = "<div class=\"bottom-line collapse\" id = \"" + arrTypes[i] + "\" style=\"margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;\">\n"
-    //         for(var j = 0; j < subTypeMaps[arrTypes[i]].length; j++) {
-    //             var subType = subTypeMaps[arrTypes[i]][j];
-    //             var filteredLogs = allTypeDetails.filter(function (log) {
-    //                 return log.subType == subType;
-    //             });
-    //
-    //             var logOfSubType = filteredLogs.length > 0 ? filteredLogs[0] : {"groups": 0, "times": 0}
-    //             var fontCss = filteredLogs.length > 0 ? "light-blue" : "light-gray";
-    //             isWorkout = filteredLogs.length > 0 ? true : isWorkout;
-    //
-    //             tempHtmpContent += "<div class=\"row\">\n" +
-    //                 "        <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1\"></div>\n" +
-    //                 "        <div class=\"col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left a\" style=\"font-size: 12px;\">" + subType + "</div>\n" +
-    //                 "    </div>"
-    //
-    //             tempHtmpContent += "<div class=\"row\">\n" +
-    //                 "        <div class=\"col-md-2 col-lg-2 col-sm-2 col-xs-2\"></div>\n" +
-    //                 "        <div class=\"col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left " + fontCss + "\">累计" + logOfSubType.groups + "组，总共" + logOfSubType.times + "次</div>\n" +
-    //                 "    </div>"
-    //         }
-    //         tempHtmpContent += "</div>"
-    //
-    //         var fontCss = isWorkout ? "light-blue" : "";
-    //         tempHtmpHead = "<div><button type=\"button\" class=\"btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " + fontCss + "\"\n" +
-    //             "             style=\"margin-left: 5px; background-color: white; outline-color: #f1d6bb; font-size: 14px;\"\n" +
-    //             "             data-toggle=\"collapse\" data-target=\"#" + arrTypes[i] + "\">...<span class=\"col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left\">" + arrTypes[i] + "</span>\n" +
-    //             "</button></div>"
-    //
-    //         var tempHtmp = tempHtmpHead + tempHtmpContent
-    //         innerHtml += tempHtmp;
-    //     }
-    //     return innerHtml;
-    // }
-
-    function assmebleHtml4TypeDetails(allTypeDetails) {
+    function assmebleHtml4TypeDetails(allTypeDetails, typeAndProgress) {
         var innerHtml = ""
         for (var i = 0; i < arrTypes.length; i++) {
             var tempHtmpHead = ""
@@ -566,23 +483,41 @@
             tempHtmpContent += "</div>"
 
             var fontCss = isWorkout ? "light-blue" : "";
+            var progress = typeAndProgress[arrTypes[i]] ? typeAndProgress[arrTypes[i]] + '%' : '...'
+            var color = typeAndProgress[arrTypes[i]] ? gradientColorArr[typeAndProgress[arrTypes[i]]] : 'gray'
 
             tempHtmpHead = "<div><button type=\"button\" class=\"btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " + fontCss + "\"\n" +
                 "                style=\"background-color: white; outline-color: #f1d6bb; font-size: 18px;\"\n" +
-                "                data-toggle=\"collapse\" data-target=\"#" + arrTypes[i] + "\">...\n" +
+                "                data-toggle=\"collapse\" data-target=\"#" + arrTypes[i] + "\">" + "<span class=\"light-gray\" style=\"color: " + color + "\" >" + progress + "</span>" + "\n" +
                 "            <span class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1 text-left\">\n" +
                 "                <img src=\"/pic/" + arrTypes[i] + ".png\" width=\"30\" height=\"30\">\n" +
                 "            </span>\n" +
                 "            <span class=\"col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left\">" + arrTypes[i] + "</span>\n" +
                 "        </button></div>"
 
-            // tempHtmpHead = "<div><button type=\"button\" class=\"btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " + fontCss + "\"\n" +
-            //     "             style=\"margin-left: 5px; background-color: white; outline-color: #f1d6bb; font-size: 14px;\"\n" +
-            //     "             data-toggle=\"collapse\" data-target=\"#" + arrTypes[i] + "\">...<span class=\"col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left\">" + arrTypes[i] + "</span>\n" +
-            //     "</button></div>"
-
             var tempHtmp = tempHtmpHead + tempHtmpContent
             innerHtml += tempHtmp;
+        }
+        return innerHtml;
+    }
+
+    function assmebleHtml4Achievements(achievements) {
+        var innerHtml = ""
+        for (var i = 0; i < achievements.length; i++) {
+            var star = achievements[i]
+            var tempHtml1 = "<div class=\"bottom-line\" style=\"margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;\"><div class=\"light-gray\">" + showDateWithWeekday(star.fitDate) + "</div>\n" +
+                "        <div class=\"row\">\n" +
+                "            <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1\"></div>\n" +
+                "            <div class=\"col-md-11 col-lg-11 col-sm-11 col-xs-11 text-left\" style=\"margin-left: 13px\">达到   " + star.subtype + "\n" +
+                "                <span class=\"light-gray\">\n";
+            for (var j = 0; j < star.stars; j++) {
+                tempHtml1 += "                    <img src=\"/pic/star.png\" width=\"16\" height=\"16\" style=\"margin-bottom: 3px\">\n";
+            }
+            tempHtml1 +=  "                </span></div>\n" +
+                           "        </div>\n" +
+                           "    </div>\n";
+
+            innerHtml += tempHtml1;
         }
         return innerHtml;
     }
@@ -822,12 +757,6 @@
         }
 
         updateWhenRefreshOneDateLog(logsByDate, fitDate);
-
-        // var data = {"fitDate": fitDate, "fitDailyLogs": selectedLogs}
-        // console.log("onCopy:" + JSON.stringify(data))
-        //
-        // var logsByDate = ajax_post("insert/batch", data)
-        // updateWhenRefreshOneDateLog(logsByDate, fitDate);
     }
 
     function onCopyAndReplace() {

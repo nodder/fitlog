@@ -6,7 +6,9 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import name.cdd.product.fitlog.config.Cache;
 import name.cdd.product.fitlog.pojo.FitDailyLog;
+import name.cdd.product.fitlog.pojo.FitStar;
 import name.cdd.product.fitlog.pojo.FitType;
+import name.cdd.product.fitlog.service.AchieveProgress;
 import name.cdd.product.fitlog.service.FitService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Executors;
 
 @RestController
 public class FitController {
@@ -27,14 +27,18 @@ public class FitController {
     private FitService fitServer;
 
     @Autowired
+    private AchieveProgress progress;
+
+    @Autowired
     private Cache cache;
 
     @Value("${fitlog.version}")
     String version;
 
-    @GetMapping("/index")
-    public String sayHello(){
-        return "index";
+    @GetMapping("/refresh")
+    public List<FitType> refresh() {
+        cache.refresh();
+        return cache.getAllFitTypes();
     }
 
     @PostMapping("/get/all")
@@ -42,11 +46,16 @@ public class FitController {
         FitDailyLog summary = fitServer.queryFitSummary();
         List<FitDailyLog> typeAndScore = fitServer.queryScoresByType();
         List<FitDailyLog> statsBySubtype = fitServer.queryFitSummaryBySubtype();
+        List<FitStar> achievements = fitServer.queryAchievements();
+
+        Map<String, Integer> typeAndProgress = progress.progress(achievements);
 
         Map<String, Object> map = Maps.newHashMap();
         map.put("allSummary", summary);
         map.put("typeAndScore", typeAndScore);
         map.put("statsBySubtype", statsBySubtype);
+        map.put("achievements", achievements);
+        map.put("typeAndProgress", typeAndProgress);
 
         return map;
     }
@@ -172,12 +181,6 @@ public class FitController {
         return fitServer.queryLogsByDate(log.getFitDate().toString());
     }
 
-//    @PostMapping("/insert/batch")
-//    public List<FitDailyLog> insertSingleInfo(@Param("fitDate") String fitDate, @Param("fitDailyLogs") List<FitDailyLog> logs) {
-//        logs.forEach(log -> insertSingleInfo(log));
-//        return fitServer.queryLogsByDate(fitDate);
-//    }
-
     @PostMapping("/update/single")
     public List<FitDailyLog> updateSingleInfo(FitDailyLog log) {
         fillSubtypeId(log);
@@ -185,16 +188,6 @@ public class FitController {
 
         return fitServer.queryLogsByDate(log.getFitDate().toString());
     }
-
-//    @PostMapping("/update/daily")
-//    public List<FitDailyLog> updateDailyInfo(@Param("fitDate") String fitDate, @Param("fitDailyLogs[]") List<FitDailyLog> logs) {
-//    public List<FitDailyLog> updateDailyInfo(String json) {
-//        System.out.println("ok");
-//        return Lists.newArrayList();
-//        logs.forEach(log -> fillSubtypeId(log));
-//        fitServer.updateDailyLogs(fitDate, logs);
-//        return fitServer.queryLogsByDate(fitDate);
-//    }
 
     @PostMapping("/get/base")
     public Map<String, Object> queryBase() {

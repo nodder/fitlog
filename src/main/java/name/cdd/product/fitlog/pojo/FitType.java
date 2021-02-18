@@ -9,47 +9,11 @@ public class FitType {
     private String type;
     private int weight;
 
+    private int groupsS1;
+    private int groupsS2;
+    private int groupsS3;
 
-//
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-//
-//    public String getSubtype() {
-//        return subtype;
-//    }
-//
-//    public void setSubtype(String subtype) {
-//        this.subtype = subtype;
-//    }
-//
-//    public String getType() {
-//        return type;
-//    }
-//
-//    public void setType(String type) {
-//        this.type = type;
-//    }
-//
-//    public int getWeight() {
-//        return weight;
-//    }
-//
-//    public void setWeight(int weight) {
-//        this.weight = weight;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "FitType{" +
-//                "id=" + id +
-//                ", subtype='" + subtype + '\'' +
-//                ", type='" + type + '\'' +
-//                ", weight=" + weight +
-//                '}';
-//    }
+    private int timesS1;
+    private int timesS2;
+    private int timesS3;
 }

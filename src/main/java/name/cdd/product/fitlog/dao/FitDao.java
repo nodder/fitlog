@@ -1,6 +1,7 @@
 package name.cdd.product.fitlog.dao;
 
 import name.cdd.product.fitlog.pojo.FitDailyLog;
+import name.cdd.product.fitlog.pojo.FitStar;
 import name.cdd.product.fitlog.pojo.FitType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -124,4 +125,8 @@ public interface FitDao {
     List<FitDailyLog> queryStatsDailyLogsBySubtype();
     List<FitDailyLog> queryStatsWeeklyLogsBySubtype();
     List<FitDailyLog> queryStatsMonthlyLogsBySutype();
+
+    List<FitStar> queryAllStar1();
+    List<FitStar> queryAllStar2();
+    List<FitStar> queryAllStar3();
 }

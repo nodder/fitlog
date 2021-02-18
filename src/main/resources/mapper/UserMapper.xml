@@ -143,4 +143,32 @@
         delete from fit_daily_log where id=#{id}
     </delete>
 
+    <select id="queryAllStar3" resultType="name.cdd.product.fitlog.pojo.FitStar">
+        select min(d.fit_date) as fitDate, 3 as stars,
+               t.subtype, t.type, d.subtype_id
+        from fit_daily_log d
+                 left join fit_type t on d.subtype_id=t.id
+        where d.`groups` >= t.groups_s3  and d.times >= t.times_s3
+        group by t.subtype order by fitDate
+    </select>
+
+    <!--star2 不包含直接跳3-->
+    <select id="queryAllStar2" resultType="name.cdd.product.fitlog.pojo.FitStar">
+        select min(d.fit_date) as fitDate, 2 as stars,
+               t.subtype, t.type, d.subtype_id
+        from fit_daily_log d
+                 left join fit_type t on d.subtype_id=t.id
+        where (d.`groups` >= t.groups_s2  and d.times >= t.times_s2) and not (d.`groups` >= t.groups_s3  and d.times >= t.times_s3)
+        group by t.subtype order by fitDate
+    </select>
+
+<!--    star1 不包含直接跳2 3-->
+    <select id="queryAllStar1" resultType="name.cdd.product.fitlog.pojo.FitStar">
+        select min(d.fit_date) as fitDate, 1 as stars,
+               t.subtype, t.type, d.subtype_id
+        from fit_daily_log d
+                 left join fit_type t on d.subtype_id=t.id
+        where (d.`groups` >= t.groups_s1  and d.times >= t.times_s1) and not (d.`groups` >= t.groups_s2  and d.times >= t.times_s2)
+        group by t.subtype order by fitDate
+    </select>
 </mapper>
