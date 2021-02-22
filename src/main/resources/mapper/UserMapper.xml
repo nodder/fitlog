@@ -79,7 +79,7 @@
             sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
-                group by week order by week
+                group by weekStart order by week
     </select>
 
 <!--    每周每子种类 组数、次数-->
@@ -170,5 +170,8 @@
                  left join fit_type t on d.subtype_id=t.id
         where (d.`groups` >= t.groups_s1  and d.times >= t.times_s1) and not (d.`groups` >= t.groups_s2  and d.times >= t.times_s2)
         group by t.subtype order by fitDate
+    </select>
+    <select id="queryVersions" resultType="name.cdd.product.fitlog.pojo.Version">
+        select version, version_date, content from versions order by version_date desc
     </select>
 </mapper>

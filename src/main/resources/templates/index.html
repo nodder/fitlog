@@ -17,6 +17,14 @@
     <script type="text/javascript" src="/js/fitlog-echarts.js"></script>
 
     <style>
+        /*解决移动端访问时可以页面左右滑动的问题。html和body中的overflow-x属性必须同时设置！*/
+        html{
+            overflow-x: hidden;
+        }
+        body {
+            overflow-x: hidden;
+        }
+
         /*模态框从下往上弹出效果 https://blog.csdn.net/weixin_44267378/article/details/104017049*/
         #operModal {
             top: auto;
@@ -24,6 +32,17 @@
 
         #addFitLog {
             top: auto;
+        }
+
+        #versionModal {
+            top: auto;
+        }
+
+        .line-sep {
+            /*margin-top: 1px;*/
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
         }
 
         .m-top-s {
@@ -83,12 +102,13 @@
     <!-- 标题 -->
     <div class="row">
         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a"></div>
-        <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-center a" style="font-size: 24px">囚徒健身Plus<span class="light-gray" id="version"></span></div>
+        <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-center a" style="font-size: 24px">囚徒健身Plus
+            <span class="light-gray border: none; "  data-toggle="modal" data-target="#versionModal" id="version" onclick="queryVersions()"></span></div>
         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a" style="font-size: 32px; color:#06f;" data-toggle="modal" data-target="#myModal" onclick="queryRecently()">+</div>
     </div>
 
     <!-- Tab-->
-    <ul class="nav nav-tabs nav-pills" style="border-top:1px solid #ddd;" role="tablist">
+    <ul class="nav nav-tabs nav-pills" style="border-top:1px solid #ddd;" role="tablist" id="mytab">
         <li role="presentation" class="m-right25 active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab" onclick="clickAll()">全部</a></li>
         <li role="presentation" class="m-right25"><a href="#daily" aria-controls="daily" role="tab" data-toggle="tab" onclick="clickDaily()">日</a></li>
         <li role="presentation" class="m-right25"><a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab" onclick="clickWeekly()">星期</a></li>
@@ -216,7 +236,7 @@
                              onclick="fillByNextDate()">>>
                         </div>
                         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a" style="font-size: 30px; color:#2747e4;margin-top: -8px;"
-                             data-toggle="modal" data-target="#addFitLog" onclick="addSingleLog()">+</div>
+                             onclick="addSingleLog()">+</div>
                         <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-center a" style="font-size: 18px; margin-top: 3px;padding-left: 0px; font-color: #06f; text-align: left;"
                              data-toggle="modal" data-dismiss="modal" onclick = "closeMyModal()">X</div>
                     </div>
@@ -315,6 +335,29 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="versionModal" tabindex="-5" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" >
+                <div class="modal-footer">
+                    <div>
+                        <div class="text-center line-sep"><b>版本更新记录</b>
+                            <span><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></span>
+                        </div>
+
+                        <div style="text-align: left" id="versionModal-content" >NA
+<!--                            <b>v1.2.1 2020-2-10</b>-->
+<!--                            <div class="line-sep">解决移动端访问时可以页面左右滑动的问题</div>-->
+
+<!--                            <b>v1.2.0 2020-2-</b>-->
+<!--                            <div class="line-sep">解决移动端访问时可以页面左右滑动的问题</div></div>-->
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 </div>
 
 <script type="text/javascript">
@@ -372,7 +415,9 @@
 
     function fillByNextDate() {
         var newDate = dateDiff(document.getElementById("selectDate").innerText, +1)
-        if(new Date(unformatDate(newDate)) <= new Date()) {//是否小于今日
+        //是否小于今
+        //今日的写法是为了解决东八区时区问题。直接new Date()会以现在时间作为基准。而现在的写法是以当天的8点作为基准（等号左右都是8点，所以是一致的）
+        if(new Date(unformatDate(newDate)) <= new Date(unformatDate(formatDate(new Date())))) {
             fillInDateLog(newDate);
         }
 
@@ -434,6 +479,40 @@
         return result;
     }
 
+    /***********************************************************/
+    function queryVersions() {
+        var info = ajax_post("get/versions");
+
+
+        document.getElementById("versionModal-content").innerHTML = assembleVersions(info.versions)
+
+        function assembleVersions(versions) {
+            var html = ""
+            for (var i = 0; i < versions.length; i++) {
+                html += "                            <div style='font-weight: bold'>" + formatDate(versions[i].versionDate) + "  v" + versions[i].version + "</div>\n" +
+                    "                            <div class=\"line-sep\">" + versions[i].content + "</div>\n"
+            }
+            return html;
+        }
+    }
+
+    /***********************************************************/
+    function queryRecently() {
+        var recentlyInfo = ajax_post("get/recently");
+
+        recentLogs.ori = recentlyInfo.ori
+
+        if(recentlyInfo.ori.length > 0) {
+            recentLogs.start = recentlyInfo.ori[recentlyInfo.ori.length - 1].fitDate
+            recentLogs.end = recentlyInfo.ori[0].fitDate
+        }
+
+        updateByRecentLogs();
+
+        fillByCurrentDate()
+        fillInFigLogSelection()
+    }
+
    /**********************************************/
     function clickAll() {
         var data = [];
@@ -483,8 +562,8 @@
             tempHtmpContent += "</div>"
 
             var fontCss = isWorkout ? "light-blue" : "";
-            var progress = typeAndProgress[arrTypes[i]] ? typeAndProgress[arrTypes[i]] + '%' : '...'
-            var color = typeAndProgress[arrTypes[i]] ? gradientColorArr[typeAndProgress[arrTypes[i]]] : 'gray'
+            var progress = typeAndProgress ? (typeAndProgress[arrTypes[i]] ? typeAndProgress[arrTypes[i]] + '%' : '...') : '...'
+            var color = typeAndProgress ? (typeAndProgress[arrTypes[i]] ? gradientColorArr[typeAndProgress[arrTypes[i]]] : 'gray' ) : 'gray'
 
             tempHtmpHead = "<div><button type=\"button\" class=\"btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " + fontCss + "\"\n" +
                 "                style=\"background-color: white; outline-color: #f1d6bb; font-size: 18px;\"\n" +
@@ -636,7 +715,7 @@
         document.getElementById('recently').innerHTML = assembleHtml4DailyLogDetailsWithEdit(recentLogs.ori)
 
         //补充最新用户操作数据
-        for (var i = recentLogs.ori.length - 1; i >= 0; i--) {
+        for (var i = 0; i < recentLogs.ori.length; i++) {
             var fitLog = recentLogs.ori[i]
             updateUserLastOper(fitLog);
         }
@@ -663,12 +742,20 @@
     function closeMyModal() {
         $('#operModal').modal('hide')
         $('#addFitLog').modal('hide')
+
+        var tabs = document.getElementById('mytab').children
+        for (var i = 0; i < tabs.length; i++) {
+            if(tabs[i].className.includes("active")) {
+                tabs[i].children[0].onclick()
+            }
+        }
     }
 
     function addSingleLog(e) {
         $('#operModal').modal('hide')
         $('#deleteFitLogBtn').css("visibility","hidden")
         $('#updateFitLogBtn').hide()
+        $('#addFitLog').modal('show')
         $('#addFitLogBtn').show()
     }
 

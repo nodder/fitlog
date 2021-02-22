@@ -3,6 +3,7 @@ package name.cdd.product.fitlog.dao;
 import name.cdd.product.fitlog.pojo.FitDailyLog;
 import name.cdd.product.fitlog.pojo.FitStar;
 import name.cdd.product.fitlog.pojo.FitType;
+import name.cdd.product.fitlog.pojo.Version;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -129,4 +130,6 @@ public interface FitDao {
     List<FitStar> queryAllStar1();
     List<FitStar> queryAllStar2();
     List<FitStar> queryAllStar3();
+
+    List<Version> queryVersions();
 }

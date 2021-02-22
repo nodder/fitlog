@@ -28,6 +28,26 @@ CREATE TABLE fit_daily_log (
 
 describe fit_daily_log;
 
+
+drop table versions;
+CREATE TABLE versions (
+   id INT NOT NULL auto_increment,
+   version VARCHAR(64) NOT NULL, 
+   version_date DATE  NOT NULL,
+   content VARCHAR(64) NOT NULL
+   PRIMARY KEY (`id`),
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--版本：
+ALTER TABLE tbl AUTO_INCREMENT = 1; 
+
+
+insert into versions (version, version_date, content) values ("1.0", "2021-02-15", "初始版本")
+insert into versions (version, version_date, content) values ("1.2", "2021-02-18", "新增历史进度达标展示；按类别统计当前进度；按时间维度统计组数、次数功能")
+insert into versions (version, version_date, content) values ("1.2.1", "2021-02-19", "新增版本记录；解决移动端访问时页面左右滑动无法固定的问题；")
+
+
+
 --插入模拟数据！！！！！！!!!不准确！！！！！！！！
 !!!!!insert into fit_type (id, type, subtype, weight, groups_s1, times_s1, groups_s2, times_s2, groups_s3, times_s3) values(1, '桥', '短桥', 1, 1, 10, 2, 25, 3, 50);
 insert into fit_type (id, type, subtype, weight, groups_s1, times_s1, groups_s2, times_s2, groups_s3, times_s3) values(2, '桥', '直桥', 2, 1, 10, 2, 20, 3, 40);

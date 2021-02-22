@@ -6,6 +6,7 @@ import name.cdd.product.fitlog.dao.FitDao;
 import name.cdd.product.fitlog.pojo.FitDailyLog;
 import name.cdd.product.fitlog.pojo.FitStar;
 import name.cdd.product.fitlog.pojo.FitType;
+import name.cdd.product.fitlog.pojo.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -113,47 +114,6 @@ public class FitService {
         return (star1.getFitDate().getTime() - star2.getFitDate().getTime()) > 0 ? 1 : -1;
     }
 
-
-//    public List<FitStar> queryAchievements()  {
-//        List<FitType> fitTypes = cache.getAllFitTypes();
-//
-//        List<FitStar> allAchievements = Lists.newArrayList();
-//        for (int i = 0; i < fitTypes.size(); i++) {
-//            FitType t = fitTypes.get(i);
-//            addAchivements(allAchievements, t);
-//        }
-//
-//        allAchievements.sort((star1, star2) -> compareByDate(star1, star2));
-//        return allAchievements;
-//    }
-//
-//    private int compareByDate(FitStar star1, FitStar star2) {
-//        return (star1.getFitDate().getTime() - star2.getFitDate().getTime()) > 0 ? 1 : -1;
-//    }
-//
-//    private void addAchivements(List<FitStar> allAchievements, FitType t) {
-//        List<FitStar> star = dao.queryFirstAchievedDateLog(t.getId(), t.getGroupsS1(), t.getTimesS1(), t.getGroupsS2(), t.getTimesS2());
-//
-//        if(!star.isEmpty()){
-//            star.get(0).setStars(1);
-//            allAchievements.add(star.get(0));
-//        }
-//
-//        star = dao.queryFirstAchievedDateLog(t.getId(), t.getGroupsS2(), t.getTimesS2(), t.getGroupsS3(), t.getTimesS3());
-//
-//        if(!star.isEmpty()){
-//            star.get(0).setStars(2);
-//            allAchievements.add(star.get(0));
-//        }
-//
-//        star = dao.queryFirstAchievedDateLog(t.getId(), t.getGroupsS3(), t.getTimesS3(), null, null);
-//
-//        if(!star.isEmpty()){
-//            star.get(0).setStars(3);
-//            allAchievements.add(star.get(0));
-//        }
-//    }
-
     public List<FitDailyLog> queryStatsDailyLogsBySubtype()  {
         return dao.queryStatsDailyLogsBySubtype();
     };
@@ -163,4 +123,8 @@ public class FitService {
     public List<FitDailyLog> queryStatsMonthlyLogsBySutype()  {
         return dao.queryStatsMonthlyLogsBySutype();
     };
+
+    public List<Version> queryVersions() {
+        return dao.queryVersions();
+    }
 }

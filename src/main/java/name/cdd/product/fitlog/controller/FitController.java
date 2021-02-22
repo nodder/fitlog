@@ -8,6 +8,7 @@ import name.cdd.product.fitlog.config.Cache;
 import name.cdd.product.fitlog.pojo.FitDailyLog;
 import name.cdd.product.fitlog.pojo.FitStar;
 import name.cdd.product.fitlog.pojo.FitType;
+import name.cdd.product.fitlog.pojo.Version;
 import name.cdd.product.fitlog.service.AchieveProgress;
 import name.cdd.product.fitlog.service.FitService;
 import org.apache.ibatis.annotations.Param;
@@ -39,6 +40,16 @@ public class FitController {
     public List<FitType> refresh() {
         cache.refresh();
         return cache.getAllFitTypes();
+    }
+
+    @PostMapping("/get/versions")
+    public Map<String, Object> queryVersions() {
+        List<Version> versions = fitServer.queryVersions();
+
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("versions", versions);
+
+        return map;
     }
 
     @PostMapping("/get/all")
