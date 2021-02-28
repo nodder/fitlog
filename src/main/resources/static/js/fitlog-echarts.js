@@ -24,6 +24,7 @@ function paintBar(element, xData, seriesData, callback){
             z: 10
         },
         yAxis: {
+            max: 'dataMax',
             axisLine: {
                 show: false
             },

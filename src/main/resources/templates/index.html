@@ -367,12 +367,11 @@
     var arrTypes = []
     var subTypeMaps = {}
     var recentLogs = {}
-    var gradientColorArr = gradientColors('#f00', '#eb1', 26).concat(gradientColors('#eb1', '#01f', 25))
-        .concat(gradientColors('#01f', '#388', 10)).concat(gradientColors('#388', '#1f1', 40))
+    // var gradientColorArr = gradientColors('#f00', '#eb1', 26).concat(gradientColors('#eb1', '#01f', 25))
+    //     .concat(gradientColors('#01f', '#388', 10)).concat(gradientColors('#388', '#1f1', 40))
 
-        // gradientColors('#c11', '#04f', 31).concat(gradientColors('#04f', '#388', 30))
-        //           .concat(gradientColors('#eb1', '#4c4', 40)).concat(gradientColors('#388', '#4c4', 40))
-
+    var gradientColorArr = gradientColors('#f00', '#eb1', 60).concat(gradientColors('#eb1', '#01f', 10))
+        .concat(gradientColors('#01f', '#388', 10)).concat(gradientColors('#388', '#1f1', 31))
 
      //对于每个type，记住上一次用户选择子类型、组数和次数
     //示例：{"引体向上": {"subType": "窄距引体向上", "groups": "5", "times": "77"}, "深蹲": {"subType": "单腿辅助深蹲", "groups": "4", "times": "44"}}
