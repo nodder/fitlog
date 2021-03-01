@@ -4,6 +4,7 @@ package name.cdd.product.fitlog.controller;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import lombok.val;
 import name.cdd.product.fitlog.config.Cache;
 import name.cdd.product.fitlog.pojo.FitDailyLog;
 import name.cdd.product.fitlog.pojo.FitStar;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,7 +80,9 @@ public class FitController {
         List<FitDailyLog> stats = fitServer.queryStatsDailyLogs();
 
         List<FitDailyLog> ori = fitServer.queryOriginalDailyLogs();
-        Map<String, List<FitDailyLog>> day_to_ori =  Maps.newHashMap();
+//        Map<String, List<FitDailyLog>> day_to_ori =  Maps.newHashMap();
+        val day_to_ori = new HashMap<String, List<FitDailyLog>>();
+
         for (FitDailyLog log : ori) {
             if(!day_to_ori.containsKey(log.getFitDate().toString())) {
                 day_to_ori.put(log.getFitDate().toString(), Lists.newArrayList());
