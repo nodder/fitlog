@@ -121,7 +121,7 @@ function paintPie(element, data1){
                         //自定义每个扇区的颜色
                         var colorList = [
                             '#ff7c1e', '#3df249', '#e11111','#29e7e2',
-                            '#4664ff', '#cf28da', '#fac858', '#91cc75',
+                            '#4664ff', '#cf28da', '#91cc75', '#fac858',
                             '#ee6666', '#73c0de', '#9a60b4', '#5470c6',
                             '#1f7a56', '#ea7ccc', '#ef8f00', '#ddff84',
                             '#ffeb10', '#a2cdff', '#ff529f', '#aa932b',

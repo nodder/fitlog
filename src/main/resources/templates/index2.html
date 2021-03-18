@@ -25,13 +25,6 @@
             overflow-x: hidden;
         }
 
-        .fix-header {
-            position: fixed;
-            background-color: white;
-            z-index: 3;
-            width: 100%;
-        }
-
         /*模态框从下往上弹出效果 https://blog.csdn.net/weixin_44267378/article/details/104017049*/
         #operModal {
             top: auto;
@@ -106,26 +99,23 @@
 </head>
 <body>
 <div>
-
-    <div class="fix-header">
-        <!-- 标题 -->
-        <div class="row">
-            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a"></div>
-            <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-center a" style="font-size: 24px">囚徒健身Plus
-                <span class="light-gray border: none; "  data-toggle="modal" data-target="#versionModal" id="version" onclick="queryVersions()"></span></div>
-            <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a" style="font-size: 32px; color:#06f;" data-toggle="modal" data-target="#myModal" onclick="queryRecently()">+</div>
-        </div>
-
-        <!-- Tab-->
-        <ul class="nav nav-tabs nav-pills" style="border-top:1px solid #ddd;" role="tablist" id="mytab">
-            <li role="presentation" class="m-right25 active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab" onclick="clickAll()">全部</a></li>
-            <li role="presentation" class="m-right25"><a href="#daily" aria-controls="daily" role="tab" data-toggle="tab" onclick="clickDaily()">日</a></li>
-            <li role="presentation" class="m-right25"><a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab" onclick="clickWeekly()">星期</a></li>
-            <li role="presentation" class="m-right25"><a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab"onclick="clickMonthly()">月</a></li>
-        </ul>
+    <!-- 标题 -->
+    <div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a"></div>
+        <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 text-center a" style="font-size: 24px">囚徒健身Plus
+            <span class="light-gray border: none; "  data-toggle="modal" data-target="#versionModal" id="version" onclick="queryVersions()"></span></div>
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-center a" style="font-size: 32px; color:#06f;" data-toggle="modal" data-target="#myModal" onclick="queryRecently()">+</div>
     </div>
 
-   <div class="tab-content" style="margin-bottom: 8px;padding-top: 14%;">
+    <!-- Tab-->
+    <ul class="nav nav-tabs nav-pills" style="border-top:1px solid #ddd;" role="tablist" id="mytab">
+        <li role="presentation" class="m-right25 active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab" onclick="clickAll()">全部</a></li>
+        <li role="presentation" class="m-right25"><a href="#daily" aria-controls="daily" role="tab" data-toggle="tab" onclick="clickDaily()">日</a></li>
+        <li role="presentation" class="m-right25"><a href="#weekly" aria-controls="weekly" role="tab" data-toggle="tab" onclick="clickWeekly()">星期</a></li>
+        <li role="presentation" class="m-right25"><a href="#monthly" aria-controls="monthly" role="tab" data-toggle="tab"onclick="clickMonthly()">月</a></li>
+    </ul>
+
+   <div class="tab-content" style="margin-bottom: 8px;">
         <div role="tabpanel" class="tab-pane active" id="all">
             <div id="all1" style="height:360px;"></div>
 
@@ -547,15 +537,6 @@
             var tempHtmpHead = ""
             var isWorkout = false;
 
-            //计算分类总分
-            var typeLogs = allTypeDetails.filter(function (log) {
-                return log.type == arrTypes[i];
-            });
-            var typeScores = 0
-            for (var j = 0; j < typeLogs.length; j++) {
-                typeScores += typeLogs[j].scores
-            }
-
             var tempHtmpContent = "<div class=\"bottom-line collapse\" id = \"" + arrTypes[i] + "\" style=\"margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;\">\n"
             for(var j = 0; j < subTypeMaps[arrTypes[i]].length; j++) {
                 var subType = subTypeMaps[arrTypes[i]][j];
@@ -580,9 +561,8 @@
             tempHtmpContent += "</div>"
 
             var fontCss = isWorkout ? "light-blue" : "";
-            var color = typeAndProgress ? (typeAndProgress[arrTypes[i]] ? gradientColorArr[typeAndProgress[arrTypes[i]]] : '#2747e4' ) : '#2747e4'
-
-            var progress = typeAndProgress ? (typeAndProgress[arrTypes[i]] ? typeAndProgress[arrTypes[i]] + '%' : '...') : typeScores
+            var progress = typeAndProgress ? (typeAndProgress[arrTypes[i]] ? typeAndProgress[arrTypes[i]] + '%' : '...') : '...'
+            var color = typeAndProgress ? (typeAndProgress[arrTypes[i]] ? gradientColorArr[typeAndProgress[arrTypes[i]]] : 'gray' ) : 'gray'
 
             tempHtmpHead = "<div><button type=\"button\" class=\"btn col-md-12 col-lg-12 col-sm-12 col-xs-12 text-right bottom-line " + fontCss + "\"\n" +
                 "                style=\"background-color: white; outline-color: #f1d6bb; font-size: 18px;\"\n" +

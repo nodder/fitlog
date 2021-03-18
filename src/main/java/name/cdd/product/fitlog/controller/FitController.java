@@ -209,7 +209,7 @@ public class FitController {
         Map<String, Object> result = Maps.newHashMap();
        /////////////////////
         List<FitType> allTypes = fitServer.queryFitTypes();
-        Set<String> types = Sets.newHashSet();
+        Set<String> types = Sets.newLinkedHashSet();
         Map<String, List<String>> type_to_subTypes =  Maps.newHashMap();
         for(FitType t : allTypes){
             if(!type_to_subTypes.containsKey(t.getType())) {
