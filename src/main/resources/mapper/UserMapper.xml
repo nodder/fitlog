@@ -30,6 +30,9 @@
         select count(distinct(d.fit_date)) as dates,sum(d.groups) as groups,
         sum(d.groups * d.times) as times, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
         from fit_daily_log d left join fit_type t on d.subtype_id=t.id
+        <if test='sinceDate != null and sinceDate != ""'>
+            where d.fit_date >= #{sinceDate}
+        </if>
     </select>
 
     <!--    全部  子种类的组数和次数-->
@@ -43,7 +46,11 @@
 
 <!--    全部-饼图-->
     <select id="queryScoresByType" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
-        select t.type, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type order by scores desc
+        select t.type, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id
+        <if test='sinceDate != null and sinceDate != ""'>
+            where d.fit_date >= #{sinceDate}
+        </if>
+        group by t.type order by scores desc
     </select>
 
 <!--    每天总组数、次数、分数、天数-->

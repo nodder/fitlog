@@ -127,10 +127,14 @@
 
    <div class="tab-content" style="margin-bottom: 8px;padding-top: 14%;">
         <div role="tabpanel" class="tab-pane active" id="all">
-            <div id="all1" style="height:360px;"></div>
+            <div id="all1" style="height:360px"></div>
 
             <div class="row">
-                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center h2"  id="allScores">NA</div>
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4"></div>
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center h2" style="padding: 0" id="allScores">NA</div>
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center">
+                    <button id="pieBtn" onclick="onChangeTime4Pie()"></button>
+                </div>
 
             </div>
 
@@ -377,6 +381,7 @@
     var arrTypes = []
     var subTypeMaps = {}
     var recentLogs = {}
+    var colorMap = {} //new Array效果相同
     // var gradientColorArr = gradientColors('#f00', '#eb1', 26).concat(gradientColors('#eb1', '#01f', 25))
     //     .concat(gradientColors('#01f', '#388', 10)).concat(gradientColors('#388', '#1f1', 40))
 
@@ -405,12 +410,31 @@
         var info = ajax_post("get/base")
         arrTypes = info.types;
         subTypeMaps = info.type_to_subtypes
-        // fillInFigLogSelection()
+
+        colorMap = initColorMap()
 
         document.getElementById("version").innerText = " v" + info.version
 
         clickAll();
-    });
+    })
+
+    function initColorMap() {
+        var colorList = [
+            '#29e7e2', '#cf28da', '#3df249', '#e11111',
+            '#4664ff', '#ff7c1e', '#ddff84', '#5a4b7b',
+            '#fac858', '#73c0de', '#9a60b4', '#1f7a56',
+            '#5470c6', '#ea7ccc', '#ef8f00', '#91cc75',
+            '#ffeb10', '#a2cdff', '#ff529f', '#aa932b',
+            '#ee6666', '#3ba272', '#ffcfce', '#f0fff4'
+        ];
+
+        var colorMap = new Array
+        for (var i = 0; i < arrTypes.length; i++) {
+            colorMap[arrTypes[i]] = colorList[i]
+        }
+
+        return colorMap
+    }
 
     function fillByCurrentDate() {
         var newDate = formatDate(new Date())
@@ -524,18 +548,10 @@
 
    /**********************************************/
     function clickAll() {
-        var data = [];
+        document.getElementById('pieBtn').innerText = ''
+        onChangeTime4Pie()
+
         var allInfo = ajax_post("get/all");
-
-        for(var i = 0; i < allInfo.typeAndScore.length; i++) {
-            data.push({"value": allInfo.typeAndScore[i].scores, "name": allInfo.typeAndScore[i].type});
-        }
-        paintPie(document.getElementById('all1'), data)
-
-        document.getElementById('allScores').innerHTML = allInfo.allSummary.scores + fen();
-        document.getElementById('allDays').innerHTML = allInfo.allSummary.dates;
-        document.getElementById('allGroups').innerHTML = allInfo.allSummary.groups;
-        document.getElementById('allTimes').innerHTML = allInfo.allSummary.times;
 
         document.getElementById('allTypeDetails').innerHTML = assmebleHtml4TypeDetails(allInfo.statsBySubtype, allInfo.typeAndProgress);
         document.getElementById('allAchievements').innerHTML = assmebleHtml4Achievements(allInfo.achievements);
@@ -622,6 +638,29 @@
 
     function fen() {
         return "<span class=\"light-gray\">分</span>"
+    }
+
+    function onChangeTime4Pie() {
+        var dateArr = [{"text": "全部",  "diff": ""}, {"text": "最近一月",  "diff": "1m"}, {"text": "最近三月",  "diff": "3m"}]
+        var curIndex = dateArr.findIndex(x => x.text == document.getElementById('pieBtn').innerText)
+        var nextIndex = (curIndex + 1) % dateArr.length
+
+        var nextDateDiff = dateArr[nextIndex].diff;
+        var allInfo = ajax_post("get/typeDetails", {"diff": nextDateDiff});
+
+        var data = [];
+
+        for(var i = 0; i < allInfo.typeAndScore.length; i++) {
+            data.push({"value": allInfo.typeAndScore[i].scores, "name": allInfo.typeAndScore[i].type, itemStyle: { color: colorMap[allInfo.typeAndScore[i].type]}});
+        }
+        paintPie(document.getElementById('all1'), data)
+
+        document.getElementById('allScores').innerHTML = allInfo.allSummary.scores + fen();
+        document.getElementById('allDays').innerHTML = allInfo.allSummary.dates;
+        document.getElementById('allGroups').innerHTML = allInfo.allSummary.groups;
+        document.getElementById('allTimes').innerHTML = allInfo.allSummary.times;
+
+        document.getElementById('pieBtn').innerText = dateArr[nextIndex].text //extra!
     }
 
     /***********************************************************/

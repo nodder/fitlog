@@ -22,12 +22,20 @@ public class FitService {
     @Autowired
     Cache cache;
 
+    public FitDailyLog queryFitSummary(String sinceDate) {
+        return dao.queryFitSummary(sinceDate).get(0);
+    }
+
     public FitDailyLog queryFitSummary() {
-        return dao.queryFitSummary().get(0);
+        return queryFitSummary(null);
+    }
+
+    public List<FitDailyLog> queryScoresByType(String sinceDate) {
+        return dao.queryScoresByType(sinceDate);
     }
 
     public List<FitDailyLog> queryScoresByType() {
-        return dao.queryScoresByType();
+        return queryScoresByType(null);
     }
 
     public List<FitDailyLog> queryOriginalDailyLogs() {

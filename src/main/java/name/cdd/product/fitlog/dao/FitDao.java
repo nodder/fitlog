@@ -57,11 +57,11 @@ public interface FitDao {
 
     //全部-总计 天数 组数 次数 分数
 //    @Select("select count(distinct(d.fit_date)) as dates,sum(d.groups) as groups, sum(d.times) as times, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id")
-    List<FitDailyLog> queryFitSummary();
+    List<FitDailyLog> queryFitSummary(@Param(value="sinceDate") String sinceDate);
 
     //全部-饼图
 //    @Select("select t.type, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id group by t.type")
-    List<FitDailyLog> queryScoresByType();
+    List<FitDailyLog> queryScoresByType(@Param(value="sinceDate") String sinceDate);
 
     //每天总组数、次数、分数、天数
 //    @Select("select d.fit_date as fitDate, \n" +

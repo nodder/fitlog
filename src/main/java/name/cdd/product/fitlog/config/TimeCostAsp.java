@@ -17,7 +17,6 @@ public class TimeCostAsp {
     @Around("execution(* name.cdd.product.fitlog.service.*.*(..))")
     public Object run1(ProceedingJoinPoint joinPoint) throws Throwable {
         TimeCost tc = new TimeCost().start();
-
         Object[] args = joinPoint.getArgs();
         Object result = joinPoint.proceed(args);
 

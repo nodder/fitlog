@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,20 +61,32 @@ public class FitController {
 
     @PostMapping("/get/all")
     public Map<String, Object> queryAllInfo() {
-        FitDailyLog summary = fitServer.queryFitSummary();
-        List<FitDailyLog> typeAndScore = fitServer.queryScoresByType();
+//        FitDailyLog summary = fitServer.queryFitSummary();
+//        List<FitDailyLog> typeAndScore = fitServer.queryScoresByType();
         List<FitDailyLog> statsBySubtype = fitServer.queryFitSummaryBySubtype();
         List<FitStar> achievements = fitServer.queryAchievements();
 
         Map<String, Integer> typeAndProgress = progress.progress(achievements);
 
         Map<String, Object> map = Maps.newHashMap();
-        map.put("allSummary", summary);
-        map.put("typeAndScore", typeAndScore);
+//        map.put("allSummary", summary);
+//        map.put("typeAndScore", typeAndScore);
         map.put("statsBySubtype", statsBySubtype);
         map.put("achievements", achievements);
         map.put("typeAndProgress", typeAndProgress);
 
+        return map;
+    }
+
+    @PostMapping("/get/typeDetails")
+    public Map<String, Object> queryTypeDetailsSince(@Param("diff") String diff) {
+        String sinceDate = parseDate(diff);
+        FitDailyLog summary = fitServer.queryFitSummary(sinceDate);
+        List<FitDailyLog> typeAndScore = fitServer.queryScoresByType(sinceDate);
+
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("allSummary", summary);
+        map.put("typeAndScore", typeAndScore);
         return map;
     }
 
@@ -228,4 +245,19 @@ public class FitController {
     private void fillSubtypeId(FitDailyLog log) {
         log.setSubtypeId(cache.getSubtypeId(log.getSubType()));
     }
+
+    private static String parseDate(String dateDiff) {
+        if(dateDiff.isEmpty()) {
+            return null;
+        }
+        int monthDiff = Integer.parseInt(dateDiff.substring(0, dateDiff.length() - 1));
+        return LocalDate.now().minus(monthDiff, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+//
+//    public static void main(String[] args) {
+//        String result = parseDate("0");
+//        System.out.println(result);
+//        result = parseDate("7m");
+//        System.out.println(result);
+//    }
 }
