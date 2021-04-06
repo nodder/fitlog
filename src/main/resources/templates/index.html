@@ -84,6 +84,11 @@
             color: gray;
         }
 
+        .small-font {
+            font-size: 13px;
+            color: gray;
+        }
+
         .light-blue {
             font-size: 14px;
             color: #2747e4;
@@ -130,9 +135,9 @@
             <div id="all1" style="height:360px"></div>
 
             <div class="row">
-                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4"></div>
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-left light-gray small-font" style="padding-left: 25px; margin-top: 12px" id="allStartDate"></div>
                 <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center h2" style="padding: 0" id="allScores">NA</div>
-                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center">
+                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 text-center" style="margin-top: 15px" >
                     <button id="pieBtn" onclick="onChangeTime4Pie()"></button>
                 </div>
 
@@ -151,7 +156,9 @@
 
             <div class="row" id="allTypeDetails"></div>
 
-            <div class="row" id="allAchievements" style="margin-left: 6px;margin-top: 10px;"></div>
+            <div style="border-top: 1px solid #e5e5e5; padding-top: 15px;" id="phases"></div>
+
+            <div class="row" id="allAchievements" style="margin-left: 6px;margin-top: 10px;border-top: 1px solid #e5e5e5; padding-top: 15px;"></div>
 
         </div>
 
@@ -255,10 +262,11 @@
                              data-toggle="modal" data-dismiss="modal" onclick = "closeMyModal()">X</div>
                     </div>
 
-                    <div class="row" style="margin-bottom: 10px; padding-right: 9px;">
+                    <div class="row" style="margin-bottom: 10px; padding-right: 25px;">
                         <div class="col-md-9 col-lg-9 col-sm-9 col-xs-9 text-left mid-font-size" >运动记录</div>
                         <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right mid-font-size">组</div>
-                        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 text-right mid-font-size">次</div>
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right mid-font-size">次</div>
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right mid-font-size">负</div>
                     </div>
 
 
@@ -307,6 +315,9 @@
                     <button class="btn btn-default col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" data-dismiss="modal"
                             style="border: none; color: #d86421; font-size: 15px;"
                             type="button" id="deleteFitLogBtn" onclick="onDeleteFitLog()">删除</button>
+                    <button class="btn btn-default col-md-6 col-lg-6 col-sm-6 col-xs-6 text-center a" data-dismiss="modal"
+                            style="border: none; color: #d86421; font-size: 15px;"
+                            type="button" id="addLastFitLogBtn" onclick="onAddLastFitLog()">插入上次</button>
 
                     <button class="btn btn-default col-md-3 col-lg-3 col-sm-3 col-xs-3 text-left a" data-dismiss="modal"
                             style="border: none; color: #06f; font-size: 15px;"
@@ -317,29 +328,35 @@
                 </div>
 
                 <div class="modal-footer">
-                    <div class="row" style="height: 120px; margin-right: 8px;">
+                    <div class="row" style="height: 120px; padding-right: 15px;">
                         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
                             <form action="">
-                                <select id="types" style="border: none;font-size: 13px;"
+                                <select id="types" style="border: none;font-size: 11px;"
                                         onchange="onTypeChange(this.options[this.options.selectedIndex].text)">
                                 </select>
                             </form>
                         </div>
-                        <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
                             <form action="">
-                                <select id="subTypes" style="border: none;font-size: 13px;"
+                                <select id="subTypes" style="border: none;font-size: 11px;"
                                         onchange="onSubTypeChange(this.options[this.options.selectedIndex].text)">
                                 </select>
                             </form>
                         </div>
                         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
                             <form action="">
-                                <select id="groups" style="border: none;font-size: 13px;"></select>
+                                <select id="groups" style="border: none;font-size: 11px;"></select>
                             </form>
                         </div>
                         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
                             <form action="">
-                                <select id="times" style="border: none;font-size: 13px;"></select>
+                                <select id="times" style="border: none;font-size: 11px;"></select>
+                            </form>
+                        </div>
+
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
+                            <form action="">
+                                <select id="load" style="border: none;font-size: 11px;"></select>
                             </form>
                         </div>
 
@@ -351,11 +368,11 @@
     </div>
 
     <div class="modal fade" id="versionModal" tabindex="-5" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="height: 400px">
             <div class="modal-content" >
                 <div class="modal-footer">
                     <div>
-                        <div class="text-center line-sep"><b>版本更新记录</b>
+                        <div class="text-center line-sep"><b>【版本更新记录】</b>
                             <span><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></span>
                         </div>
 
@@ -378,6 +395,8 @@
     // document.getElementById("modal-content").style.height = window.screen.height + "px"
     var arrTimes = []
     var arrGroups = []
+    var arrload = []
+    var arrLoadMaps = {} //TODO
     var arrTypes = []
     var subTypeMaps = {}
     var recentLogs = {}
@@ -394,6 +413,8 @@
     //示例：{"单臂引体向上": {"groups": "12", "times": "102"}, "垂直引体": {"groups": "13", "times": "104"}}
     var lastOper_by_subtype = {}
 
+    var recents = []
+
     $(function() {
         console.log("screen.width:" + window.screen.width + "px")
         document.getElementById("all1").style.width = window.screen.width + "px"
@@ -404,28 +425,70 @@
         document.getElementById("selectDate").innerText = formatDate(new Date())
 
         /*填充编辑运动下拉框*/
-        arrTimes = range(1, 500)
+        arrTimes = range(1, 300)
         arrGroups = range(1, 200)
 
         var info = ajax_post("get/base")
         arrTypes = info.types;
         subTypeMaps = info.type_to_subtypes
+        arrLoadMaps = initLoadMaps(info.subtypes)
 
         colorMap = initColorMap()
+        recents = info.recents
 
         document.getElementById("version").innerText = " v" + info.version
 
         clickAll();
     })
 
+    function initLoadMaps(subTypes) {
+        var defaultLoadArr = range(0, 50)
+        var result = {}
+
+        for(var i = 0; i < subTypes.length; i++) {
+            if(subTypes[i].loadP == 0){//负载计分比例为0，表示没有负载（速度）概念
+                result[subTypes[i].subtype] = [0]
+            } else if(subTypes[i].id == 104) { //TODO 如何管理跑步（计步）的负载（速度）
+                result[subTypes[i].subtype] = initRunningLoadArr(8, 16)
+            } else if(subTypes[i].loadBase > 0) { //TODO 哑铃部分  考虑合并！
+                result[subTypes[i].subtype] = range(subTypes[i].loadBase, subTypes[i].loadBase * 5, 0.5)
+            }
+            else {
+                result[subTypes[i].subtype] = defaultLoadArr
+            }
+        }
+
+        return result
+    }
+
+    function range(min, max, inc) {//TODO合并1
+        if(!inc) inc=1
+
+        var result = []
+        for(var i = min; i <= max; i=i+inc) {
+            result.push(i);
+        }
+
+        return result
+    }
+
+    function initRunningLoadArr(minInt, maxInt) {//TODO合并2
+        var result = []
+        for(var i = minInt*10; i <= maxInt*10; i++) {
+            result.push(i/10);
+        }
+
+        return result
+    }
+
     function initColorMap() {
         var colorList = [
             '#29e7e2', '#cf28da', '#3df249', '#e11111',
-            '#4664ff', '#ff7c1e', '#ddff84', '#5a4b7b',
+            '#4664ff', '#ff7c1e', '#ffae9f', '#ddff84',
             '#fac858', '#73c0de', '#9a60b4', '#1f7a56',
             '#5470c6', '#ea7ccc', '#ef8f00', '#91cc75',
-            '#ffeb10', '#a2cdff', '#ff529f', '#aa932b',
-            '#ee6666', '#3ba272', '#ffcfce', '#f0fff4'
+            '#ffeb10', '#a2cdff', '#ff529f', '#5a4b7b',
+            '#aa932b', '#3ba272', '#ffcfce', '#f0fff4'
         ];
 
         var colorMap = new Array
@@ -456,24 +519,37 @@
 
     }
 
-    function onTypeChange(type, selectedSubType, selectedGroups, selectedTimes) {
-
+    function onTypeChange(type, selectedSubType, selectedGroups, selectedTimes, selectedLoad) {
         document.getElementById('subTypes').innerHTML = assembleOptions(subTypeMaps[type]);
-        if(!selectedSubType && lastOper_by_type[type]) selectedSubType = lastOper_by_type[type].subType
-        if(!selectedGroups && lastOper_by_type[type]) selectedGroups = lastOper_by_type[type].groups
-        if(!selectedTimes && lastOper_by_type[type]) selectedTimes = lastOper_by_type[type].times
 
-        if(selectedSubType) $("#subTypes").val(selectedSubType)
-        if(selectedGroups) $("#groups").val(selectedGroups)
-        if(selectedTimes) $("#times").val(selectedTimes)
+        if(typeof(selectedSubType) == "undefined" && typeof(lastOper_by_type[type]) != "undefined") selectedSubType = lastOper_by_type[type].subType
+        if(typeof(selectedGroups) == "undefined" && typeof(lastOper_by_type[type]) != "undefined") selectedGroups = lastOper_by_type[type].groups
+        if(typeof(selectedTimes) == "undefined" && typeof(lastOper_by_type[type]) != "undefined") selectedTimes = lastOper_by_type[type].times
+        if(typeof(selectedLoad) == "undefined" && typeof(lastOper_by_type[type]) != "undefined") selectedLoad = lastOper_by_type[type].load
+
+        // if(!selectedSubType && lastOper_by_type[type]) selectedSubType = lastOper_by_type[type].subType
+        // if(!selectedGroups && lastOper_by_type[type]) selectedGroups = lastOper_by_type[type].groups
+        // if(!selectedTimes && lastOper_by_type[type]) selectedTimes = lastOper_by_type[type].times
+        // if(!selectedLoad && lastOper_by_type[type]) selectedLoad = lastOper_by_type[type].load
+
+        if(typeof(selectedSubType) != "undefined") $("#subTypes").val(selectedSubType)
+        if(typeof(selectedGroups) != "undefined") $("#groups").val(selectedGroups)
+        if(typeof(selectedTimes) != "undefined") $("#times").val(selectedTimes)
+
+        var currSelectedSubType=  $("#subTypes").val()
+        document.getElementById('load').innerHTML = assembleOptions(arrLoadMaps[currSelectedSubType]);
+        if(typeof(selectedLoad) != "undefined") $("#load").val(selectedLoad)
     }
 
     function onSubTypeChange(subType) {
+        document.getElementById('load').innerHTML = assembleOptions(arrLoadMaps[subType]);
         if(lastOper_by_subtype[subType]) {
             var selectedGroups = lastOper_by_subtype[subType].groups
             var selectedTimes = lastOper_by_subtype[subType].times
+            var selectedLoad = lastOper_by_subtype[subType].load
             $("#groups").val(selectedGroups)
             $("#times").val(selectedTimes)
+            $("#load").val(selectedLoad)
         }
     }
 
@@ -500,7 +576,7 @@
 
     function selectFigLogSelection(dailyLog) {
         $("#types").val(dailyLog.type)
-        onTypeChange(dailyLog.type, dailyLog.subType, dailyLog.groups, dailyLog.times)
+        onTypeChange(dailyLog.type, dailyLog.subType, dailyLog.groups, dailyLog.times, dailyLog.load)
         $("#id").val(dailyLog.id)
     }
 
@@ -546,15 +622,63 @@
         fillInFigLogSelection()
     }
 
-   /**********************************************/
+    function getAndPaintPieByPhase() {
+        var phaseInfo = ajax_post("get/typeDetailsByPhase");
+        document.getElementById('phases').innerHTML = assmebleHtml4Phases(phaseInfo.typeDetailsByPhase);
+
+
+        for (var i = 0; i < phaseInfo.typeDetailsByPhase.length; i++) {
+            var phase = phaseInfo.typeDetailsByPhase[i]
+
+            var data = [];
+            for (var j = 0; j < phase.typeAndScores.length; j++) {
+                data.push({
+                    "value": phase.typeAndScores[j].scores,
+                    "name": phase.typeAndScores[j].type,
+                    itemStyle: {color: colorMap[phase.typeAndScores[j].type]}
+                });
+            }
+
+            // var param = {"emphasis_formatter": "{b}:{c}", "legend_show": false, "radius" : ['60%', '90%']}
+            var param = {"legend_show": false, "radius" : ['60%', '90%']}
+            paintPie(document.getElementById('phase_pie_' + i), data, param)
+            document.getElementById('phase_period_' + i).innerText = formatDate(phase.startDate) + '~' + (phase.endDate ? formatDate(phase.endDate) : "至今")
+            document.getElementById('phase_desc_' + i).innerText = phase.shortDesc
+
+        }
+    }
+
+    /**********************************************/
     function clickAll() {
         document.getElementById('pieBtn').innerText = ''
+
         onChangeTime4Pie()
 
-        var allInfo = ajax_post("get/all");
+        // var allInfo = ajax_post("get/all");
 
-        document.getElementById('allTypeDetails').innerHTML = assmebleHtml4TypeDetails(allInfo.statsBySubtype, allInfo.typeAndProgress);
-        document.getElementById('allAchievements').innerHTML = assmebleHtml4Achievements(allInfo.achievements);
+        // document.getElementById('allTypeDetails').innerHTML = assmebleHtml4TypeDetails(allInfo.statsBySubtype, allInfo.typeAndProgress);
+        // document.getElementById('allAchievements').innerHTML = assmebleHtml4Achievements(allInfo.achievements);
+
+        //按阶段获取饼图
+        getAndPaintPieByPhase();
+    }
+
+    function assmebleHtml4Phases(typeDetailsByPhase) {
+        var innerHtml = ""
+
+        for (var i = 0; i < typeDetailsByPhase.length; i++) {
+            innerHtml += "<div class=\"row\" style=\"margin-left: 3px\">\n" +
+                "                        <div class=\"col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center light-gray\" id=\"phase_period_" + i + "\"></div>\n" +
+                "                    </div>\n" +
+                "                    <div class=\"row\" style=\"margin-left: 3px\">\n" +
+                "                        <div class=\"col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center mid-font-size\" id=\"phase_desc_" + i + "\"></div>\n" +
+                "                    </div>\n" +
+                "\n" +
+                "                    <div class=\"row\">\n" +
+                "                        <div class=\"col-md-12 col-lg-12 col-sm-12 col-xs-12\" style=\"height:250px;width:400px;\" id=\"phase_pie_" + i + "\"></div>\n" +
+                "                    </div>"
+        }
+        return innerHtml;
     }
 
     function assmebleHtml4TypeDetails(allTypeDetails, typeAndProgress) {
@@ -579,9 +703,12 @@
                     return log.subType == subType;
                 });
 
-                var logOfSubType = filteredLogs.length > 0 ? filteredLogs[0] : {"groups": 0, "times": 0}
+                var logOfSubType = filteredLogs.length > 0 ? filteredLogs[0] : {"groups": 0, "times": 0, "loadAvg": 0}
                 var fontCss = filteredLogs.length > 0 ? "light-blue" : "light-gray";
                 isWorkout = filteredLogs.length > 0 ? true : isWorkout;
+
+                var content = "累计" + logOfSubType.groups + "组，总共" + logOfSubType.times + "次"
+                content += logOfSubType.loadAvg == 0 ? "" : "，平均负载" + logOfSubType.loadAvg
 
                 tempHtmpContent += "<div class=\"row\">\n" +
                     "        <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1\"></div>\n" +
@@ -590,7 +717,7 @@
 
                 tempHtmpContent += "<div class=\"row\">\n" +
                     "        <div class=\"col-md-2 col-lg-2 col-sm-2 col-xs-2\"></div>\n" +
-                    "        <div class=\"col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left " + fontCss + "\">累计" + logOfSubType.groups + "组，总共" + logOfSubType.times + "次</div>\n" +
+                    "        <div class=\"col-md-10 col-lg-10 col-sm-10 col-xs-10 text-left " + fontCss + "\">" + content + "</div>\n" +
                     "    </div>"
             }
             tempHtmpContent += "</div>"
@@ -641,26 +768,31 @@
     }
 
     function onChangeTime4Pie() {
-        var dateArr = [{"text": "全部",  "diff": ""}, {"text": "最近一月",  "diff": "1m"}, {"text": "最近三月",  "diff": "3m"}]
-        var curIndex = dateArr.findIndex(x => x.text == document.getElementById('pieBtn').innerText)
-        var nextIndex = (curIndex + 1) % dateArr.length
+        // var dateArr = [{"text": "全部",  "diff": ""}, {"text": "最近一月",  "diff": "1m"}, {"text": "最近三月",  "diff": "3m"}]
+        var curIndex = recents.findIndex(x => x.text == document.getElementById('pieBtn').innerText)
+        var nextIndex = (curIndex + 1) % recents.length
 
-        var nextDateDiff = dateArr[nextIndex].diff;
+        var nextDateDiff = recents[nextIndex].diff;
         var allInfo = ajax_post("get/typeDetails", {"diff": nextDateDiff});
 
-        var data = [];
+        document.getElementById('allAchievements').innerHTML = assmebleHtml4Achievements(allInfo.achievements);
+        document.getElementById('allTypeDetails').innerHTML = assmebleHtml4TypeDetails(allInfo.statsBySubtype, allInfo.typeAndProgress);
 
+        var data = []
         for(var i = 0; i < allInfo.typeAndScore.length; i++) {
             data.push({"value": allInfo.typeAndScore[i].scores, "name": allInfo.typeAndScore[i].type, itemStyle: { color: colorMap[allInfo.typeAndScore[i].type]}});
         }
         paintPie(document.getElementById('all1'), data)
+
 
         document.getElementById('allScores').innerHTML = allInfo.allSummary.scores + fen();
         document.getElementById('allDays').innerHTML = allInfo.allSummary.dates;
         document.getElementById('allGroups').innerHTML = allInfo.allSummary.groups;
         document.getElementById('allTimes').innerHTML = allInfo.allSummary.times;
 
-        document.getElementById('pieBtn').innerText = dateArr[nextIndex].text //extra!
+        document.getElementById('pieBtn').innerText = recents[nextIndex].text
+        document.getElementById('allStartDate').innerHTML = recents[nextIndex].text + "</br>" + (recents[nextIndex].startDate.includes('-') ? '从' + formatDateWithoutYear(recents[nextIndex].startDate) : "")
+
     }
 
     /***********************************************************/
@@ -780,21 +912,6 @@
     }
 
     /***********************************************************/
-    function queryRecently() {
-        var recentlyInfo = ajax_post("get/recently");
-
-        recentLogs.ori = recentlyInfo.ori
-
-        if(recentlyInfo.ori.length > 0) {
-            recentLogs.start = recentlyInfo.ori[recentlyInfo.ori.length - 1].fitDate
-            recentLogs.end = recentlyInfo.ori[0].fitDate
-        }
-
-        updateByRecentLogs();
-
-        fillByCurrentDate()
-        fillInFigLogSelection()
-    }
 
     /***********************************************************/
     function closeMyModal() {
@@ -811,7 +928,9 @@
 
     function addSingleLog(e) {
         $('#operModal').modal('hide')
-        $('#deleteFitLogBtn').css("visibility","hidden")
+        $('#deleteFitLogBtn').hide()  //.css("visibility","hidden")与之不同
+        $('#addLastFitLogBtn').show()
+
         $('#updateFitLogBtn').hide()
         $('#addFitLog').modal('show')
         $('#addFitLogBtn').show()
@@ -822,8 +941,8 @@
         selectFigLogSelection(selectedLog)
         $('#operModal').modal('hide')
         $('#addFitLog').modal('show')
-
-        $('#deleteFitLogBtn').css("visibility","visible")
+        $('#deleteFitLogBtn').show()
+        $('#addLastFitLogBtn').hide()
         $('#updateFitLogBtn').show()
         $('#addFitLogBtn').hide()
     }
@@ -835,6 +954,17 @@
 
         console.log("onDeleteFitLog by id: " + JSON.stringify(dailyLog))
         var logsByDate = ajax_post("delete/single", dailyLog)
+
+        updateWhenRefreshOneDateLog(logsByDate, fitDate);
+    }
+
+    function onAddLastFitLog (){
+        var type =$("#types option:selected").val()
+        var fitDate = unformatDate(document.getElementById('selectDate').innerText);
+
+        var dailyLog = {"type": type, "fitDate": fitDate}
+        console.log("onAddLastFitLog: " + JSON.stringify(dailyLog))
+        var logsByDate = ajax_post("insert/logsWithSelectedTypesByLastData", dailyLog)
 
         updateWhenRefreshOneDateLog(logsByDate, fitDate);
     }
@@ -861,9 +991,10 @@
         var subType =$("#subTypes option:selected").val()
         var groups =$("#groups option:selected").val()
         var times =$("#times option:selected").val()
+        var load =$("#load option:selected").val()
         var fitDate = unformatDate(document.getElementById('selectDate').innerText);
 
-        var dailyLog = {"id": id, "type": type, "subType": subType, "groups": groups, "times": times, "fitDate": fitDate}
+        var dailyLog = {"id": id, "type": type, "subType": subType, "groups": groups, "times": times, "load": load, "fitDate": fitDate}
         console.log("onUpdateFitLog: " + JSON.stringify(dailyLog))
         var logsByDate = ajax_post("update/single", dailyLog)
 
@@ -875,9 +1006,10 @@
         var subType =$("#subTypes option:selected").val()
         var groups =$("#groups option:selected").val()
         var times =$("#times option:selected").val()
+        var load =$("#load option:selected").val()
         var fitDate = unformatDate(document.getElementById('selectDate').innerText);
 
-        var dailyLog = {"type": type, "subType": subType, "groups": groups, "times": times, "fitDate": fitDate}
+        var dailyLog = {"type": type, "subType": subType, "groups": groups, "times": times, "load": load, "fitDate": fitDate}
         console.log("onAddFitLog: " + JSON.stringify(dailyLog))
         var logsByDate = ajax_post("insert/single", dailyLog)
 

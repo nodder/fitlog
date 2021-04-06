@@ -92,7 +92,17 @@ function paintBar(element, xData, seriesData, callback){
     myChart.setOption(option);
 }
 
-function paintPie(element, data1){
+function paintPie(element, data1, param){
+    var emphasis_formatter = "{c}({d}%)"
+    var legend_show = true
+    var radius = ['40%', '70%']
+    if(param) {
+        if (param.emphasis_formatter) emphasis_formatter = param.emphasis_formatter
+        if (param.radius) radius = param.radius
+        legend_show = param.legend_show
+    }
+
+
     var myChart = echarts.init(element);
 
     option = {
@@ -108,13 +118,14 @@ function paintPie(element, data1){
             },
             itemWidth: 9,
             itemHeight: 6,
-            itemGap: 5
+            itemGap: 5,
+            show: legend_show
         },
         series: [
             {
                 name: '运动量',
                 type: 'pie',
-                radius: ['40%', '70%'],
+                radius: radius,
                 avoidLabelOverlap: false,
                 itemStyle: {
                     //要么在这里定义颜色，要么在data中将颜色传给itemStyle
@@ -144,7 +155,7 @@ function paintPie(element, data1){
                     label: {
                         show: true,
                         fontSize: '15',
-                        formatter: "{c}({d}%)"
+                        formatter: emphasis_formatter
                         // fontWeight: 'bold'
                     }
                 },
@@ -154,4 +165,5 @@ function paintPie(element, data1){
         ]
     };
     myChart.setOption(option);
+    myChart.resize();
 }

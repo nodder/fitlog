@@ -11,8 +11,8 @@
             adddate(fit_date, 0- date_format(fit_date,'%w')) as weekStart,
             adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
             DATE_FORMAT(fit_date, '%Y-%m') as yearMonth,
-             t.type, t.subtype, d.groups, d.times as times,
-             cast(d.groups * d.times * t.weight as DECIMAL(10)) as scores,
+             t.type, t.subtype, d.groups, d.times as times, d.load,
+             cast(d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p) as DECIMAL(10)) as scores,
              d.subtype_id as subtypeId, t.weight
                     from fit_daily_log d
                     left join fit_type t on d.subtype_id=t.id
@@ -28,7 +28,7 @@
 <!--    全部-总计 天数 组数 次数 分数-->
     <select id="queryFitSummary" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
         select count(distinct(d.fit_date)) as dates,sum(d.groups) as groups,
-        sum(d.groups * d.times) as times, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+        sum(d.groups * d.times) as times, sum(cast(d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p) as DECIMAL(10))) as scores
         from fit_daily_log d left join fit_type t on d.subtype_id=t.id
         <if test='sinceDate != null and sinceDate != ""'>
             where d.fit_date >= #{sinceDate}
@@ -38,17 +38,25 @@
     <!--    全部  子种类的组数和次数-->
     <select id="queryFitSummaryBySubtype" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
         select t.type, t.subtype, sum(d.groups) as groups, sum(d.groups * d.times) as times,
-            sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+            sum(cast(d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p) as DECIMAL(10))) as scores
             from fit_daily_log d
             left join fit_type t on d.subtype_id=t.id
+            where 1=1
+            <if test='sinceDate != null and sinceDate != ""'>
+                and d.fit_date >= #{sinceDate}
+            </if>
             group by t.subtype
     </select>
 
 <!--    全部-饼图-->
     <select id="queryScoresByType" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
-        select t.type, sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id
+        select t.type, sum(cast(d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p) as DECIMAL(10))) as scores from fit_daily_log d left join fit_type t on d.subtype_id=t.id
+        where 1=1
         <if test='sinceDate != null and sinceDate != ""'>
-            where d.fit_date >= #{sinceDate}
+            and d.fit_date >= #{sinceDate}
+        </if>
+        <if test='endDate != null and endDate != ""'>
+            <![CDATA[ and d.fit_date <= #{endDate}]]>
         </if>
         group by t.type order by scores desc
     </select>
@@ -59,7 +67,7 @@
         count(distinct(fit_date)) as dates,
         sum(d.groups) as groups,
         sum(d.groups * d.times) as times,
-        sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+        sum(cast(d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p) as DECIMAL(10))) as scores
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
                 group by d.fit_date order by d.fit_date
@@ -70,7 +78,8 @@
         select d.fit_date, t.type, t.subtype,
             sum(d.groups) as groups,
             sum(d.groups * d.times) as times,
-            sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+            sum(cast(d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p) as DECIMAL(10))) as scores,
+            format(sum(d.groups * d.times * d.load)/sum(d.groups * d.times), 1) as load_avg
             from fit_daily_log d
             left join fit_type t on d.subtype_id=t.id
             group by d.fit_date, t.subtype
@@ -83,7 +92,7 @@
             adddate(fit_date, 6-date_format(fit_date,'%w')) as weekEnd,
             count(distinct(fit_date)) as dates,
             sum(d.groups) as groups, sum(d.groups * d.times) as times,
-            sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+            sum(cast(d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p) as DECIMAL(10))) as scores
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
                 group by weekStart order by week
@@ -97,7 +106,8 @@
             t.type, t.subtype,
             sum(d.groups) as groups,
             sum(d.groups * d.times) as times,
-            sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+            sum(cast(d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p) as DECIMAL(10))) as scores,
+            format(sum(d.groups * d.times * d.load)/sum(d.groups * d.times), 1) as load_avg
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
                 group by t.subtype, week
@@ -111,7 +121,7 @@
            count(distinct(fit_date)) as dates,
             sum(d.groups) as groups,
             sum(d.groups * d.times) as times,
-            sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+            sum(cast(d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p) as DECIMAL(10))) as scores
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
                 group by yearMonth order by yearMonth
@@ -123,7 +133,8 @@
                 t.type, t.subtype,
                 sum(d.groups) as groups,
                 sum(d.groups * d.times) as times,
-                sum(cast(d.groups * d.times * t.weight as DECIMAL(10))) as scores
+                sum(cast(d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p) as DECIMAL(10))) as scores,
+                format(sum(d.groups * d.times * d.load)/sum(d.groups * d.times), 1) as load_avg
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id
                 group by t.subtype, yearMonth
@@ -135,7 +146,7 @@
     </delete>
 
     <insert id="insert" parameterType="name.cdd.product.fitlog.pojo.FitDailyLog" >
-        insert into fit_daily_log (fit_date, subtype_id, groups, times) values(#{fitDate},#{subtypeId},#{groups},#{times})
+         <![CDATA[ insert into fit_daily_log (fit_date, subtype_id, groups, times, `load`) values(#{fitDate},#{subtypeId},#{groups},#{times},#{load}) ]]>
     </insert>
 
     <select id="queryFitTypes" resultType="name.cdd.product.fitlog.pojo.FitType">
@@ -143,7 +154,7 @@
     </select>
 
     <update id="updateById" parameterType="name.cdd.product.fitlog.pojo.FitDailyLog">
-        update fit_daily_log set subtype_id=#{subtypeId}, fit_date=#{fitDate}, groups=#{groups}, times=#{times} where id=#{id}
+         <![CDATA[ update fit_daily_log set subtype_id=#{subtypeId}, fit_date=#{fitDate}, groups=#{groups}, times=#{times}, `load`=#{load} where id=#{id} ]]>
     </update>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
@@ -178,7 +189,32 @@
         where (d.`groups` >= t.groups_s1  and d.times >= t.times_s1) and not (d.`groups` >= t.groups_s2  and d.times >= t.times_s2)
         group by t.subtype order by fitDate
     </select>
+
     <select id="queryVersions" resultType="name.cdd.product.fitlog.pojo.Version">
         select version, version_date, content from versions order by version_date desc
     </select>
+
+    <select id="queryFitPhases" resultType="name.cdd.product.fitlog.pojo.FitPhase">
+        select id, start_date, end_date, short_desc, is_shown from fit_phase where is_shown order by start_date
+    </select>
+
+    <select id="queryNotEndedFitPhases" resultType="name.cdd.product.fitlog.pojo.FitPhase">
+         select start_date, short_desc from fit_phase where is_shown and end_date is null order by start_date desc
+    </select>
+
+    <select id="queryFirstFitDate"  resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        select fit_date from fit_daily_log order by fit_date limit 1
+    </select>
+
+    <select id="queryLastByTypes" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
+        <![CDATA[
+       select fit_date as fitDate, subType_id as subtypeId, groups, times  from fit_daily_log d
+        where fit_date in (
+        select tt.fit_date from (
+        select fit_date from fit_daily_log where fit_date < #{beforeDate} and subtype_id in (select t.id from fit_type t where type = #{type})       order by fit_date desc limit 1) tt)
+        and subtype_id in (select t2.id from fit_type t2 where type = #{type}) ]]>
+
+    </select>
+
+
 </mapper>

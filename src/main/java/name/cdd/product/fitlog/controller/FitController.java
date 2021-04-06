@@ -6,10 +6,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import lombok.val;
 import name.cdd.product.fitlog.config.Cache;
-import name.cdd.product.fitlog.pojo.FitDailyLog;
-import name.cdd.product.fitlog.pojo.FitStar;
-import name.cdd.product.fitlog.pojo.FitType;
-import name.cdd.product.fitlog.pojo.Version;
+import name.cdd.product.fitlog.pojo.*;
 import name.cdd.product.fitlog.service.AchieveProgress;
 import name.cdd.product.fitlog.service.FitService;
 import org.apache.ibatis.annotations.Param;
@@ -19,15 +16,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static name.cdd.product.fitlog.service.FitUtils.parseDate;
 
 @RestController
 public class FitController {
@@ -59,21 +56,46 @@ public class FitController {
         return map;
     }
 
+    @PostMapping("/get/base")
+    public Map<String, Object> queryBase() {
+        Map<String, Object> result = Maps.newHashMap();
+        /////////////////////
+        List<FitType> allTypes = fitServer.queryFitTypes();
+        Set<String> types = Sets.newLinkedHashSet();
+        Map<String, List<String>> type_to_subTypes =  Maps.newHashMap();
+        for(FitType t : allTypes){
+            if(!type_to_subTypes.containsKey(t.getType())) {
+                type_to_subTypes.put(t.getType(), Lists.newArrayList());
+            }
+            type_to_subTypes.get(t.getType()).add(t.getSubtype());
+            types.add(t.getType());
+        }
+
+        List<FitRecentInfo> recents = fitServer.queryRecents();
+
+        result.put("types", types);
+        result.put("type_to_subtypes", type_to_subTypes);
+        result.put("subtypes", allTypes);
+        result.put("version", version);
+        result.put("recents", recents);
+        return result;
+    }
+
     @PostMapping("/get/all")
     public Map<String, Object> queryAllInfo() {
 //        FitDailyLog summary = fitServer.queryFitSummary();
 //        List<FitDailyLog> typeAndScore = fitServer.queryScoresByType();
-        List<FitDailyLog> statsBySubtype = fitServer.queryFitSummaryBySubtype();
+//        List<FitDailyLog> statsBySubtype = fitServer.queryFitSummaryBySubtype();
         List<FitStar> achievements = fitServer.queryAchievements();
 
-        Map<String, Integer> typeAndProgress = progress.progress(achievements);
+//        Map<String, Integer> typeAndProgress = progress.progress(achievements);
 
         Map<String, Object> map = Maps.newHashMap();
 //        map.put("allSummary", summary);
 //        map.put("typeAndScore", typeAndScore);
-        map.put("statsBySubtype", statsBySubtype);
-        map.put("achievements", achievements);
-        map.put("typeAndProgress", typeAndProgress);
+//        map.put("statsBySubtype", statsBySubtype);
+//        map.put("achievements", achievements);
+//        map.put("typeAndProgress", typeAndProgress);
 
         return map;
     }
@@ -83,10 +105,26 @@ public class FitController {
         String sinceDate = parseDate(diff);
         FitDailyLog summary = fitServer.queryFitSummary(sinceDate);
         List<FitDailyLog> typeAndScore = fitServer.queryScoresByType(sinceDate);
+        List<FitDailyLog> statsBySubtype = fitServer.queryFitSummaryBySubtype(sinceDate);
+
+        List<FitStar> achievements = fitServer.queryAchievements();
+        Map<String, Integer> typeAndProgress = progress.progress(achievements);
 
         Map<String, Object> map = Maps.newHashMap();
         map.put("allSummary", summary);
         map.put("typeAndScore", typeAndScore);
+        map.put("statsBySubtype", statsBySubtype);
+        map.put("typeAndProgress", typeAndProgress);
+        map.put("achievements", achievements);
+        return map;
+    }
+
+    @PostMapping("/get/typeDetailsByPhase")
+    public Map<String, Object> queryTypeDetailsByPhase() {
+        List<FitPhase> phases = fitServer.queryFitPhases();
+
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("typeDetailsByPhase", phases);
         return map;
     }
 
@@ -213,6 +251,16 @@ public class FitController {
         return fitServer.queryLogsByDate(log.getFitDate().toString());
     }
 
+    @PostMapping("/insert/logsWithSelectedTypesByLastData")
+    public List<FitDailyLog> insertLogsWithSelectedTypesByLastData(FitDailyLog log) {
+        List<FitDailyLog> infos = fitServer.queryLastByTypes(log.getFitDate().toString(), log.getType());
+
+        infos.forEach(info -> info.setFitDate(log.getFitDate()));
+        infos.forEach(info -> fitServer.insert(info));
+
+        return fitServer.queryLogsByDate(log.getFitDate().toString());
+    }
+
     @PostMapping("/update/single")
     public List<FitDailyLog> updateSingleInfo(FitDailyLog log) {
         fillSubtypeId(log);
@@ -221,38 +269,10 @@ public class FitController {
         return fitServer.queryLogsByDate(log.getFitDate().toString());
     }
 
-    @PostMapping("/get/base")
-    public Map<String, Object> queryBase() {
-        Map<String, Object> result = Maps.newHashMap();
-       /////////////////////
-        List<FitType> allTypes = fitServer.queryFitTypes();
-        Set<String> types = Sets.newLinkedHashSet();
-        Map<String, List<String>> type_to_subTypes =  Maps.newHashMap();
-        for(FitType t : allTypes){
-            if(!type_to_subTypes.containsKey(t.getType())) {
-                type_to_subTypes.put(t.getType(), Lists.newArrayList());
-            }
-            type_to_subTypes.get(t.getType()).add(t.getSubtype());
-            types.add(t.getType());
-        }
-
-        result.put("types", types);
-        result.put("type_to_subtypes", type_to_subTypes);
-        result.put("version", version);
-        return result;
-    }
-
     private void fillSubtypeId(FitDailyLog log) {
         log.setSubtypeId(cache.getSubtypeId(log.getSubType()));
     }
 
-    private static String parseDate(String dateDiff) {
-        if(dateDiff.isEmpty()) {
-            return null;
-        }
-        int monthDiff = Integer.parseInt(dateDiff.substring(0, dateDiff.length() - 1));
-        return LocalDate.now().minus(monthDiff, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    }
 //
 //    public static void main(String[] args) {
 //        String result = parseDate("0");

@@ -20,6 +20,12 @@ function dateDiff(formattedDate, diff) {
     return formatDate(date)
 }
 
+//2020-01-01
+function formatDateWithoutYear(date) {
+    var y = new Date(date);
+    return (y.getMonth() + 1) + "月" + y.getDate() + "日";
+}
+
 function showYearMonth(yearMonth) {
     return yearMonth.replace('-', "年 ") + "月"
 }
@@ -72,16 +78,17 @@ function assembleHtml(dailyLogs, clickFunc) {
         }
 
         if (lastProcessFitDate != dailyLogs[i].fitDate) {
-            tempHtmp += "<div class=\"bottom-line\" style=\"margin: 0px 0px 2px 0px;padding: 0px 9px 2px 4px;padding-bottom: 2px;\">"
+            tempHtmp += "<div class=\"bottom-line\" style=\"margin: 0px 0px 2px 0px;padding: 0px 25px 2px 0;\">"
             tempHtmp += "<div class='light-gray' name=dailyLogs[i].fitDate>" + showDateWithWeekday(dailyLogs[i].fitDate) + "</div>\n";
         }
         tempHtmp += "            <div class=\"row\">\n" +
         "                <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1 text-center a\" onclick=\" " + clickFunc + "\"></div>\n" +
         "                <div class=\"col-md-8 col-lg-8 col-sm-8 col-xs-8 text-left a\" onclick=\"" + clickFunc + "\" >" + dailyLogs[i].subType + "</div>\n" +
-        "                <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a\" style=\"color: #2747e4;\" onclick=\"" + clickFunc + "\" >" + dailyLogs[i].groups + "</div>\n" +
-        "                <div class=\"col-md-2 col-lg-2 col-sm-2 col-xs-2 text-right a\" style=\"color: #2747e4;\" onclick=\"" + clickFunc + ")\" >" + dailyLogs[i].times + "</div>\n" +
+        "                <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a\" style=\"color: #2747e4;padding-right: 0px;\" onclick=\"" + clickFunc + "\" >" + dailyLogs[i].groups + "</div>\n" +
+        "                <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a\" style=\"color: #2747e4;padding-right: 0px; \" onclick=\"" + clickFunc + ")\" >" + dailyLogs[i].times + "</div>\n" +
         "                <div style='display: none;'>" + dailyLogs[i].type + "</div>\n" +
         "                <div style='display: none;'>" + dailyLogs[i].id + "</div>\n" +
+        "                <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1 text-right a\" style=\"color: #2747e4;padding-right: 0px;\" onclick=\"" + clickFunc + ")\" >" + dailyLogs[i].load + "</div>\n" +
         "            </div>\n"
 
         if (i == dailyLogs.length - 1) {
@@ -128,19 +135,12 @@ function clickLog(e) {
             "subType": e.parentElement.children[i].children[1].innerHTML,
             "groups": e.parentElement.children[i].children[2].innerHTML,
             "times": e.parentElement.children[i].children[3].innerHTML,
-            "type": e.parentElement.children[i].children[4].innerHTML
+            "type": e.parentElement.children[i].children[4].innerHTML,
+            "load": e.parentElement.children[i].children[6].innerHTML
         })
     }
 
     return fitDailyLogs
-}
-
-function range(start, end) {
-    var arr = []
-    for (var i = start; i <= end; i++) {
-        arr.push(i)
-    }
-    return arr;
 }
 
 function clickSingleLog(e) {
@@ -157,7 +157,8 @@ function clickSingleLog(e) {
         "groups": e.children[2].innerHTML,//
         "times": e.children[3].innerHTML,
         "type": e.children[4].innerHTML,
-        "id": e.children[5].innerHTML
+        "id": e.children[5].innerHTML,
+        "load": e.children[6].innerHTML
     }
 }
 

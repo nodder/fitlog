@@ -3,14 +3,11 @@ package name.cdd.product.fitlog.service;
 import com.google.common.collect.Lists;
 import name.cdd.product.fitlog.config.Cache;
 import name.cdd.product.fitlog.dao.FitDao;
-import name.cdd.product.fitlog.pojo.FitDailyLog;
-import name.cdd.product.fitlog.pojo.FitStar;
-import name.cdd.product.fitlog.pojo.FitType;
-import name.cdd.product.fitlog.pojo.Version;
+import name.cdd.product.fitlog.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -31,7 +28,7 @@ public class FitService {
     }
 
     public List<FitDailyLog> queryScoresByType(String sinceDate) {
-        return dao.queryScoresByType(sinceDate);
+        return dao.queryScoresByType(sinceDate, null);
     }
 
     public List<FitDailyLog> queryScoresByType() {
@@ -87,8 +84,8 @@ public class FitService {
         dao.deleteById(id);
     }
 
-    public List<FitDailyLog> queryFitSummaryBySubtype()  {
-        return dao.queryFitSummaryBySubtype();
+    public List<FitDailyLog> queryFitSummaryBySubtype(String sinceDate)  {
+        return dao.queryFitSummaryBySubtype(sinceDate);
     };
 
     public List<FitStar> queryAchievements()  {
@@ -134,5 +131,25 @@ public class FitService {
 
     public List<Version> queryVersions() {
         return dao.queryVersions();
+    }
+
+    public List<FitPhase> queryFitPhases() {
+        List<FitPhase> phases = dao.queryFitPhases();
+
+        for (int i = 0; i < phases.size(); i++) {
+            List<FitDailyLog> scoresByType = dao.queryScoresByType(phases.get(i).getStartDate().toString(),
+                    phases.get(i).getEndDate() == null ? null : phases.get(i).getEndDate().toString());
+            phases.get(i).setTypeAndScores(scoresByType);
+        }
+        return phases;
+    }
+
+    public List<FitRecentInfo> queryRecents() {
+        List<FitPhase> notEndedPhases = dao.queryNotEndedFitPhases();
+        return RecentListGetter.parse(notEndedPhases);
+    }
+
+    public List<FitDailyLog> queryLastByTypes(String beforeDate, String type) {
+        return dao.queryLastByTypes(beforeDate, type);
     }
 }

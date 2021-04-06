@@ -14,6 +14,16 @@ CREATE TABLE fit_type (
    PRIMARY KEY (`id`)
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+alter table fit_type add column load_p decimal not null default 1.0 after weight;
+alter table fit_type add column load_base decimal not null default 0 after load_p;
+alter table fit_type add column comment VARCHAR(256);
+
+alter table fit_type MODIFY column groups_s1 INT NOT NULL default 999;
+alter table fit_type MODIFY column groups_s2 INT NOT NULL default 999;
+alter table fit_type MODIFY column groups_s3 INT NOT NULL default 999;
+alter table fit_type MODIFY column times_s1 INT NOT NULL default 999;
+alter table fit_type MODIFY column times_s2 INT NOT NULL default 999;
+alter table fit_type MODIFY column times_s3 INT NOT NULL default 999;
 
 describe fit_type;
 
@@ -26,6 +36,9 @@ CREATE TABLE fit_daily_log (
    times INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+alter table fit_daily_log add column `load` decimal(10, 1) not null default 0;
+alter table fit_daily_log MODIFY column `load` decimal(10, 1) not null default 0;
+ 
 describe fit_daily_log;
 
 
@@ -40,6 +53,20 @@ CREATE TABLE versions (
 
 --版本：
 ALTER TABLE tbl AUTO_INCREMENT = 1; 
+
+
+--阶段：
+
+drop table fit_phase;
+CREATE TABLE fit_phase (
+   id int primary key auto_increment,
+   start_date DATE NOT NULL,
+   end_date DATE,
+   short_desc VARCHAR(256) NOT NULL,
+   is_shown TINYINT(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+describe fit_phase;
 
 
 insert into versions (version, version_date, content) values ("1.0", "2021-02-15", "初始版本")
@@ -297,7 +324,48 @@ select t.type, t.subtype, d.groups, d.times
                 from fit_daily_log d
                 left join fit_type t on d.subtype_id=t.id 
                 group by t.subtype )
-                
+      
+-----------------------
+      
 启动脚本：     
 cd /volume2/我的云盘/"2.6 软件 -- 我的脚本工具"/fitlog
 nohup java -jar fitlog-1.0.1.jar >/dev/null 2>&1 &
+
+【1.5版本新增计分规则说明】：
+d.groups * d.times * t.weight * (1+(d.load-t.load_base)/10*t.load_p
+即倍数规则为：(1+(d.load-t.load_base)/10*t.load_p，
+
+记为：(1+(${load}-LOAD_BASE)/10*LOAD_P，
+LOAD_BASE默认为0，LOAD_P默认为1
+
+对于跑步倍数： 1+(load-7)/10*10，
+7公里倍数：1
+8公里倍数：2
+9公里倍数：3
+10公里倍数：4
+
+对于默认哑铃倍数，5公斤作为起始倍数，即：1+(load-5)/10*1
+weight为10
+5公斤时倍数为1，  4*12得分：10*4*12*1=480
+8公斤时倍数为1.3  4*12得分：480*1.3=624
+10公斤时倍数为1.5 4*12得分：480*1.5=720
+15公斤时倍数为2   4*12得分：480*2=960
+20公斤时倍数为2.5 4*12得分：480*2.5=1200
+
+完全采用默认值时，(1+(load)/10：
+1公斤时为1.1
+5公斤时为1.5
+10公斤时为2
+20公斤时为3
+
+
+
+
+
+
+
+
+
+
+
+
