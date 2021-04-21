@@ -395,8 +395,7 @@
     // document.getElementById("modal-content").style.height = window.screen.height + "px"
     var arrTimes = []
     var arrGroups = []
-    var arrload = []
-    var arrLoadMaps = {} //TODO
+    var arrLoadMaps = {}
     var arrTypes = []
     var subTypeMaps = {}
     var recentLogs = {}
@@ -425,8 +424,8 @@
         document.getElementById("selectDate").innerText = formatDate(new Date())
 
         /*填充编辑运动下拉框*/
-        arrTimes = range(1, 300)
-        arrGroups = range(1, 200)
+        arrTimes = stepArr(1, 300)
+        arrGroups = stepArr(1, 50)
 
         var info = ajax_post("get/base")
         arrTypes = info.types;
@@ -442,41 +441,33 @@
     })
 
     function initLoadMaps(subTypes) {
-        var defaultLoadArr = range(0, 50)
         var result = {}
 
         for(var i = 0; i < subTypes.length; i++) {
             if(subTypes[i].loadP == 0){//负载计分比例为0，表示没有负载（速度）概念
                 result[subTypes[i].subtype] = [0]
-            } else if(subTypes[i].id == 104) { //TODO 如何管理跑步（计步）的负载（速度）
-                result[subTypes[i].subtype] = initRunningLoadArr(8, 16)
-            } else if(subTypes[i].loadBase > 0) { //TODO 哑铃部分  考虑合并！
-                result[subTypes[i].subtype] = range(subTypes[i].loadBase, subTypes[i].loadBase * 5, 0.5)
-            }
-            else {
-                result[subTypes[i].subtype] = defaultLoadArr
+            } else {
+                var step = 1
+                if(subTypes[i].loadP >= 5) step = 0.1 //跑步
+                else if (subTypes[i].loadBase >= 5) step = 0.5 //哑铃
+
+                result[subTypes[i].subtype] = stepArr(subTypes[i].loadBase, 41, step)
             }
         }
 
         return result
     }
 
-    function range(min, max, inc) {//TODO合并1
-        if(!inc) inc=1
+    function stepArr(startNum, length, step) {
+        if(!step) step = 1
 
         var result = []
-        for(var i = min; i <= max; i=i+inc) {
-            result.push(i);
+        var index = 0
+
+        while(index < length) {
+            result.push(startNum + step * index++);
         }
 
-        return result
-    }
-
-    function initRunningLoadArr(minInt, maxInt) {//TODO合并2
-        var result = []
-        for(var i = minInt*10; i <= maxInt*10; i++) {
-            result.push(i/10);
-        }
 
         return result
     }
@@ -537,12 +528,12 @@
         if(typeof(selectedTimes) != "undefined") $("#times").val(selectedTimes)
 
         var currSelectedSubType=  $("#subTypes").val()
-        document.getElementById('load').innerHTML = assembleOptions(arrLoadMaps[currSelectedSubType]);
+        document.getElementById('load').innerHTML = assembleOptions(arrLoadMaps[currSelectedSubType], true);
         if(typeof(selectedLoad) != "undefined") $("#load").val(selectedLoad)
     }
 
     function onSubTypeChange(subType) {
-        document.getElementById('load').innerHTML = assembleOptions(arrLoadMaps[subType]);
+        document.getElementById('load').innerHTML = assembleOptions(arrLoadMaps[subType], true);
         if(lastOper_by_subtype[subType]) {
             var selectedGroups = lastOper_by_subtype[subType].groups
             var selectedTimes = lastOper_by_subtype[subType].times
@@ -580,10 +571,12 @@
         $("#id").val(dailyLog.id)
     }
 
-    function assembleOptions(arr) {
+    function assembleOptions(arr, replaceZeroFlag) {
+        var isReplace = replaceZeroFlag && arr.length == 1 && arr[0] == '0'
+
         var result = ""
         for(var i = 0; i < arr.length; i++) {
-            result += "<option value=\"" + arr[i] + "\">" + arr[i] + "</option>\n"
+            result += "<option value=\"" + arr[i] + "\">" + (isReplace ? '--': arr[i]) + "</option>\n"
         }
         return result;
     }
@@ -639,8 +632,8 @@
                 });
             }
 
-            // var param = {"emphasis_formatter": "{b}:{c}", "legend_show": false, "radius" : ['60%', '90%']}
-            var param = {"legend_show": false, "radius" : ['60%', '90%']}
+            var param = {"emphasis_formatter": "{b}:\n{c}({d}%)", "legend_show": false, "radius" : ['60%', '90%']}
+            // var param = {"legend_show": false, "radius" : ['60%', '90%']}
             paintPie(document.getElementById('phase_pie_' + i), data, param)
             document.getElementById('phase_period_' + i).innerText = formatDate(phase.startDate) + '~' + (phase.endDate ? formatDate(phase.endDate) : "至今")
             document.getElementById('phase_desc_' + i).innerText = phase.shortDesc
@@ -708,7 +701,7 @@
                 isWorkout = filteredLogs.length > 0 ? true : isWorkout;
 
                 var content = "累计" + logOfSubType.groups + "组，总共" + logOfSubType.times + "次"
-                content += logOfSubType.loadAvg == 0 ? "" : "，平均负载" + logOfSubType.loadAvg
+                content += logOfSubType.loadAvg == 0 ? "" : "，平均强度" + logOfSubType.loadAvg
 
                 tempHtmpContent += "<div class=\"row\">\n" +
                     "        <div class=\"col-md-1 col-lg-1 col-sm-1 col-xs-1\"></div>\n" +

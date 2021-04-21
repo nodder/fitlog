@@ -16,7 +16,7 @@ public class FitDailyLog {
     private int groups;
     private int times;
     private int weight;
-    private float load;//负载
+    private float load;//负载/强度
     private float loadAvg;//平均负载
     private int scores;
     private int dates;//天数

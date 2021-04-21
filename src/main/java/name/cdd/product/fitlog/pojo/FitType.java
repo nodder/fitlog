@@ -8,7 +8,7 @@ public class FitType {
     private String subtype;
     private String type;
     private int weight;
-    private int loadP;//表示每10千克负重增加loadP倍计分，或者跑步速度。默认为1。如果为0，则表示该项无负载/速度概念。
+    private float loadP;//表示每10千克负重增加loadP倍计分，或者跑步速度。默认为1。如果为0，则表示该项无负载/速度概念。
     private int loadBase;//用于调整loadP计分规则，例如跑步。
 
 

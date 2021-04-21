@@ -18,6 +18,8 @@ alter table fit_type add column load_p decimal not null default 1.0 after weight
 alter table fit_type add column load_base decimal not null default 0 after load_p;
 alter table fit_type add column comment VARCHAR(256);
 
+alter table fit_type MODIFY column load_p decimal(10, 1) not null default 1.0;
+
 alter table fit_type MODIFY column groups_s1 INT NOT NULL default 999;
 alter table fit_type MODIFY column groups_s2 INT NOT NULL default 999;
 alter table fit_type MODIFY column groups_s3 INT NOT NULL default 999;

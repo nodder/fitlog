@@ -208,7 +208,7 @@
 
     <select id="queryLastByTypes" resultType="name.cdd.product.fitlog.pojo.FitDailyLog">
         <![CDATA[
-       select fit_date as fitDate, subType_id as subtypeId, groups, times  from fit_daily_log d
+       select fit_date as fitDate, subType_id as subtypeId, groups, times, `load`  from fit_daily_log d
         where fit_date in (
         select tt.fit_date from (
         select fit_date from fit_daily_log where fit_date < #{beforeDate} and subtype_id in (select t.id from fit_type t where type = #{type})       order by fit_date desc limit 1) tt)
