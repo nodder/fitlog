@@ -21,7 +21,11 @@
                 </if>
                     order by d.fit_date
                 <if test='limitNum != null and limitNum != ""'>
-                    desc limit #{limitNum}
+                    desc
+                </if>
+                    , type, subtype
+                <if test='limitNum != null and limitNum != ""'>
+                    limit #{limitNum}
                 </if>
     </select>
 

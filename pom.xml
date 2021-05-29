@@ -10,7 +10,7 @@
     </parent>
     <groupId>name.cdd.product</groupId>
     <artifactId>fitlog</artifactId>
-    <version>1.5.3</version>
+    <version>1.5.4</version>
     <name>fit-log</name>
     <description>fit-log project for Spring Boot</description>
     <properties>
